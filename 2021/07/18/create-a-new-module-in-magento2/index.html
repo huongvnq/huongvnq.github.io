@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Create A New Module In Magento2 | Meditation Coding</title>
+  <meta name="description" content="1.Tổng quát Module là một đơn vị cấu trúc của Magento. Toàn bộ hệ thống sẽ được xây dựng dựa trên các Module. Thông thường, bước đầu tiên để custom core của mangeto cũng là tạo module.  Để tạo một mo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Create A New Module In Magento2">
+<meta property="og:url" content="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.Tổng quát Module là một đơn vị cấu trúc của Magento. Toàn bộ hệ thống sẽ được xây dựng dựa trên các Module. Thông thường, bước đầu tiên để custom core của mangeto cũng là tạo module.  Để tạo một mo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/module.webp">
+<meta property="article:published_time" content="2021-07-18T03:55:23.000Z">
+<meta property="article:modified_time" content="2021-07-18T04:05:47.418Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento basic">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/module.webp">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/magento-basic/" style="font-size: 13px;">magento basic</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/18/create-a-new-module-in-magento2/" class="title">Create A New Module In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/17/create-a-new-page-in-magento2/" class="title">Create A New Page In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-17T07:06:27.037Z" itemprop="datePublished">2021-07-17</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-create-a-new-module-in-magento2" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Create A New Module In Magento2
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/07/18/create-a-new-module-in-magento2/" class="article-date">
+	  <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Magento/">Magento</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/magento-basic/" rel="tag">magento basic</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/07/18/create-a-new-module-in-magento2/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><img src="/2021/07/18/create-a-new-module-in-magento2/module.webp" alt="magento"></p>
+<h2 id="1-Tong-quat"><a href="#1-Tong-quat" class="headerlink" title="1.Tổng quát"></a>1.Tổng quát</h2><ul>
+<li><p><strong>Module</strong> là một đơn vị cấu trúc của Magento. Toàn bộ hệ thống sẽ được xây dựng dựa trên các <strong>Module</strong>. Thông thường, bước đầu tiên để custom core của mangeto cũng là tạo module.</p>
+</li>
+<li><p>Để tạo một module, chúng ta phải thực hiện các bước sau:</p>
+<ul>
+<li>Tạo một thư mục <strong>module</strong></li>
+<li>Tạo file etc/module.xml</li>
+<li>Tạo file registration.php</li>
+<li>Chạy <code>script bin/magento setup:upgrade</code> để install module mới</li>
+<li>Kiểm tra module được active hay chưa.</li>
+</ul>
+<p>  chúng ta hãy cùng đi vào cụ thể từng bước nhé.</p>
+<h2 id="2-Tao-thu-muc-cho-module"><a href="#2-Tao-thu-muc-cho-module" class="headerlink" title="2. Tạo thư mục cho module"></a>2. Tạo thư mục cho module</h2></li>
+<li><p>Chúng ta có 2 nơi để tạo thư mục cho module. Đó là trong folder <code>app/code</code> và trong folder <code>vendor</code>.</p>
+</li>
+<li><p>Tuỳ thuộc vào cách cài đặt Magento2, những module core của magento có thể được đặt trong các thư mục <code>vendor/magento/magento-*</code> (trường hợp dùng composer để install) hoặc <code>app/code/Magento/</code> (trường hợp clone Github)</p>
+</li>
+<li><p>Vậy chúng ta nên đặt module mới ở đâu?</p>
+<ul>
+<li>Nếu chúng ta build một module cho một project cụ thể, chúng ta sẽ tạo mới module ở trong thư mục <code>app/code</code> và commit lên repository của product trên Github.</li>
+<li>Nếu chúng ta xây dựng một extension để tái sử dụng, chúng ta sẽ dùng <code>composer</code> để tạo nó và chúng ta sẽ đặt module ở trong <code>vendor/&lt;YOUR_VENDOR&gt;/module-something</code></li>
+</ul>
+</li>
+<li><p>Tên của module trong magento2 sẽ bao gồm 2 phần: tên vendor và tên của chính module đó. Nói cách khác, module sẽ được nhóm lại thành 1 vendor do vậy khi đặt tên của module ta phải chỉ định cả tên vendor đó.</p>
+</li>
+<li><p>Trong ví dụ này chúng ta sẽ tạo một vendor là <code>Learning</code> và một module là <code>First Unit</code></p>
+<ul>
+<li><code>cd</code> to folder root</li>
+<li><code>mkdir app/code/Learning</code></li>
+<li><code>mkdir app/code/Learning/FirstUnit</code><h2 id="3-Tao-file-etc-module-xml"><a href="#3-Tao-file-etc-module-xml" class="headerlink" title="3. Tạo file etc/module.xml"></a>3. Tạo file etc/module.xml</h2></li>
+</ul>
+</li>
+<li><p>Trước tiên chúng ta phải đảm bảo rằng chúng ta có quyền để tạo file và folder trong folder root nhé.</p>
+</li>
+<li><p>Nếu đã có quyền, chúng ta tạo một file <code>etc/module.xml</code>. Phải có file này thì module mới tồn tại được.</p>
+</li>
+<li><p>File module.xml chứa các thông tin sau</p>
+<ul>
+<li>Module name</li>
+<li>Module version</li>
+<li>Dependencies</li>
+</ul>
+</li>
+<li><p><strong>Module name</strong> đã được định nghĩa bằng tên thư mục mà chúng ta vừa tạo.</p>
+</li>
+<li><p>Trong Magento2, tất cả các class name phải tuân theo cấu trúc thư mục. Bởi vì chúng ta tạo thư mục là <code>Learning/FirstUnit</code> nên module name của chúng ta sẽ là <code>Learning_FirstUnit</code>.</p>
+</li>
+<li><p>Tất cả các class thuộc module này sẽ là bắt đầu với <code>Learning/FirstUnit</code> </p>
+<p>  Ví dụ <code>Learning\FirstUnit\Observer\Test</code></p>
+</li>
+<li><p>Tiếp theo đến <strong>Module version</strong>. Module version cho biết được phiên bản hiện tại của <strong>database schema</strong> và <strong>data</strong>, được sử dụng cho việc upgrade module.</p>
+</li>
+<li><p>Ví dụ như giả định bạn muốn thay đổi cấu trúc bảng dữ liệu (database table schema) của module này. Làm thế nào để bạn đảm bảo rằng thay đổi này sẽ được áp dụng trên tất cả các phiên bản mã code đã được deploy rồi. </p>
+</li>
+<li><p>Magento sẽ có các <strong>script install</strong> và <strong>upgrade</strong> cho mỗi module (Hoặc bạn tự tạo). Các file script này sẽ có các command để thay đổi database schema và data.</p>
+</li>
+<li><p>Để theo dõi xem liệu đã thực thi phần lệnh trong script hay chưa, magento sẽ track dựa vào <strong>module version</strong>. Mỗi lần bạn thực thi thay đổi mới trong database, bạn sẽ phải thực thi với version mới của module và tăng version của module lên tương ứng trong file module.xml.</p>
+</li>
+<li><p>Magento sẽ lưu phiên bản hiện tại của module trong database. Nếu giá trị trong database và trong file module.xml không khớp với nhau, nó sẽ thực thi <strong>upgrade</strong> code.</p>
+</li>
+<li><p><strong>Dependencies</strong>: Nếu một module phụ thuộc vào một module khác thì chúng ta phải khai báo trong file modules.xml danh sách các module mà module hiện tại của chúng ta đang phụ thuộc vào. Ví dụ, module này chúng ta tạo ra sẽ phụ thuộc vào module Magento_Catalog.</p>
+</li>
+<li><p>Đầu  tiên  chúng  ta  tạo folder etc:<br><code>mkdir app/code/Learning/FirstUnit/etc</code></p>
+</li>
+<li><p>Tạo  file module.xmll</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">config</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Module/etc/module.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;Learning_FirstUnit&quot;</span> <span class="attr">setup_version</span>=<span class="string">&quot;0.0.1&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequence</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;Magento_Catalog&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">sequence</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">config</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Trong file module mà  chúng  ta  vừa  tạo, chúng ta  đã  chỉ  định:</p>
+<ul>
+<li>Module  name: <code>Learning_FirstUnit</code> dựa  trên folder mà chúng ta đã tạo.</li>
+<li>Versionn: <code>0.0.1</code> (Version  khởi  tạo của module)</li>
+<li>Dependency: <code>Magento_Catalog</code>. Chúng  ta  có  thể  có  nhiều  Dependency, khi  ấy  chúng  ta  hãy  liệt  kê  bằng  các  thẻ <code>&lt;module name=&quot;...&quot; /&gt;</code> ở  bên  trong  thẻ  <code>&lt;sequence&gt;</code><h2 id="4-Tao-file-registration-php"><a href="#4-Tao-file-registration-php" class="headerlink" title="4. Tạo  file  registration.php"></a>4. Tạo  file  registration.php</h2></li>
+</ul>
+</li>
+<li><p>Mỗi  module  sẽ  phải  có  file  này  để  đăng  kí  cho  magento  biết  vị  trí  của  module. Tiếp  tục example, chúng  ta  sẽ  tạo  file  <code>app/code/Learning/FirstUnit/registration.php</code></p>
+  <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> \Magento\Framework\Component\ComponentRegistrar::register(</span><br><span class="line">\Magento\Framework\Component\ComponentRegistrar::MODULE, <span class="string">&#x27;Learning_FirstUnit&#x27;</span>,</span><br><span class="line"><span class="keyword">__DIR__</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+<li><p>File  <strong>registrationn.phpp</strong>  sẽ giống nhau đối với tất cả các module, chỉ  khác tên  của  module, ở  đây  của chúng ta là <code>Learning_FirstUnit</code></p>
+<h2 id="5-Chay-command"><a href="#5-Chay-command" class="headerlink" title="5. Chạy  command"></a>5. Chạy  command</h2></li>
+<li><p>Tạo  xong  module  chúng  ta  phải  chạy  command để  active  module, để  thông  báo  cho  magento  biết  về  sự  hiện  diện của nó.</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php bin/magento setup:upgrade</span><br></pre></td></tr></table></figure></li>
+<li><p>Câu lệnh sẽ cho ra rất nhiều dòng input, hãy  check  xem một  trong  các  dòng  đó  có  <code>Learning_FirstUnit</code> hay  không.</p>
+<h2 id="6-Check-module-is-active"><a href="#6-Check-module-is-active" class="headerlink" title="6 Check  module  is  active"></a>6 Check  module  is  active</h2></li>
+<li><p>Mặc  dù  chúng ta chưa add những logic code vào module, trong  ví  dụ  này  chúng  ta  chỉ  thực  hiện  tạo  module, module  hiện  taị  đang  trống  và  không  thể  nhìn  thấy  được.</p>
+</li>
+<li><p>Để  kiểm tra module đã được nhận hay chưa, chúng  ta  hãy  kiểm  tra file <code>app/etc/config.php</code>, file  này  chứa  tất  cả  các  module  đã  được  active. Chúng  cũng  không  được  thay  đổi file này một cách  thủ  công.</p>
+</li>
+<li><p>Check  module is  active  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ grep Learning_FirstUnit app/etc/config.php</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="7-Ket-luan"><a href="#7-Ket-luan" class="headerlink" title="7. Kết  luận."></a>7. Kết  luận.</h2><ul>
+<li>Lại  là  một  bài viết  đơn  giản siêu siêu  beginer  cho  các  bạn  mới  mày  mò tìm hiểu  magento, thực  hiện  các  bước  trong  bài  viết, các  bạn  đã  có  thể  tạo  cho  mình  một  module  để  bắt  đầu  có  thể  add  những  logic  phực  tạp  hơn  cho  module  trong  magento. Mong  bài  viết  sẽ có  ích  đối  với  các  bạn  và  hãy  đón  chờ  các  bài  viết  tiếp  theo  của  mình  trong  serries  về  Magento  nhé. Ciao!</li>
+<li>Bài  viết  tham  khảo  <a target="_blank" rel="noopener" href="https://devdocs.magento.com/videos/fundamentals/create-a-new-module/">https://devdocs.magento.com/videos/fundamentals/create-a-new-module/</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/" title="Create A New Module In Magento2" target="_blank" rel="external">https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/07/17/create-a-new-page-in-magento2/" title="Create A New Page In Magento2"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/cash-card.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"> Momo</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"> Cash Card</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+</body>
+</html>
