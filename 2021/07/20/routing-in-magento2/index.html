@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Routing Trong Magento2 | Meditation Coding</title>
+  <meta name="description" content="1.Lời mở đầu Routing là một trong những phần rất quan trọng trong luồng hoạt động của Magento2. Routing sẽ chịu trách nhiệm xử lý URL request, từ URL sẽ chỉ ra module nào chịu trách nhiệm xử lý reque">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Routing Trong Magento2">
+<meta property="og:url" content="https://huongvnq.github.io/2021/07/20/routing-in-magento2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.Lời mở đầu Routing là một trong những phần rất quan trọng trong luồng hoạt động của Magento2. Routing sẽ chịu trách nhiệm xử lý URL request, từ URL sẽ chỉ ra module nào chịu trách nhiệm xử lý reque">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2021/07/20/routing-in-magento2/routing.jpg">
+<meta property="og:image" content="https://huongvnq.github.io/2021/07/20/routing-in-magento2/magento2-request-processing.png">
+<meta property="article:published_time" content="2021-07-20T05:05:37.000Z">
+<meta property="article:modified_time" content="2021-07-20T07:36:51.466Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento basis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/07/20/routing-in-magento2/routing.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2021/07/20/routing-in-magento2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basis/" rel="tag">magento basis</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/magento-basic/" style="font-size: 14px;">magento basic</a> <a href="/tags/magento-basis/" style="font-size: 13px;">magento basis</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/20/routing-in-magento2/" class="title">Routing Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-20T05:05:37.000Z" itemprop="datePublished">2021-07-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/18/create-a-new-module-in-magento2/" class="title">Create A New Module In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/17/create-a-new-page-in-magento2/" class="title">Create A New Page In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-17T07:06:27.037Z" itemprop="datePublished">2021-07-17</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-routing-in-magento2"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      Routing Trong Magento2
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/07/20/routing-in-magento2/" class="article-date">
+	  <time datetime="2021-07-20T05:05:37.000Z" itemprop="datePublished">2021-07-20</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Magento/">Magento</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/magento-basis/" rel="tag">magento basis</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2021/07/20/routing-in-magento2/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <p><img src="/2021/07/20/routing-in-magento2/routing.jpg" alt="routing"></p>
+<h2 id="1-Loi-mo-dau"><a href="#1-Loi-mo-dau" class="headerlink" title="1.Lời mở đầu"></a>1.Lời mở đầu</h2><ul>
+<li>Routing là một trong những phần rất quan trọng trong luồng hoạt động của Magento2.</li>
+<li>Routing sẽ chịu trách nhiệm xử lý URL request, từ URL sẽ chỉ ra module nào chịu trách nhiệm xử lý request và thực thi controller action.</li>
+<li>Trong bài viết này, chúng ta sẽ cùng đi tìm hiểu cách mà router sẽ “match” với controller action như thế nào. Sau đó sẽ tìm hiểu cách tạo một custom router. Hãy cùng đi vào nội dung của bài viết thôi nào :smile:</li>
+</ul>
+<h2 id="2-Magento2-Request-Flow"><a href="#2-Magento2-Request-Flow" class="headerlink" title="2.Magento2 Request Flow"></a>2.Magento2 Request Flow</h2><ul>
+<li>Trong Magento2, một request URL sẽ như thế này<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/index.php/front_name/controller/action</span><br></pre></td></tr></table></figure></li>
+<li>Trong url trên, <strong>front_name</strong> sẽ được dùng để chỉ định module. <strong>Router</strong> sẽ định nghĩa cái tên này cho mỗi module trong file <strong>routes.xml</strong></li>
+<li>Khi bạn tạo một request trong Magento2, Magento2 sẽ xử lý theo luồng như sau</li>
+</ul>
+<p><img src="/2021/07/20/routing-in-magento2/magento2-request-processing.png" alt="Magento2 Request Processing"></p>
+<ul>
+<li><strong>FrontController</strong> sẽ được gọi đến trong class Http để điều hướng request.<br>Chúng ta hãy cùng xem File <code>vendor/magento/framework/App/FrontController.php</code><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">dispatch</span>(<span class="params">RequestInterface <span class="variable">$request</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   \Magento\Framework\Profiler::start(<span class="string">&#x27;routers_match&#x27;</span>);</span><br><span class="line">   <span class="variable">$routingCycleCounter</span> = <span class="number">0</span>;</span><br><span class="line">   <span class="variable">$result</span> = <span class="literal">null</span>;</span><br><span class="line">   <span class="keyword">while</span> (!<span class="variable">$request</span>-&gt;isDispatched() &amp;&amp; <span class="variable">$routingCycleCounter</span>++ &lt; <span class="number">100</span>) &#123;</span><br><span class="line">       <span class="comment">/** <span class="doctag">@var</span> \Magento\Framework\App\RouterInterface $router */</span></span><br><span class="line">       <span class="keyword">foreach</span> (<span class="keyword">$this</span>-&gt;_routerList <span class="keyword">as</span> <span class="variable">$router</span>) &#123;</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               <span class="variable">$actionInstance</span> = <span class="variable">$router</span>-&gt;match(<span class="variable">$request</span>);</span><br><span class="line">               <span class="keyword">if</span> (<span class="variable">$actionInstance</span>) &#123;</span><br><span class="line">                   <span class="variable">$request</span>-&gt;setDispatched(<span class="literal">true</span>);</span><br><span class="line">                   <span class="keyword">$this</span>-&gt;response-&gt;setNoCacheHeaders();</span><br><span class="line">                   <span class="keyword">if</span> (<span class="variable">$actionInstance</span> <span class="keyword">instanceof</span> \Magento\Framework\App\Action\AbstractAction) &#123;</span><br><span class="line">                       <span class="variable">$result</span> = <span class="variable">$actionInstance</span>-&gt;dispatch(<span class="variable">$request</span>);</span><br><span class="line">                   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                       <span class="variable">$result</span> = <span class="variable">$actionInstance</span>-&gt;execute();</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125; <span class="keyword">catch</span> (\Magento\Framework\<span class="built_in">Exception</span>\NotFoundException <span class="variable">$e</span>) &#123;</span><br><span class="line">               <span class="variable">$request</span>-&gt;initForward();</span><br><span class="line">               <span class="variable">$request</span>-&gt;setActionName(<span class="string">&#x27;noroute&#x27;</span>);</span><br><span class="line">               <span class="variable">$request</span>-&gt;setDispatched(<span class="literal">false</span>);</span><br><span class="line">               <span class="keyword">break</span>;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   \Magento\Framework\Profiler::stop(<span class="string">&#x27;routers_match&#x27;</span>);</span><br><span class="line">   <span class="keyword">if</span> (<span class="variable">$routingCycleCounter</span> &gt; <span class="number">100</span>) &#123;</span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> \<span class="built_in">LogicException</span>(<span class="string">&#x27;Front controller reached 100 router match iterations&#x27;</span>);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="variable">$result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+Chúng ta có thể thấy ở hàm <code>dispatch</code>, router list sẽ được cho vào vòng lặp để tìm kiếm router nào sẽ match với request. Khi tìm ra controller action nào “match” với request, action đó sẽ được gọi và thực thi.</li>
+</ul>
+<h2 id="3-Tao-mot-custom-route-trong-area-Frontend"><a href="#3-Tao-mot-custom-route-trong-area-Frontend" class="headerlink" title="3.Tạo một custom route trong area Frontend"></a>3.Tạo một custom route trong area Frontend</h2><ul>
+<li><p>Trước khi đi vào tạo một route, chúng ta hãy tạo một module, tham khảo bài viết <a href="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/">Create a Module in Magento2</a></p>
+</li>
+<li><p>Ở đây mình tạo Module là Learning_Routing</p>
+</li>
+<li><p>Để đăng kí một frontend route, chúng ta phải tạo file routes.xml<br>File <code>app/code/Learning/Routing/etc/frontend/routes.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; ?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">config</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:App/etc/routes.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--Use router &#x27;standard&#x27; for frontend route--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router</span> <span class="attr">id</span>=<span class="string">&quot;standard&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--Define a custom route with id and frontName--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">route</span> <span class="attr">frontName</span>=<span class="string">&quot;helloworld&quot;</span> <span class="attr">id</span>=<span class="string">&quot;helloworld&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--The module which this route match to--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;Learning_Routing&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">route</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">router</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">config</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Thật đơn giản để đăng kí một route. Ở đây ta phải sử dụng <strong>standard router</strong> cho area Frontend. Route này sẽ có một route con định nghĩa module cho nó và 2 attribute:</p>
+<ul>
+<li>Attribute <strong>id</strong> là một chuỗi unique định danh một route. Chúng ta cũng sẽ sử dụng chuỗi này để khai báo layout cho action của module.</li>
+<li>Attribute <strong>frontName</strong> cũng là một chuỗi unique, chuỗi này được chỉ định trong url.</li>
+</ul>
+<p>Ví dụ nếu bạn khai báo một route như sau</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;route frontName=&quot;helloworld&quot; id=&quot;helloworld&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Thì Url sẽ là</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/index.php/helloworld/controller/action</span><br></pre></td></tr></table></figure>
+
+<p>Layout cho action này sẽ là</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helloworld_controller_action.xml</span><br></pre></td></tr></table></figure>
+
+<p>Và chúng ta phải tạo controller action ở trong thư mục</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;namespace&#125;/&#123;module&#125;/Controller/&#123;Controller&#125;/&#123;Action&#125;.php</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="4-Tao-mot-custom-route-trong-area-Admin-Admin-Route"><a href="#4-Tao-mot-custom-route-trong-area-Admin-Admin-Route" class="headerlink" title="4. Tạo một custom route trong area Admin (Admin Route)"></a>4. Tạo một custom route trong area Admin (Admin Route)</h2><ul>
+<li><p>Route này tương tự như route cho Frontend chỉ khác là chúng ta sẽ khai báo nó trong thư mục adminhtml và với router id là <strong>admin</strong></p>
+<p>File <code>app/code/Learning/Routing/etc/adminhtml/routes.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">config</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:App/etc/routes.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--Use router &#x27;admin&#x27; for admin route --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router</span> <span class="attr">id</span>=<span class="string">&quot;admin&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--Define a custom route with id and frontName --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">route</span> <span class="attr">id</span>=<span class="string">&quot;learning_routing&quot;</span> <span class="attr">frontName</span>=<span class="string">&quot;learning_routing&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--The module which this route match to--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;Learning_Routing&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">route</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">router</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">config</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Một URL của một admin page sẽ có cấu trúc tương tự như đối với frontend page, tuy nhiên <strong>admin_area</strong> sẽ được thêm vào ở đằng trước <strong>frontName</strong> để chỉ định đây là một route của area Admin.<br>Ví dụ url của một admin csm page</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/index.php/admin/learning_routing/controller/action</span><br></pre></td></tr></table></figure></li>
+<li><p>Controller Action cho admin page cũng sẽ được thêm vào bên trong thư mục Controller/Adminhtml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;namespace&#125;/&#123;module&#125;/Controller/Adminhtml/&#123;Controller&#125;/&#123;Action&#125;.php</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="5-Cach-su-dung-route-de-ghi-de-controller-cua-core"><a href="#5-Cach-su-dung-route-de-ghi-de-controller-cua-core" class="headerlink" title="5. Cách sử dụng route để ghì đè controller của core"></a>5. Cách sử dụng route để ghì đè controller của core</h2><ul>
+<li>Như chúng ta đã thấy ở những phần bên trên, mỗi route sẽ có một <strong>id</strong> để định danh. Vậy điều gì sẽ xảy ra nếu chúng ta định nghĩa 2 route với cùng một id?</li>
+<li>Câu trả lời là action controller sẽ tìm thấy ở cả 2 modules. Và chúng ta phải sử dụng attribute <strong>before/after</strong> để config thứ tự module, chỉ định module nào sẽ được tìm thấy trước.</li>
+<li>Ví dụ, nếu mà chúng ta muốn ghi đè controller <code>customer/account/login</code> chúng ta sẽ định route trong <strong>route.xml</strong> như thế này:<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">config</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:App/etc/routes.xsd&quot;</span>&gt;</span></span><br><span class="line">   <span class="comment">&lt;!--Use router &#x27;standard&#x27; for frontend route--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">router</span> <span class="attr">id</span>=<span class="string">&quot;standard&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--Define a custom route with id and frontName--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">route</span> <span class="attr">frontName</span>=<span class="string">&quot;helloworld&quot;</span> <span class="attr">id</span>=<span class="string">&quot;helloworld&quot;</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--The module which this route match to--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;Learning_Routing&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">route</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">route</span> <span class="attr">id</span>=<span class="string">&quot;customer&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;Learning_Routing&quot;</span> <span class="attr">before</span>=<span class="string">&quot;Magento_Customer&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">route</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">router</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+Sau đó định nghĩa một file controller :<br><code>app/code/Learning/Routing/Controller/Account/Login.php</code></li>
+<li>Khi đó, <strong>FrontController</strong> sẽ tìm thấy action Login ở trong Module Learning_Routing trước, action này sẽ được chạy và action Login của Magento_Customer sẽ không được chạy nữa. Như vậy là chúng ta đã thực hiện ghi đè Controller thành công.</li>
+</ul>
+<h2 id="6-Tong-ket"><a href="#6-Tong-ket" class="headerlink" title="6. Tổng kết"></a>6. Tổng kết</h2><ul>
+<li>Route là một phần cơ bản mà chúng ta phải biết khi tìm hiểu về luồng hoạt động của Magento. Qua bài viết này mong các bạn sẽ nắm được cách hoạt động của một route và đặc biệt là các quy tắc đặt tên để Magento có thể nhận biết và xử lý. Cảm ơn các bạn đã đọc đến cuối bài viết và hẹn gặp lại các bạn trong các bài viết tiếp theo của serries Tìm hiểu về Magento. :kissing_heart:</li>
+<li>Bản gốc của bài viết :</li>
+<li>Nguồn tham khảo: <a target="_blank" rel="noopener" href="https://www.mageplaza.com/magento-2-module-development/magento-2-routing.html">https://www.mageplaza.com/magento-2-module-development/magento-2-routing.html</a></li>
+</ul>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2021/07/20/routing-in-magento2/" title="Routing Trong Magento2" target="_blank" rel="external">https://huongvnq.github.io/2021/07/20/routing-in-magento2/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/07/18/create-a-new-module-in-magento2/" title="Create A New Module In Magento2"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+</body>
+</html>
