@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://huongvnq.github.io/about/index.html</loc>
+    
+    <lastmod>2021-07-21</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://huongvnq.github.io/2021/07/20/routing-in-magento2/</loc>
     
-    <lastmod>2021-07-20</lastmod>
+    <lastmod>2021-07-21</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://huongvnq.github.io/2020/10/18/introduction-graphql/</loc>
+    
+    <lastmod>2021-07-21</lastmod>
     
   </url>
   
@@ -30,13 +44,6 @@
   </url>
   
   <url>
-    <loc>https://huongvnq.github.io/about/index.html</loc>
-    
-    <lastmod>2021-07-18</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://huongvnq.github.io/categories/index.html</loc>
     
     <lastmod>2021-07-18</lastmod>
@@ -46,7 +53,7 @@
 
   <url>
     <loc>https://huongvnq.github.io/</loc>
-    <lastmod>2021-07-20</lastmod>
+    <lastmod>2021-07-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -54,7 +61,28 @@
   
   <url>
     <loc>https://huongvnq.github.io/tags/magento-basic/</loc>
-    <lastmod>2021-07-20</lastmod>
+    <lastmod>2021-07-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://huongvnq.github.io/tags/graphql/</loc>
+    <lastmod>2021-07-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://huongvnq.github.io/tags/Facebook-Graph-API/</loc>
+    <lastmod>2021-07-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://huongvnq.github.io/tags/API/</loc>
+    <lastmod>2021-07-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -63,7 +91,14 @@
   
   <url>
     <loc>https://huongvnq.github.io/categories/Magento/</loc>
-    <lastmod>2021-07-20</lastmod>
+    <lastmod>2021-07-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://huongvnq.github.io/categories/GraphQL/</loc>
+    <lastmod>2021-07-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
