@@ -17,23 +17,26 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Create A New Module In Magento2 | Meditation Coding</title>
-  <meta name="description" content="1.Tổng quát Module là một đơn vị cấu trúc của Magento. Toàn bộ hệ thống sẽ được xây dựng dựa trên các Module. Thông thường, bước đầu tiên để custom core của mangeto cũng là tạo module.  Để tạo một mo">
+  <title>GraphQL SDL - Schema Definition Language Phần 1 | Meditation Coding</title>
+  <meta name="description" content="1. GraphQL Schema Difinition Language là gì?  Qua các bài viết trước trong series về GraphQL, chúng ta đã hiểu được các khái niệm GraphQL, Schema. GraphQL có một ngôn ngữ riêng để định nghĩa Schema đó">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Create A New Module In Magento2">
-<meta property="og:url" content="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/index.html">
+<meta property="og:title" content="GraphQL SDL - Schema Definition Language Phần 1">
+<meta property="og:url" content="https://huongvnq.github.io/2021/02/21/graphql-sdl-1/index.html">
 <meta property="og:site_name" content="Meditation Coding">
-<meta property="og:description" content="1.Tổng quát Module là một đơn vị cấu trúc của Magento. Toàn bộ hệ thống sẽ được xây dựng dựa trên các Module. Thông thường, bước đầu tiên để custom core của mangeto cũng là tạo module.  Để tạo một mo">
+<meta property="og:description" content="1. GraphQL Schema Difinition Language là gì?  Qua các bài viết trước trong series về GraphQL, chúng ta đã hiểu được các khái niệm GraphQL, Schema. GraphQL có một ngôn ngữ riêng để định nghĩa Schema đó">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/module.webp">
-<meta property="article:published_time" content="2021-07-18T03:55:23.000Z">
-<meta property="article:modified_time" content="2021-07-20T02:52:16.292Z">
+<meta property="og:image" content="https://huongvnq.github.io/2021/02/21/graphql-sdl-1/graphql-sdl.png">
+<meta property="article:published_time" content="2021-02-21T04:29:05.000Z">
+<meta property="article:modified_time" content="2021-07-23T04:32:00.536Z">
 <meta property="article:author" content="HuongVNQ">
-<meta property="article:tag" content="magento basic">
+<meta property="article:tag" content="graphql">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="schema">
+<meta property="article:tag" content="SDL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/module.webp">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/02/21/graphql-sdl-1/graphql-sdl.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/index.html">
+  <link rel="canonical" href="https://huongvnq.github.io/2021/02/21/graphql-sdl-1/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
   
@@ -315,7 +318,7 @@
 <main class="main" role="main">
   <div class="content">
   <article
-    id="post-create-a-new-module-in-magento2"
+    id="post-graphql-sdl-1"
     class="article article-type-post"
     itemscope
     itemtype="http://schema.org/BlogPosting"
@@ -325,25 +328,25 @@
        
   
     <h1 class="article-title" itemprop="name">
-      Create A New Module In Magento2
+      GraphQL SDL - Schema Definition Language Phần 1
     </h1>
   
  
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2021/07/18/create-a-new-module-in-magento2/" class="article-date">
-	  <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+	<a href="/2021/02/21/graphql-sdl-1/" class="article-date">
+	  <time datetime="2021-02-21T04:29:05.000Z" itemprop="datePublished">2021-02-21</time>
 	</a>
 </span> 
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Magento/">Magento</a>
+    <a class="article-category-link" href="/categories/GraphQL/">GraphQL</a>
   </span>
  
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/magento-basic/" rel="tag">magento basic</a>
+	<a class="article-tag-link-link" href="/tags/API/" rel="tag">API</a>, <a class="article-tag-link-link" href="/tags/SDL/" rel="tag">SDL</a>, <a class="article-tag-link-link" href="/tags/graphql/" rel="tag">graphql</a>, <a class="article-tag-link-link" href="/tags/schema/" rel="tag">schema</a>
   </span>
 
  
@@ -351,7 +354,7 @@
         <span class="post-comment"
           ><i class="icon icon-comment"></i>
           <a
-            href="/2021/07/18/create-a-new-module-in-magento2/#comments"
+            href="/2021/02/21/graphql-sdl-1/#comments"
             class="article-comment-link"
             >Comments</a
           ></span
@@ -360,83 +363,54 @@
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
-       <p><img src="/2021/07/18/create-a-new-module-in-magento2/module.webp" alt="magento"></p>
-<h2 id="1-Tong-quat"><a href="#1-Tong-quat" class="headerlink" title="1.Tổng quát"></a>1.Tổng quát</h2><ul>
-<li><p><strong>Module</strong> là một đơn vị cấu trúc của Magento. Toàn bộ hệ thống sẽ được xây dựng dựa trên các <strong>Module</strong>. Thông thường, bước đầu tiên để custom core của mangeto cũng là tạo module.</p>
-</li>
-<li><p>Để tạo một module, chúng ta phải thực hiện các bước sau:</p>
+       <h2 id="1-GraphQL-Schema-Difinition-Language-la-gi"><a href="#1-GraphQL-Schema-Difinition-Language-la-gi" class="headerlink" title="1. GraphQL Schema Difinition Language là gì?"></a>1. GraphQL Schema Difinition Language là gì?</h2><p><img src="/2021/02/21/graphql-sdl-1/graphql-sdl.png" alt="GraphQL SDL"></p>
 <ul>
-<li>Tạo một thư mục <strong>module</strong></li>
-<li>Tạo file etc/module.xml</li>
-<li>Tạo file registration.php</li>
-<li>Chạy <code>script bin/magento setup:upgrade</code> để install module mới</li>
-<li>Kiểm tra module được active hay chưa.</li>
+<li>Qua các bài viết trước trong series về <strong>GraphQL</strong>, chúng ta đã hiểu được các khái niệm GraphQL, Schema. GraphQL có một ngôn ngữ riêng để định nghĩa Schema đó là <strong>GraphQL Schema Definition Language</strong> (<strong>SDL</strong>)</li>
+<li><strong>SDL</strong> là một ngôn ngữ có cú pháp rất đơn giản, dễ hiểu đồng thời cũng rất mạnh mẽ và trực quan giúp định nghĩa schema một các cô đọng nhất.</li>
+<li>Ví dụ sử dụng SDL để định nghĩa Schema cho một ứng dụng blogging đơn giản<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">type Post &#123;</span><br><span class="line">  id: String!</span><br><span class="line">  title: String!</span><br><span class="line">  publishedAt: DateTime!</span><br><span class="line">  likes: Int! @default(value: 0)</span><br><span class="line">  blog: Blog @relation(name: &quot;Posts&quot;)</span><br><span class="line">&#125;</span><br><span class="line">type Blog &#123;</span><br><span class="line">  id: String!</span><br><span class="line">  name: String!</span><br><span class="line">  description: String</span><br><span class="line">  posts: [Post!]! @relation(name: &quot;Posts&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>Các thành phần chính của bản định nghĩa schema gồm có <strong>types</strong> và <strong>fields</strong>. Ngoài ra các thông tin bổ sung khác có thể được cung cấp là các <strong>custom directives</strong> như <strong>@default</strong> value được chỉ định cho trường <code>likes</code> hay <strong>@relation</strong> chỉ định mối quan hệ … Có rất nhiều thứ để nói ở đây, chúng ta hãy đi vào tìm hiểu chi tiết nhé.</li>
+</ul>
+<h2 id="2-Object-types-va-fields"><a href="#2-Object-types-va-fields" class="headerlink" title="2. Object types và fields"></a>2. Object types và fields</h2><ul>
+<li>Phần tử cơ bản nhất của GrapQL Schema là <strong>object types</strong>, đại diện cho một loại đối tượng mà bạn có thể lấy được từ server.</li>
+<li>Ví dụ<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">type Character &#123;</span><br><span class="line">  name: String!</span><br><span class="line">  appearsIn: [Episode!]!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><code>Character</code> là một <strong>GraphQL Object Type</strong>, là một kiểu đối tượng với các trường (<strong>field</strong>). Hầu hết các <strong>type</strong> trong schema của bạn đều là các object types</li>
+<li><code>name</code> và <code>appearsIn</code> là các <strong>field</strong> của <code>Character</code>. Điều này có nghĩa là <code>name</code> và <code>appearsIn</code> là các trường duy nhất được chỉ định khi truy vấn <code>Character</code></li>
+<li>Một <strong>field</strong> thì gồm có name và type.</li>
+<li><strong>String</strong> ở đây là type của field <code>name</code>, là một <strong>scalar type</strong> được xây dựng sẵn. Chúng ta sẽ đi vào tìm hiểu về <strong>scalar type</strong> ở bên dưới nhé.</li>
+<li>Một <strong>field</strong> ngoài có kiểu <strong>scalar type</strong> thì có thể thuộc về bất kì kiểu nào tự định nghĩa trong schema.</li>
+<li>Một <strong>field</strong> không thể null được biểu thị bằng dấu <strong>!</strong> , server bắt buộc phải trả về dữ liệu cho trường này khi bạn query.</li>
+<li>Một <strong>field</strong> có kiểu là mảng được chỉ định bằng <strong>[]</strong>, ở đây <code>appearsIn</code> là một mảng các <code>Episode</code>.</li>
+</ul>
+<h2 id="3-Arguments"><a href="#3-Arguments" class="headerlink" title="3. Arguments"></a>3. Arguments</h2><ul>
+<li>Mỗi một trường của một <strong>object type</strong> có thể không có hoặc có nhiều các đối số. VÍ dụ như trường <code>lenght</code> bên dưới:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">type Starship &#123;</span><br><span class="line">  id: ID!</span><br><span class="line">  name: String!</span><br><span class="line">  length(unit: LengthUnit = METER): Float</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>Không giống các ngôn ngữ lập trình khác như JavaScript hay Python, các function sẽ nhận các tham số theo thứ tự khi định nghĩa functon, trong GraphQL, các <strong>field</strong> sẽ nhận các tham số theo tên được truyền vào, thứ tự các tham số không ảnh hưởng. Trong ví dụ trên trường <code>length</code> có một tham số được định nghĩa là <code>unit</code></li>
+<li>Một <strong>argument</strong> có thể required hoặc không. Khi một tham số là không required, chúng ta có thể định nghĩa default value cho nó, nếu tham số <code>unit</code> không được truyền vào, nó sẽ có giá trị default là <code>METER</code></li>
+</ul>
+<h2 id="4-Scalar-types"><a href="#4-Scalar-types" class="headerlink" title="4. Scalar types"></a>4. Scalar types</h2><ul>
+<li><strong>Scalar type</strong> là kiểu cho một đối tượng vô hướng, có nghĩa là đối tượng này không có sub-selections (các trường con), chúng được coi là các lá của query.</li>
+<li>Có 5 loại <strong>Scalar type</strong> được định nghĩa trong SDL<ul>
+<li><strong>Int</strong>: Một số nguyên 32-bit không dấu</li>
+<li><strong>Float</strong>: Một số thực dấu phẩy động</li>
+<li><strong>String</strong>: Một chỗi UTF-8</li>
+<li><strong>Boolean</strong>: true hoặc false</li>
+<li><strong>ID</strong>: là một chuỗi định danh duy nhất, thường được sử dụng để lấy một object từ server</li>
 </ul>
 </li>
+<li>Ngoài các kiểu <strong>scalar type</strong> được định sẵn, chúng ta có thể tự định nghĩa các <strong>custom scalar type</strong>. Ví dụ ta có thể định nghĩa một kiểu <code>Date</code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scalar Date</span><br></pre></td></tr></table></figure>
+Đối với type Date chúng ta có thể validate hay format theo dạng Y/mm/dd, như vậy bất kì trường Date nào mà server trả về đều sẽ có dạng Y/mm/dd</li>
 </ul>
-<pre><code>chúng ta hãy cùng đi vào cụ thể từng bước nhé.
-</code></pre>
-<h2 id="2-Tao-thu-muc-cho-module"><a href="#2-Tao-thu-muc-cho-module" class="headerlink" title="2. Tạo thư mục cho module"></a>2. Tạo thư mục cho module</h2><ul>
-<li>Chúng ta có 2 nơi để tạo thư mục cho module. Đó là trong folder <code>app/code</code> và trong folder <code>vendor</code>.</li>
-<li>Tuỳ thuộc vào cách cài đặt Magento2, những module core của magento có thể được đặt trong các thư mục <code>vendor/magento/magento-*</code> (trường hợp dùng composer để install) hoặc <code>app/code/Magento/</code> (trường hợp clone Github)</li>
-<li>Vậy chúng ta nên đặt module mới ở đâu?<ul>
-<li>Nếu chúng ta build một module cho một project cụ thể, chúng ta sẽ tạo mới module ở trong thư mục <code>app/code</code> và commit lên repository của product trên Github.</li>
-<li>Nếu chúng ta xây dựng một extension để tái sử dụng, chúng ta sẽ dùng <code>composer</code> để tạo nó và chúng ta sẽ đặt module ở trong <code>vendor/&lt;YOUR_VENDOR&gt;/module-something</code></li>
+<h2 id="5-Enumeration-types"><a href="#5-Enumeration-types" class="headerlink" title="5. Enumeration types"></a>5. Enumeration types</h2><ul>
+<li><strong>Enums</strong> cũng là một kiểu đặc biệt của scalar type, được giới hạn trong một giá trị cho phép cụ thể, chúng ta có thể validate bất kì <strong>argument</strong> nào thuộc loại này chỉ có gía trị trong những giá trị cho phép.</li>
+<li>Ví dụ<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">enum Episode &#123;</span><br><span class="line">  NEWHOPE</span><br><span class="line">  EMPIRE</span><br><span class="line">  JEDI</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+Với bất kì field nào có kiểu <code>Episode</code> thì chỉ có thể là <code>NEWHOPE</code>, <code>EMPIRE</code>, hay <code>JEDI</code></li>
 </ul>
-</li>
-<li>Tên của module trong magento2 sẽ bao gồm 2 phần: tên vendor và tên của chính module đó. Nói cách khác, module sẽ được nhóm lại thành 1 vendor do vậy khi đặt tên của module ta phải chỉ định cả tên vendor đó.</li>
-<li>Trong ví dụ này chúng ta sẽ tạo một vendor là <code>Learning</code> và một module là <code>First Unit</code><ul>
-<li><code>cd</code> to folder root</li>
-<li><code>mkdir app/code/Learning</code></li>
-<li><code>mkdir app/code/Learning/FirstUnit</code></li>
+<h2 id="6-Ket-phan-1"><a href="#6-Ket-phan-1" class="headerlink" title="6. Kết phần 1"></a>6. Kết phần 1</h2><ul>
+<li>Trong bài viết này mình đã trình bày một số khái niệmcơ bản và hay sử dụng nhất khi định nghĩa một GraphQL Schema. Sang phần 2 mình sẽ trình bày các khái niệm phức tạp hơn nhưng cũng rất quan trọng và hữu ích</li>
+<li>Nguồn tham khảo<ul>
+<li><a target="_blank" rel="noopener" href="https://www.prisma.io/blog/graphql-sdl-schema-definition-language-6755bcb9ce51">https://www.prisma.io/blog/graphql-sdl-schema-definition-language-6755bcb9ce51</a></li>
+<li><a target="_blank" rel="noopener" href="https://graphql.org/learn/schema/">https://graphql.org/learn/schema/</a></li>
 </ul>
 </li>
-</ul>
-<h2 id="3-Tao-file-etc-module-xml"><a href="#3-Tao-file-etc-module-xml" class="headerlink" title="3. Tạo file etc/module.xml"></a>3. Tạo file etc/module.xml</h2><ul>
-<li>Trước tiên chúng ta phải đảm bảo rằng chúng ta có quyền để tạo file và folder trong folder root nhé.</li>
-<li>Nếu đã có quyền, chúng ta tạo một file <code>etc/module.xml</code>. Phải có file này thì module mới tồn tại được.</li>
-<li>File module.xml chứa các thông tin sau<ul>
-<li>Module name</li>
-<li>Module version</li>
-<li>Dependencies</li>
-</ul>
-</li>
-<li><strong>Module name</strong> đã được định nghĩa bằng tên thư mục mà chúng ta vừa tạo.</li>
-<li>Trong Magento2, tất cả các class name phải tuân theo cấu trúc thư mục. Bởi vì chúng ta tạo thư mục là <code>Learning/FirstUnit</code> nên module name của chúng ta sẽ là <code>Learning_FirstUnit</code>.</li>
-<li>Tất cả các class thuộc module này sẽ là bắt đầu với <code>Learning/FirstUnit</code><br>Ví dụ <code>Learning\FirstUnit\Observer\Test</code></li>
-<li>Tiếp theo đến <strong>Module version</strong>. Module version cho biết được phiên bản hiện tại của <strong>database schema</strong> và <strong>data</strong>, được sử dụng cho việc upgrade module.</li>
-<li>Ví dụ như giả định bạn muốn thay đổi cấu trúc bảng dữ liệu (database table schema) của module này. Làm thế nào để bạn đảm bảo rằng thay đổi này sẽ được áp dụng trên tất cả các phiên bản mã code đã được deploy rồi.</li>
-<li>Magento sẽ có các <strong>script install</strong> và <strong>upgrade</strong> cho mỗi module (Hoặc bạn tự tạo). Các file script này sẽ có các command để thay đổi database schema và data.</li>
-<li>Để theo dõi xem liệu đã thực thi phần lệnh trong script hay chưa, magento sẽ track dựa vào <strong>module version</strong>. Mỗi lần bạn thực thi thay đổi mới trong database, bạn sẽ phải thực thi với version mới của module và tăng version của module lên tương ứng trong file module.xml.</li>
-<li>Magento sẽ lưu phiên bản hiện tại của module trong database. Nếu giá trị trong database và trong file module.xml không khớp với nhau, nó sẽ thực thi <strong>upgrade</strong> code.</li>
-<li><strong>Dependencies</strong>: Nếu một module phụ thuộc vào một module khác thì chúng ta phải khai báo trong file modules.xml danh sách các module mà module hiện tại của chúng ta đang phụ thuộc vào. Ví dụ, module này chúng ta tạo ra sẽ phụ thuộc vào module Magento_Catalog.</li>
-<li>Đầu tiên chúng ta tạo folder etc:<br><code>mkdir app/code/Learning/FirstUnit/etc</code></li>
-<li>Tạo file module.xmll<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">config</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Module/etc/module.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;Learning_FirstUnit&quot;</span> <span class="attr">setup_version</span>=<span class="string">&quot;0.0.1&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sequence</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">&quot;Magento_Catalog&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">sequence</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">config</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-<li>Trong file module mà chúng ta vừa tạo, chúng ta đã chỉ định:<ul>
-<li>Module name: <code>Learning_FirstUnit</code> dựa trên folder mà chúng ta đã tạo.</li>
-<li>Versionn: <code>0.0.1</code> (Version khởi tạo của module)</li>
-<li>Dependency: <code>Magento_Catalog</code>. Chúng ta có thể có nhiều Dependency, khi ấy chúng ta hãy liệt kê bằng các thẻ <code>&lt;module name=&quot;...&quot; /&gt;</code> ở bên trong thẻ <code>&lt;sequence&gt;</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="4-Tao-file-registration-php"><a href="#4-Tao-file-registration-php" class="headerlink" title="4. Tạo file registration.php"></a>4. Tạo file registration.php</h2><ul>
-<li>Mỗi module sẽ phải có file này để đăng kí cho magento biết vị trí của module. Tiếp tục example, chúng ta sẽ tạo file <code>app/code/Learning/FirstUnit/registration.php</code><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> \Magento\Framework\Component\ComponentRegistrar::register(</span><br><span class="line">\Magento\Framework\Component\ComponentRegistrar::MODULE, <span class="string">&#x27;Learning_FirstUnit&#x27;</span>,</span><br><span class="line"><span class="keyword">__DIR__</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
-<li>File <strong>registrationn.phpp</strong> sẽ giống nhau đối với tất cả các module, chỉ khác tên của module, ở đây của chúng ta là <code>Learning_FirstUnit</code></li>
-</ul>
-<h2 id="5-Chay-command"><a href="#5-Chay-command" class="headerlink" title="5. Chạy command"></a>5. Chạy command</h2><ul>
-<li>Tạo xong module chúng ta phải chạy command để active module, để thông báo cho magento biết về sự hiện diện của nó.<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php bin/magento setup:upgrade</span><br></pre></td></tr></table></figure></li>
-<li>Câu lệnh sẽ cho ra rất nhiều dòng input, hãy check xem một trong các dòng đó có <code>Learning_FirstUnit</code> hay không.</li>
-</ul>
-<h2 id="6-Check-module-is-active"><a href="#6-Check-module-is-active" class="headerlink" title="6 Check module is active"></a>6 Check module is active</h2><ul>
-<li>Mặc dù chúng ta chưa add những logic code vào module, trong ví dụ này chúng ta chỉ thực hiện tạo module, module hiện taị đang trống và không thể nhìn thấy được.</li>
-<li>Để kiểm tra module đã được nhận hay chưa, chúng ta hãy kiểm tra file <code>app/etc/config.php</code>, file này chứa tất cả các module đã được active. Chúng cũng không được thay đổi file này một cách thủ công.</li>
-<li>Check module is active</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ grep Learning_FirstUnit app/etc/config.php</span><br></pre></td></tr></table></figure>
-
-<h2 id="7-Ket-luan"><a href="#7-Ket-luan" class="headerlink" title="7. Kết luận."></a>7. Kết luận.</h2><ul>
-<li>Lại là một bài viết đơn giản siêu siêu beginer cho các bạn mới mày mò tìm hiểu magento, thực hiện các bước trong bài viết, các bạn đã có thể tạo cho mình một module để bắt đầu có thể add những logic phực tạp hơn cho module trong magento. Mong bài viết sẽ có ích đối với các bạn và hãy đón chờ các bài viết tiếp theo của mình trong serries về Magento nhé. Ciao!</li>
-<li>Bài viết tham khảo <a target="_blank" rel="noopener" href="https://devdocs.magento.com/videos/fundamentals/create-a-new-module/">https://devdocs.magento.com/videos/fundamentals/create-a-new-module/</a></li>
 </ul>
  
     </div>
@@ -446,7 +420,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/" title="Create A New Module In Magento2" target="_blank" rel="external">https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/</a>
+      <a href="https://huongvnq.github.io/2021/02/21/graphql-sdl-1/" title="GraphQL SDL - Schema Definition Language Phần 1" target="_blank" rel="external">https://huongvnq.github.io/2021/02/21/graphql-sdl-1/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -476,6 +450,12 @@
     </div>
   </article>
    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
  
 </div>
  <nav class="bar bar-footer clearfix" data-stick-bottom>
@@ -484,12 +464,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2021/07/20/routing-in-magento2/" title="Routing Trong Magento2"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+      <a href="/2021/02/21/graphql-sdl-2/" title="GraphQL SDL - Schema Definition Language Phần 2"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2021/07/17/create-a-new-page-in-magento2/" title="Create A New Page In Magento2"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2020/10/18/graphql-core-concepts/" title="Cấu trúc cú pháp cơ bản của GraphQL"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -564,6 +544,33 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
    
 
 
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 

@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://huongvnq.github.io/2020/10/18/graphql-core-concepts/</loc>
+    <lastmod>2021-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://huongvnq.github.io/2021/04/21/graphql-server-execution/</loc>
+    <lastmod>2021-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://huongvnq.github.io/2021/03/20/graphql-fragment/</loc>
+    <lastmod>2021-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://huongvnq.github.io/2021/02/21/graphql-sdl-2/</loc>
+    <lastmod>2021-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://huongvnq.github.io/2021/02/21/graphql-sdl-1/</loc>
+    <lastmod>2021-07-23</lastmod>
+  </url>
+  <url>
+    <loc>https://huongvnq.github.io/2020/10/18/graphql-vs-rest/</loc>
+    <lastmod>2021-07-21</lastmod>
+  </url>
+  <url>
     <loc>https://huongvnq.github.io/2021/07/20/routing-in-magento2/</loc>
     <lastmod>2021-07-21</lastmod>
   </url>

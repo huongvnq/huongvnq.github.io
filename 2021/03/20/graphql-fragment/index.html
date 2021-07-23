@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>GraphQL Fragment | Meditation Coding</title>
+  <meta name="description" content="1. Fragment trong GraphQL là gì? Trong GraphQL có một khái niệm hay được sử dụng là Fragment. Trong bài viết ngày hôm nay chúng ta hãy cùng đi tìm hiểu khái niệm này là như thế nào nhé. Một GraphQL F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GraphQL Fragment">
+<meta property="og:url" content="https://huongvnq.github.io/2021/03/20/graphql-fragment/index.html">
+<meta property="og:site_name" content="Meditation Coding">
+<meta property="og:description" content="1. Fragment trong GraphQL là gì? Trong GraphQL có một khái niệm hay được sử dụng là Fragment. Trong bài viết ngày hôm nay chúng ta hãy cùng đi tìm hiểu khái niệm này là như thế nào nhé. Một GraphQL F">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2021/03/20/graphql-fragment/graphql-fragment.webp">
+<meta property="article:published_time" content="2021-03-20T04:40:46.000Z">
+<meta property="article:modified_time" content="2021-07-23T04:45:33.600Z">
+<meta property="article:author" content="HuongVNQ">
+<meta property="article:tag" content="graphql">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="fragment">
+<meta property="article:tag" content="SDL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/03/20/graphql-fragment/graphql-fragment.webp">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2021/03/20/graphql-fragment/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facebook-Graph-API/" rel="tag">Facebook Graph API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/REST-API/" rel="tag">REST API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SDL/" rel="tag">SDL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fragment/" rel="tag">fragment</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphql/" rel="tag">graphql</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resolve/" rel="tag">resolve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/schema/" rel="tag">schema</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/API/" style="font-size: 13.67px;">API</a> <a href="/tags/Facebook-Graph-API/" style="font-size: 13px;">Facebook Graph API</a> <a href="/tags/REST-API/" style="font-size: 13px;">REST API</a> <a href="/tags/SDL/" style="font-size: 13.33px;">SDL</a> <a href="/tags/fragment/" style="font-size: 13px;">fragment</a> <a href="/tags/graphql/" style="font-size: 14px;">graphql</a> <a href="/tags/magento-basic/" style="font-size: 13.33px;">magento basic</a> <a href="/tags/resolve/" style="font-size: 13px;">resolve</a> <a href="/tags/schema/" style="font-size: 13.33px;">schema</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/20/routing-in-magento2/" class="title">Routing Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-20T05:05:37.000Z" itemprop="datePublished">2021-07-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/18/create-a-new-module-in-magento2/" class="title">Create A New Module In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/17/create-a-new-page-in-magento2/" class="title">Create A New Page In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-17T07:06:27.037Z" itemprop="datePublished">2021-07-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/GraphQL/">GraphQL</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/21/graphql-server-execution/" class="title">Thực thi truy vấn GraphQL trên Server</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-21T04:46:57.000Z" itemprop="datePublished">2021-04-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/GraphQL/">GraphQL</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/03/20/graphql-fragment/" class="title">GraphQL Fragment</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-03-20T04:40:46.000Z" itemprop="datePublished">2021-03-20</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-graphql-fragment"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      GraphQL Fragment
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/03/20/graphql-fragment/" class="article-date">
+	  <time datetime="2021-03-20T04:40:46.000Z" itemprop="datePublished">2021-03-20</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/GraphQL/">GraphQL</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/API/" rel="tag">API</a>, <a class="article-tag-link-link" href="/tags/SDL/" rel="tag">SDL</a>, <a class="article-tag-link-link" href="/tags/fragment/" rel="tag">fragment</a>, <a class="article-tag-link-link" href="/tags/graphql/" rel="tag">graphql</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2021/03/20/graphql-fragment/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <p><img src="/2021/03/20/graphql-fragment/graphql-fragment.webp" alt="GraphQL Fragment"></p>
+<h1 id="1-Fragment-trong-GraphQL-la-gi"><a href="#1-Fragment-trong-GraphQL-la-gi" class="headerlink" title="1. Fragment trong GraphQL là gì?"></a>1. Fragment trong GraphQL là gì?</h1><ul>
+<li>Trong GraphQL có một khái niệm hay được sử dụng là <strong>Fragment</strong>. Trong bài viết ngày hôm nay chúng ta hãy cùng đi tìm hiểu khái niệm này là như thế nào nhé.</li>
+<li>Một GraphQL Fragment là một phần tử có thể tái sử dụng trong <strong>GraphQL Query</strong>.</li>
+<li>Trong GraphQL sẽ có những lúc bạn gặp phải những tình huống mà bạn cần phải query các <strong>field</strong> giống nhau trong các câu query khác nhau. Khi mà bạn nhận thấy các câu query của bạn có nhiều các field bị lặp lại tại nhiều vị trí khác nhau. Bạn có thể tóm chúng lại thành một đơn vị có thể tái sử dụng gọi là <strong>Fragment</strong>.</li>
+<li>Một GraphQL Fragment cho phép bạn khai báo một bộ các field và sử dụng chúng trong nhiều câu query. Bạn có thể liên tưởng <strong>Fragment</strong> trong GraphQL có nét tương đồng như là <strong>function</strong> trong nhiều ngôn ngữ lập trình. Bạn khai báo function ở một chỗ và bạn gọi đến function ở nhiều chỗ dùng đến nó. Chúng đều là các phần tử tái sử dụng được.</li>
+</ul>
+<h1 id="2-Cac-thanh-phan-cua-mot-Fragment"><a href="#2-Cac-thanh-phan-cua-mot-Fragment" class="headerlink" title="2. Các thành phần của một Fragment"></a>2. Các thành phần của một Fragment</h1><ul>
+<li>Chúng ta hãy đi vào tìm hiểu các thành phần của một Fragment với cấu trúc mẫu bên dưới<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fragment Name on TypeName &#123;</span><br><span class="line">  field1</span><br><span class="line">  field2</span><br><span class="line">  field3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>Một Fragment sẽ bao gồm 3 thành phần sau<ul>
+<li>Name: Tên riêng biệt cho 1 Fragment (mỗi một Fragment có 1 tên riêng)</li>
+<li>TypeName: Kiểu của object trong <strong>GraphQL Schema</strong> mà Fragment được tạo ra từ đó, hay được lồng trong đó</li>
+<li>Body: Body của Fragment định nghĩa các trường nào sẽ được query (field1, field2, field3)</li>
+</ul>
+</li>
+</ul>
+<h1 id="3-Loi-ich-cua-viec-su-dung-GraphQL-Fragment"><a href="#3-Loi-ich-cua-viec-su-dung-GraphQL-Fragment" class="headerlink" title="3. Lợi ích của việc sử dụng GraphQL Fragment"></a>3. Lợi ích của việc sử dụng GraphQL Fragment</h1><p>Tại sao Fragment lại là một khái niệm rất “cool” trong GraphQL</p>
+<ul>
+<li>Thứ nhất, bởi tính tái sử dụng của Fragment: Với Fragment, bạn có thể cấu trúc các câu query của bạn thành các phần tử có thể sử dụng được ở nhiều chỗ mà không cần phải viết lặp đi lặp lại.</li>
+<li>Caching: <strong>GraphQL Client</strong> tận dụng các <strong>Fragment</strong> để cung cấp các option caching. Xem thêm apollographql.com/docs/react/caching/cache-interaction/</li>
+</ul>
+<h1 id="4-Tao-GraphQL-Fragment"><a href="#4-Tao-GraphQL-Fragment" class="headerlink" title="4. Tạo GraphQL Fragment"></a>4. Tạo GraphQL Fragment</h1><ul>
+<li>Chúng ta hãy cùng học cách tạo một GraphQL Fragment qua một vài ví dụ nhé. Trong những ví dụ trong bài viết này, mình sử dụng <a target="_blank" rel="noopener" href="https://docs.github.com/en/graphql">Github’s public API</a> và viết query dựa trên nó. Bạn cũng có thể chạy các câu query trên <a target="_blank" rel="noopener" href="https://docs.github.com/en/graphql/overview/explorer">Github GraphQL Explorer</a><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  googleRepo: repository(owner: &quot;google&quot;, name: &quot;WebFundamentals&quot;) &#123;</span><br><span class="line">    name</span><br><span class="line">    owner &#123;</span><br><span class="line">      id</span><br><span class="line">      avatarUrl</span><br><span class="line">      resourcePath</span><br><span class="line">      url</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  facebookRepo: repository(owner: &quot;facebook&quot;, name: &quot;react&quot;) &#123;</span><br><span class="line">    name</span><br><span class="line">    owner &#123;</span><br><span class="line">      id</span><br><span class="line">      avatarUrl</span><br><span class="line">      resourcePath</span><br><span class="line">      url</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+Chúng ta nhận thấy ở đây là chúng ta đang query cùng các field bên trong field <code>owner</code> nhiều lần. Đây là lúc thích hợp để chúng ta sử dụng <strong>Fragment</strong></li>
+<li>Chúng ta sẽ tạo một fragment gọi là <code>ownerInfo</code> với từ khoá <code>fragment</code>. Để tạo một Fragment chúng ta phải nói cho GraphQL biết rằng Fragment này được tạo ra trên <strong>field</strong> nào. Trong trường hợp này, chúng ta sẽ tạo 1 Fragment trên field<code>RepositoryOwner</code></li>
+<li>Trong Body của Fragment, chúng ta có thể bao gồm tất cả các field của đối tượng <code>RepositoryOwner</code>. Ở đây chúng ta định nghĩa các field là <code>id</code>, <code>avatarUrl</code>, <code>resourcePath</code>, <code>url</code> là các field của fragment <code>ownerInfo</code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// fragment ownerInfo for RepositoryOwner fields</span><br><span class="line">fragment ownerInfo on RepositoryOwner &#123;</span><br><span class="line">  id</span><br><span class="line">  avatarUrl</span><br><span class="line">  resourcePath</span><br><span class="line">  url</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="5-Su-dung-mot-GraphQL-Fragment"><a href="#5-Su-dung-mot-GraphQL-Fragment" class="headerlink" title="5. Sử dụng một GraphQL Fragment"></a>5. Sử dụng một GraphQL Fragment</h1><ul>
+<li><p>Chúng ta có thể sử dụng Fragment mà chúng ta sử dụng ở ví dụ trước trong phạm vi một query bằng việc sử dụng toán tử <code>...</code> và theo sau là tên của Fragment</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// GraphQL Query with fragments</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  googleRepo: repository(owner: &quot;google&quot;, name: &quot;WebFundamentals&quot;) &#123;</span><br><span class="line">    name</span><br><span class="line">    owner &#123;</span><br><span class="line">      ...ownerInfo //fragment</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  facebookRepo: repository(owner: &quot;facebook&quot;, name: &quot;react&quot;) &#123;</span><br><span class="line">    name</span><br><span class="line">    owner &#123;</span><br><span class="line">     ...ownerInfo //fragment</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Response của query khi chúng ta sử dụng Fragment sẽ không thay đổi so với khi chúng ta không sử dụng Fragment. Fragment chỉ đơn giản là làm cho câu query được clean hơn, dễ đọc, và tái sử dụng</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GraphQL JSON Response</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;data&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;googleRepo&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;WebFundamentals&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;owner&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;id&quot;</span>: <span class="string">&quot;MDEyOk9yZ2FuaXphdGlvbjEzNDIwMDQ=&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;avatarUrl&quot;</span>: <span class="string">&quot;https://avatars1.githubusercontent.com/u/1342004?v=4&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;resourcePath&quot;</span>: <span class="string">&quot;/google&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;url&quot;</span>: <span class="string">&quot;https://github.com/google&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;facebookRepo&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;react&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;owner&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;id&quot;</span>: <span class="string">&quot;MDEyOk9yZ2FuaXphdGlvbjY5NjMx&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;avatarUrl&quot;</span>: <span class="string">&quot;https://avatars3.githubusercontent.com/u/69631?v=4&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;resourcePath&quot;</span>: <span class="string">&quot;/facebook&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;url&quot;</span>: <span class="string">&quot;https://github.com/facebook&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="6-Ket-luan"><a href="#6-Ket-luan" class="headerlink" title="6. Kết luận"></a>6. Kết luận</h1><ul>
+<li>Fragment là một khái niệm rất thú vị trong GraphQL, nó cho phép tái sử dụng trong khi viết các câu query, loại bỏ các đoạn mã phải viết đi viết lại, giúp các câu query dễ đọc dễ hiểu hơn. Mong qua bài viết này, các bạn sẽ hiểu hơn về khái niệm Fragment và có thể sử dụng Fragment khi viết GraphQL Schema cũng như không bỡ ngỡ mỗi khi đọc Schema có sử dụng Fragment</li>
+<li>Nguồn tham khảo<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.logrocket.com/graphql-fragments-explained/">https://blog.logrocket.com/graphql-fragments-explained/</a></li>
+<li><a target="_blank" rel="noopener" href="https://graphql.org/learn/queries/#fragments">https://graphql.org/learn/queries/#fragments</a></li>
+</ul>
+</li>
+</ul>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2021/03/20/graphql-fragment/" title="GraphQL Fragment" target="_blank" rel="external">https://huongvnq.github.io/2021/03/20/graphql-fragment/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/04/21/graphql-server-execution/" title="Thực thi truy vấn GraphQL trên Server"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/02/21/graphql-sdl-2/" title="GraphQL SDL - Schema Definition Language Phần 2"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

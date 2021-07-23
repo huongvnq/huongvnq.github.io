@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Cấu trúc cú pháp cơ bản của GraphQL | Meditation Coding</title>
+  <meta name="description" content="1. Ngôn ngữ định nghĩa Schema - The Schema Definition Language (SDL) Như đã nói ở những bài viết trước về GraphQL, GraphQL sử dụng Schema như là một bản hợp đồng giữa Client và Server, một bản “quy ch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cấu trúc cú pháp cơ bản của GraphQL">
+<meta property="og:url" content="https://huongvnq.github.io/2020/10/18/graphql-core-concepts/index.html">
+<meta property="og:site_name" content="Meditation Coding">
+<meta property="og:description" content="1. Ngôn ngữ định nghĩa Schema - The Schema Definition Language (SDL) Như đã nói ở những bài viết trước về GraphQL, GraphQL sử dụng Schema như là một bản hợp đồng giữa Client và Server, một bản “quy ch">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-18T04:23:59.000Z">
+<meta property="article:modified_time" content="2021-07-23T04:50:13.033Z">
+<meta property="article:author" content="HuongVNQ">
+<meta property="article:tag" content="graphql">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="schema">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2020/10/18/graphql-core-concepts/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facebook-Graph-API/" rel="tag">Facebook Graph API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/REST-API/" rel="tag">REST API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SDL/" rel="tag">SDL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fragment/" rel="tag">fragment</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphql/" rel="tag">graphql</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resolve/" rel="tag">resolve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/schema/" rel="tag">schema</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/API/" style="font-size: 13.67px;">API</a> <a href="/tags/Facebook-Graph-API/" style="font-size: 13px;">Facebook Graph API</a> <a href="/tags/REST-API/" style="font-size: 13px;">REST API</a> <a href="/tags/SDL/" style="font-size: 13.33px;">SDL</a> <a href="/tags/fragment/" style="font-size: 13px;">fragment</a> <a href="/tags/graphql/" style="font-size: 14px;">graphql</a> <a href="/tags/magento-basic/" style="font-size: 13.33px;">magento basic</a> <a href="/tags/resolve/" style="font-size: 13px;">resolve</a> <a href="/tags/schema/" style="font-size: 13.33px;">schema</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/20/routing-in-magento2/" class="title">Routing Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-20T05:05:37.000Z" itemprop="datePublished">2021-07-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/18/create-a-new-module-in-magento2/" class="title">Create A New Module In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/17/create-a-new-page-in-magento2/" class="title">Create A New Page In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-17T07:06:27.037Z" itemprop="datePublished">2021-07-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/GraphQL/">GraphQL</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/21/graphql-server-execution/" class="title">Thực thi truy vấn GraphQL trên Server</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-21T04:46:57.000Z" itemprop="datePublished">2021-04-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/GraphQL/">GraphQL</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/03/20/graphql-fragment/" class="title">GraphQL Fragment</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-03-20T04:40:46.000Z" itemprop="datePublished">2021-03-20</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-graphql-core-concepts"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      Cấu trúc cú pháp cơ bản của GraphQL
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/10/18/graphql-core-concepts/" class="article-date">
+	  <time datetime="2020-10-18T04:23:59.000Z" itemprop="datePublished">2020-10-18</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/GraphQL/">GraphQL</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/API/" rel="tag">API</a>, <a class="article-tag-link-link" href="/tags/graphql/" rel="tag">graphql</a>, <a class="article-tag-link-link" href="/tags/schema/" rel="tag">schema</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2020/10/18/graphql-core-concepts/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <h2 id="1-Ngon-ngu-dinh-nghia-Schema-The-Schema-Definition-Language-SDL"><a href="#1-Ngon-ngu-dinh-nghia-Schema-The-Schema-Definition-Language-SDL" class="headerlink" title="1. Ngôn ngữ định nghĩa Schema - The Schema Definition Language (SDL)"></a>1. Ngôn ngữ định nghĩa Schema - The Schema Definition Language (SDL)</h2><ul>
+<li>Như đã nói ở những bài viết trước về GraphQL, GraphQL sử dụng <strong>Schema</strong> như là một bản hợp đồng giữa Client và Server, một bản “quy chuẩn ngôn ngữ” giữa Client và Server, Client có thể dùng những cái định nghĩa trong Schema để gửi lên server lấy dữ liệu từ server và server cũng dựa vào đó để có thể biết mình làm gì và trả về kết quả gì cho Client.</li>
+<li>GraphQL có một ngôn ngữ riêng để định nghĩa Schema. Đó là <strong>Schema Definition Language</strong> (<strong>SDL</strong>)</li>
+<li>Ví dụ chúng ta có thể sử dụng <strong>SDL</strong> để định nghĩa một simple type <code>Person</code>:<br><code>php type Person &#123; name: String! age: Int! &#125;</code><br>type này có 2 trường, <code>name</code> và <code>age</code> tương ứng thuộc loại <strong>String</strong> và <strong>Int</strong>. Dấu <strong>!</strong> theo sau kiểu dữ liệu có nghĩa là trường này là <strong>required</strong></li>
+<li>Chúng ta cũng có thể mô tả mối quan hệ (relationship) giữa 2 trường. Ví dụ về một ứng dụng blog, một <strong>Person</strong> có thể có nhiều bài <strong>Post</strong><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">type Post &#123;</span><br><span class="line">  title: <span class="keyword">String</span>!</span><br><span class="line">  author: Person!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>Ngược lại, ta khai báo type <strong>Person</strong> và đặt vào một chiều của mối quan hệ:<br><code>php type Person &#123; name: String! age: Int! posts: [Post!]! &#125;</code><br>Như bên trên, ta đã tạo một mối quan hệ <em>one-to-many</em> giữa <code>Person</code> và <code>Post</code> bởi trường <code>posts</code> trong type <code>Person</code> là một mảng các <code>Post</code>.</li>
+<li>Khai báo mối quan hệ như này giúp cho Client có thể chỉ định các cấu trúc query lồng nhau, như vậy có thể lấy được toàn bộ dữ liệu mình cần chỉ trong một endpoint và không phải dùng nhiều endpoint như REST.</li>
+<li>Để biết thêm về các cú pháp khác của SDL, tham khảo: <a target="_blank" rel="noopener" href="https://www.prisma.io/blog/graphql-sdl-schema-definition-language-6755bcb9ce51">https://www.prisma.io/blog/graphql-sdl-schema-definition-language-6755bcb9ce51</a></li>
+</ul>
+<h2 id="2-Fetching-Data-voi-Queries"><a href="#2-Fetching-Data-voi-Queries" class="headerlink" title="2. Fetching Data với Queries."></a>2. Fetching Data với Queries.</h2><ul>
+<li><p>Khi làm việc với REST APIs, dữ liệu được load từ những endpoint được chỉ định. Mỗi endpoint có một cấu trúc được định nghĩa rõ ràng về những thông tin mà nó trả về.</p>
+</li>
+<li><p>Đối với cách tiếp cận của GraphQL, thay vì có nhiều endpoints trả về dữ liệu cố định, GraphQL APIs chỉ dùng 1 endpoint và để cho người dùng có thể quyết định data thực sự cần để trả về. Do đó Client cần phải gửi nhiều thông tin hơn tới server để diễn tả yêu cầu về data, thông tin đó được gọi là <strong>query</strong></p>
+</li>
+<li><p>Ví dụ về một query mà client có thể gửi tới server</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  allPersons &#123;</span><br><span class="line">    name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>allPersons</code> được gọi là <strong>root field</strong> của query. Mọi thứ theo sau root field được gọi là <strong>payload</strong> của query. Ở đây chỉ có 1 field được chỉ định trong query payload là field <code>name</code></p>
+</li>
+<li><p>Câu query trên sẽ trả về danh sách tất cả các Person với tên của nó:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;allPersons&quot;</span>: [</span><br><span class="line">    &#123; <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Johnny&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Sarah&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Alice&quot;</span> &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Mỗi một person chỉ có trường name trong response trả về, trường <code>age</code> không trả về vì nó không cần thiết đối với Client.</p>
+<p>Nếu Client cũng cần trường <code>age</code>, tất cả những gì Client phải làm là điều chỉnh câu query và thêm trường vào payload.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  allPersons &#123;</span><br><span class="line">    name</span><br><span class="line">    age</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Một trong những lợi thế lớn của GraphQL là nó cho phép truy vấn lồng nhau một cách tự nhiên. Ví dụ, bạn muốn load tất cả các bài <code>posts</code> của một <code>Person</code>, bạn có thể viết query như sau:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  allPersons &#123;</span><br><span class="line">    name</span><br><span class="line">    age</span><br><span class="line">    posts &#123;</span><br><span class="line">      title</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Server sẽ trả về response như sau:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> &#123;</span><br><span class="line">   <span class="string">&quot;allPersons&quot;</span>: [</span><br><span class="line">       &#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Binz&quot;</span>,</span><br><span class="line">        <span class="string">&quot;posts&quot;</span>: [</span><br><span class="line">           &#123; <span class="string">&quot;title&quot;</span>: <span class="string">&quot;GraphQL is awesome&quot;</span> &#125;,</span><br><span class="line">           &#123; <span class="string">&quot;title&quot;</span>: <span class="string">&quot;Relay is a powerful GraphQL Client&quot;</span>&#125;</span><br><span class="line">         ]</span><br><span class="line">       &#125;,</span><br><span class="line">       &#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Karik&quot;</span>,</span><br><span class="line">        <span class="string">&quot;posts&quot;</span>: [</span><br><span class="line">            &#123; <span class="string">&quot;title&quot;</span>: <span class="string">&quot;Let&#x27;s get started with React &amp; GraphQL&quot;</span> &#125;,</span><br><span class="line">         ]</span><br><span class="line">       &#125;,</span><br><span class="line">       &#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Suboy&quot;</span>,</span><br><span class="line">        <span class="string">&quot;posts&quot;</span>: []</span><br><span class="line">       &#125;</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>Queries với Arguments</strong>:<br>Trong GraphQL, mỗi field có thể có không hoặc nhiều tham số. Ví dụ, field <code>allPersons</code><br>có thể có tham số <code>last</code> để chỉ trả về một số lượng nhất định person.<br><code>&#123; allPersons(last: 2) &#123; name &#125; &#125;</code></p>
+</li>
+</ul>
+<h3 id="3-Writing-Data-with-Mutations"><a href="#3-Writing-Data-with-Mutations" class="headerlink" title="3. Writing Data with Mutations."></a>3. Writing Data with Mutations.</h3><ul>
+<li>Bên cạnh việc request data từ server, phía Client cũng cần phải making some changes tới data được lưu ở phía backend. Với GraphQL, ta có thể sử dụng <strong>mutations</strong> để làm điều đó. Nói chung, có 3 loại <strong>mutations</strong>:<ul>
+<li>tạo mới data</li>
+<li>cập nhật data đã tồn tại</li>
+<li>Xóa data đã tồn tại.</li>
+</ul>
+</li>
+<li><strong>Mutations</strong> tuân theo cấu trúc cú pháp giống như <strong>queries</strong>, tuy nhiên nó <em>luôn luôn phải bắt đầu với keyword</em> <strong>mutation</strong>. Ví dụ chúng ta tạo mới một <code>Person</code>:<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mutation &#123;</span><br><span class="line">  <span class="function"><span class="title">createPerson</span>(<span class="params">name: <span class="string">&quot;Sam&quot;</span>, age: <span class="number">23</span></span>)</span> &#123;</span><br><span class="line">    name</span><br><span class="line">    age</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>Tương tự với query, mutation cũng có một <strong>root field</strong>, ở đây là <strong>createPerson</strong>. Ở đây field <code>createPerson</code> nhận vào 2 tham số là <code>name</code> và <code>age</code>.</li>
+<li>Theo sau root field <code>createPerson</code> là <strong>payload</strong> cho mutation, ở đây là 2 trương <code>name</code> và <code>age</code>, là chỉ định dữ liệu trả về phía server. Với mutation trên, Server sẽ trả về response như sau:<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;createPerson&quot;</span>: &#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Sam&quot;</span>,</span><br><span class="line">  <span class="string">&quot;age&quot;</span>: <span class="number">23</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="4-Realtime-Voi-Subscriptions"><a href="#4-Realtime-Voi-Subscriptions" class="headerlink" title="4. Realtime Với Subscriptions"></a>4. Realtime Với Subscriptions</h2><ul>
+<li>Một yêu cầu đối với nhiều ứng dụng hiện nay là tính realtime với server, cho phép nhận được thông báo ngay lập tức về các sự kiện quan trọng. Đối với trường hợp này GraphQL cung cấp khái niệm <strong>subscriptions</strong>.</li>
+<li>Khi một Client subscribes một event, một kết nối tới máy chủ sẽ được khởi tạo và giữ ổn định. Khi có một event cụ thể nào diễn ra, server sẽ đẩy dữ liệu tương ứng về cho client.</li>
+<li>Nếu <strong>Queries</strong> và <strong>Mutations</strong> tuân theo “<strong>request-response-cycle</strong>“, <strong>subscriptions</strong> sẽ đại điện cho <strong>stream of data</strong> (dòng chảy dữ liệu) gửi tới client.</li>
+<li>Ví dụ chúng ta subcribe một event:<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">subscription &#123;</span><br><span class="line">  newPerson &#123;</span><br><span class="line">    name</span><br><span class="line">    age</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+Sau khi client gửi subscription tới server, một kết nối đã được mở giữa client và server. Sau đó bất cứ khi nào <strong>mutation</strong> tạo mới Person được thực thi, server sẽ gửi thông tin về person này tới client:<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;newPerson&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Sam&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">23</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="5-Dinh-nghia-Schema-cho-Queries-Mutations-va-Subscriptions"><a href="#5-Dinh-nghia-Schema-cho-Queries-Mutations-va-Subscriptions" class="headerlink" title="5. Định nghĩa Schema cho Queries, Mutations và Subscriptions."></a>5. Định nghĩa Schema cho Queries, Mutations và Subscriptions.</h2><ul>
+<li><p>Để Client có thể sử dụng <strong>Queries</strong>, <strong>Mutations</strong> và <strong>Subscriptions</strong> như trên, chúng ta phải định nghĩa chúng ở <strong>Schema</strong>.</p>
+</li>
+<li><p>Nói tóm lại, một schema đơn giản là một tập hợp của các GraphQL type. Ngoài các type như Post, Person mà chúng ta ví dụ ở phần 1, chúng ta còn có các type đặc biệt như:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Query &#123; ... &#125;</span><br><span class="line">type Mutation &#123; ... &#125;</span><br><span class="line">type Subscription &#123; ... &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Để Client có thể gọi được query <code>allPersons</code> như ở ví dụ bên trên, chúng ta phải định nghĩa chúng trong type Query:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Query &#123;</span><br><span class="line">  <span class="attr">allPersons</span>: [Person!]!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Tương tự với mutation <code>createPerson</code> và subscription <code>newPerson</code>, chúng ta sẽ có một tổng thể schema như sau:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">type Query &#123;</span><br><span class="line">  allPersons(last: Int): [Person!]!</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Mutation &#123;</span><br><span class="line">  createPerson(name: <span class="built_in">String</span>!, age: Int!): Person!</span><br><span class="line">  updatePerson(id: ID!, name: <span class="built_in">String</span>!, age: Int): Person!</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Subscription &#123;</span><br><span class="line">  <span class="attr">newPerson</span>: Person!</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Person &#123;</span><br><span class="line">  <span class="attr">id</span>: ID!</span><br><span class="line">  name: <span class="built_in">String</span>!</span><br><span class="line">  age: Int!</span><br><span class="line">  posts: [Post!]!</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Post &#123;</span><br><span class="line">  <span class="attr">id</span>: ID!</span><br><span class="line">  title: <span class="built_in">String</span>!</span><br><span class="line">  author: Person!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="6-Mot-chut-ve-Resolver"><a href="#6-Mot-chut-ve-Resolver" class="headerlink" title="6. Một chút về Resolver."></a>6. Một chút về Resolver.</h2><ul>
+<li>Chúng ta đã có schema (như chúng ta đã biết, schema như một hợp đồng làm việc giữa client và server), chúng ta biết cách gọi các truy vấn (được định nghĩa ở schema) từ phía client. Vậy còn phía server, làm sao để từ file schema, server biết được mình sẽ xử lý như thế nào để trả về cho client.</li>
+<li>Chúng ta sẽ có các hàm resolver. Ứng với mỗi <strong>field</strong> trong các type, sẽ có một resolver được định nghĩa để giải quyết yêu cầu phía client và trả về dữ liệu cho client. Các argument truyền vào các <strong>field</strong> cũng chính là những tham số được truyền vào resolvers.</li>
+<li>Trên đây là khái quát về resolver, mình trình bày chi tiết về resolver trong bài viết lần sau.</li>
+</ul>
+<p>Nguồn tham khảo: <a target="_blank" rel="noopener" href="https://www.howtographql.com/basics/2-core-concepts/">https://www.howtographql.com/basics/2-core-concepts/</a></p>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2020/10/18/graphql-core-concepts/" title="Cấu trúc cú pháp cơ bản của GraphQL" target="_blank" rel="external">https://huongvnq.github.io/2020/10/18/graphql-core-concepts/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/02/21/graphql-sdl-1/" title="GraphQL SDL - Schema Definition Language Phần 1"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/10/18/graphql-vs-rest/" title="So sánh GrapQL với REST"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

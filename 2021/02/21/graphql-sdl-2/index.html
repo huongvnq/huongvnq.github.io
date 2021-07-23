@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>GraphQL SDL - Schema Definition Language Phần 2 | Meditation Coding</title>
+  <meta name="description" content="Nối tiếp Phần một về Schema Difinition Language của GraphQL, bài viết này trình bày tiếp các khái niệm được sử dụng để định nghĩa GraphQL Schema 1. Interfaces Cũng giống như khái niệm Interface ở các">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GraphQL SDL - Schema Definition Language Phần 2">
+<meta property="og:url" content="https://huongvnq.github.io/2021/02/21/graphql-sdl-2/index.html">
+<meta property="og:site_name" content="Meditation Coding">
+<meta property="og:description" content="Nối tiếp Phần một về Schema Difinition Language của GraphQL, bài viết này trình bày tiếp các khái niệm được sử dụng để định nghĩa GraphQL Schema 1. Interfaces Cũng giống như khái niệm Interface ở các">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2021/02/21/graphql-sdl-2/inline-fragment.webp">
+<meta property="article:published_time" content="2021-02-21T04:33:14.000Z">
+<meta property="article:modified_time" content="2021-07-23T04:39:43.912Z">
+<meta property="article:author" content="HuongVNQ">
+<meta property="article:tag" content="graphql">
+<meta property="article:tag" content="API">
+<meta property="article:tag" content="schema">
+<meta property="article:tag" content="SDL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/02/21/graphql-sdl-2/inline-fragment.webp">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2021/02/21/graphql-sdl-2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facebook-Graph-API/" rel="tag">Facebook Graph API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/REST-API/" rel="tag">REST API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SDL/" rel="tag">SDL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fragment/" rel="tag">fragment</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphql/" rel="tag">graphql</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resolve/" rel="tag">resolve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/schema/" rel="tag">schema</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/API/" style="font-size: 13.67px;">API</a> <a href="/tags/Facebook-Graph-API/" style="font-size: 13px;">Facebook Graph API</a> <a href="/tags/REST-API/" style="font-size: 13px;">REST API</a> <a href="/tags/SDL/" style="font-size: 13.33px;">SDL</a> <a href="/tags/fragment/" style="font-size: 13px;">fragment</a> <a href="/tags/graphql/" style="font-size: 14px;">graphql</a> <a href="/tags/magento-basic/" style="font-size: 13.33px;">magento basic</a> <a href="/tags/resolve/" style="font-size: 13px;">resolve</a> <a href="/tags/schema/" style="font-size: 13.33px;">schema</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/20/routing-in-magento2/" class="title">Routing Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-20T05:05:37.000Z" itemprop="datePublished">2021-07-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/18/create-a-new-module-in-magento2/" class="title">Create A New Module In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/17/create-a-new-page-in-magento2/" class="title">Create A New Page In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-17T07:06:27.037Z" itemprop="datePublished">2021-07-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/GraphQL/">GraphQL</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/21/graphql-server-execution/" class="title">Thực thi truy vấn GraphQL trên Server</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-21T04:46:57.000Z" itemprop="datePublished">2021-04-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/GraphQL/">GraphQL</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/03/20/graphql-fragment/" class="title">GraphQL Fragment</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-03-20T04:40:46.000Z" itemprop="datePublished">2021-03-20</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-graphql-sdl-2"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      GraphQL SDL - Schema Definition Language Phần 2
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/02/21/graphql-sdl-2/" class="article-date">
+	  <time datetime="2021-02-21T04:33:14.000Z" itemprop="datePublished">2021-02-21</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/GraphQL/">GraphQL</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/API/" rel="tag">API</a>, <a class="article-tag-link-link" href="/tags/SDL/" rel="tag">SDL</a>, <a class="article-tag-link-link" href="/tags/graphql/" rel="tag">graphql</a>, <a class="article-tag-link-link" href="/tags/schema/" rel="tag">schema</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2021/02/21/graphql-sdl-2/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <p>Nối tiếp Phần một về Schema Difinition Language của GraphQL, bài viết này trình bày tiếp các khái niệm được sử dụng để định nghĩa GraphQL Schema</p>
+<h2 id="1-Interfaces"><a href="#1-Interfaces" class="headerlink" title="1. Interfaces"></a>1. Interfaces</h2><ul>
+<li><p>Cũng giống như khái niệm <strong>Interface</strong> ở các language khác, trong GraphQL, một <strong>Interface</strong> là một <strong>asbstract type</strong> có thể bao gồm một tập nhất định các field mà các type khi <strong>implement</strong> nó cũng phải bao gồm các field đó.</p>
+</li>
+<li><p>Ví dụ, bạn có một interface <code>Character</code> đại diện cho bất kì nhân vật nào trong Star Wars</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">interface Character &#123;</span><br><span class="line">  id: ID!</span><br><span class="line">  name: String!</span><br><span class="line">  friends: [Character]</span><br><span class="line">  appearsIn: [Episode]!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Bất kì type nào mà <strong>Implements</strong> <code>Characters</code> cần phải có đầy đủ các trường trên với cùng tham số hay cùng type.</p>
+</li>
+<li><p>Ví dụ, các type sau đây có thể implement <code>Character</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">type Human implements Character &#123;</span><br><span class="line">  id: ID!</span><br><span class="line">  name: String!</span><br><span class="line">  friends: [Character]</span><br><span class="line">  appearsIn: [Episode]!</span><br><span class="line">  starships: [Starship]</span><br><span class="line">  totalCredits: Int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Droid implements Character &#123;</span><br><span class="line">  id: ID!</span><br><span class="line">  name: String!</span><br><span class="line">  friends: [Character]</span><br><span class="line">  appearsIn: [Episode]!</span><br><span class="line">  primaryFunction: String</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Cả 3 type này đều có tất cả các trường từ <code>Character</code> interface, đồng thời cũng có các trường bổ sung như <code>totalCredits</code>, <code>starships</code>, <code>primaryFunction</code> giúp xác định các loại Character cụ thể.</p>
+</li>
+<li><p><strong>Interface</strong> hữu ích khi mà bạn muốn trả về một object hay là một bộ các object, nhưng chúng lại có các trường khác nhau.</p>
+</li>
+<li><p>Ví dụ, câu query sau sẽ sinh ra lỗi</p>
+<p>QUERY DEFINITION</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Query &#123;</span><br><span class="line">  hero(episode: Episode): Character</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CLIENT CALL QUERY</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">query HeroForEpisode($ep: Episode!) &#123;</span><br><span class="line">  hero(episode: $ep) &#123;</span><br><span class="line">    name</span><br><span class="line">    primaryFunction</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>VARIABLES</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;ep&quot;</span>: <span class="string">&quot;JEDI&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>RESULT</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;errors&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">&quot;message&quot;</span>: <span class="string">&quot;Cannot query field \&quot;primaryFunction\&quot; on type \&quot;Character\&quot;. Did you mean to use an inline fragment on \&quot;Droid\&quot;?&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;locations&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">&quot;line&quot;</span>: <span class="number">4</span>,</span><br><span class="line">          <span class="attr">&quot;column&quot;</span>: <span class="number">5</span></span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li>Trường <code>hero</code> trả về một kiểu <code>Character</code>, nó có thể là <code>Human</code> hay <code>Droid</code> tùy thuộc vào biến <code>episode</code>. Trong câu query trên bạn chỉ có thể chỉ định trả về những field mà tồn tại trong <code>Character</code> interface, như vậy sẽ không có <code>primaryFunction</code></li>
+<li>Để yêu cầu trả về các trường trong một object type cụ thể, sử dụng <strong>inline fragments</strong><br><img src="/2021/02/21/graphql-sdl-2/inline-fragment.webp" alt="Inline Fragments"></li>
+</ul>
+<h2 id="2-Union-types"><a href="#2-Union-types" class="headerlink" title="2. Union types"></a>2. Union types</h2><ul>
+<li><p>Ví dụ</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union SearchResult = Human | Droid | Starship</span><br></pre></td></tr></table></figure></li>
+<li><p>Bất cứ khi nào chúng ta trả về một loại <code>Search Result</code> trong schema, SearchResult này có thể là một <code>Human</code>, <code>Droid</code>, hoặc một <code>Starship</code>. Các thành phần của một <strong>union type</strong> cần phải là một loại đối tượng cụ thể, không được là một <strong>interface</strong> hay là một <strong>union</strong> khác</p>
+</li>
+<li><p>Khi phía client query một field mà trả về một union type là <code>SearchResult</code>, chúng ta cần phải sử dụng <strong>inline fragment</strong> để có thể query bất kì trường nào.</p>
+<p>CLIENT QERRY</p>
+</li>
+</ul>
+<pre><code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  search(text: &quot;an&quot;) &#123;</span><br><span class="line">    __typename</span><br><span class="line">    ... on Human &#123;</span><br><span class="line">      name</span><br><span class="line">      height</span><br><span class="line">    &#125;</span><br><span class="line">    ... on Droid &#123;</span><br><span class="line">      name</span><br><span class="line">      primaryFunction</span><br><span class="line">    &#125;</span><br><span class="line">    ... on Starship &#123;</span><br><span class="line">      name</span><br><span class="line">      length</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+RESULT
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;search&quot;</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;__typename&quot;</span>: <span class="string">&quot;Human&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Han Solo&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;height&quot;</span>: <span class="number">1.8</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;__typename&quot;</span>: <span class="string">&quot;Human&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Leia Organa&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;height&quot;</span>: <span class="number">1.5</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;__typename&quot;</span>: <span class="string">&quot;Starship&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;TIE Advanced x1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;length&quot;</span>: <span class="number">9.2</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ul>
+<li>Trường <strong>__typename</strong> là một <strong>String</strong> giúp bạn phân biệt sự khác nhau giữa các object type ở Client</li>
+<li>Ở ví dụ này, vì <code>Human</code> và <code>Droid</code> cùng implement một interface chung là <code>Character</code> nên bạn có thể query những trường chung của 2 object type này ở chỉ một chỗ mà không cần lặp lại các trường giống nhau ở mỗi type, ví dụ sau đây cho kết quả như bên trên:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  search(text: &quot;an&quot;) &#123;</span><br><span class="line">    __typename</span><br><span class="line">    ... on Character &#123;</span><br><span class="line">      name</span><br><span class="line">    &#125;</span><br><span class="line">    ... on Human &#123;</span><br><span class="line">      height</span><br><span class="line">    &#125;</span><br><span class="line">    ... on Droid &#123;</span><br><span class="line">      primaryFunction</span><br><span class="line">    &#125;</span><br><span class="line">    ... on Starship &#123;</span><br><span class="line">      name</span><br><span class="line">      length</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+Lưu ý: Trường <code>name</code> vẫn phải được chỉ định đối với Starship bởi <code>Starship</code> không phải là một <code>Character</code></li>
+</ul>
+<h2 id="3-Input-types"><a href="#3-Input-types" class="headerlink" title="3.Input types"></a>3.Input types</h2><ul>
+<li><p>Từ đầu đến giờ, chúng ta chỉ nói về truyền vào một field các argument thuộc về kiểu scalar như enums hay strings. Tuy nhiên bạn có thể truyền argument là một object phức tạp. Điều này cực kì hữu ích khi bạn muốn truyền vào toàn bộ object để tạo cái gì đó.</p>
+</li>
+<li><p>Trong GraphQL SDL, <strong>input types</strong> nhìn sẽ giống một <strong>object types</strong> thông tường nhưng với keyword <strong>input</strong> thay vì <strong>type</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">input ReviewInput &#123;</span><br><span class="line">  stars: Int!</span><br><span class="line">  commentary: String</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Ví dụ sử dụng <strong>input type</strong> trong một <strong>mutation</strong></p>
+<p>MUTATION DEFINITION</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mutation CreateReviewForEpisode($ep: Episode!, $review: ReviewInput!) &#123;</span><br><span class="line">  createReview(episode: $ep, review: $review) &#123;</span><br><span class="line">    stars</span><br><span class="line">    commentary</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>VARIABLES</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;ep&quot;</span>: <span class="string">&quot;JEDI&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;review&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;stars&quot;</span>: <span class="number">5</span>,</span><br><span class="line">    <span class="attr">&quot;commentary&quot;</span>: <span class="string">&quot;This is a great movie!&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>RESULT</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;data&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;createReview&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;stars&quot;</span>: <span class="number">5</span>,</span><br><span class="line">      <span class="attr">&quot;commentary&quot;</span>: <span class="string">&quot;This is a great movie!&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="4-Ket-luan"><a href="#4-Ket-luan" class="headerlink" title="4. Kết luận"></a>4. Kết luận</h2><ul>
+<li>Quan hai phần của chủ đề này, mình đã trình bày các khái niệm được sử dụng trong Schema Difinition Language. Mình tin là những khái niệm này đủ để bạn có thể tự định nghĩa một schema cơ bản của mình. Mong bài viết có ích đối với các bạn</li>
+<li>Nguồn tham khảo<ul>
+<li><a target="_blank" rel="noopener" href="https://www.prisma.io/blog/graphql-sdl-schema-definition-language-6755bcb9ce51">https://www.prisma.io/blog/graphql-sdl-schema-definition-language-6755bcb9ce51</a></li>
+<li><a target="_blank" rel="noopener" href="https://graphql.org/learn/schema">https://graphql.org/learn/schema</a></li>
+</ul>
+</li>
+</ul>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2021/02/21/graphql-sdl-2/" title="GraphQL SDL - Schema Definition Language Phần 2" target="_blank" rel="external">https://huongvnq.github.io/2021/02/21/graphql-sdl-2/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/03/20/graphql-fragment/" title="GraphQL Fragment"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/02/21/graphql-sdl-1/" title="GraphQL SDL - Schema Definition Language Phần 1"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
