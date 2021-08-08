@@ -75,3 +75,10 @@ $(function() {
     $menuList[activeIndex] && $($menuList[activeIndex]).addClass('active');
   }
 });
+
+//Hide Disqus Ads above the comments
+(function($){
+  setInterval(() => {
+      $('#disqus_thread iframe').first().hide();
+  }, 300);
+})(jQuery);
