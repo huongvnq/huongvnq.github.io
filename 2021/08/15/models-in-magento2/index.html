@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Models Trong Magento2 | Meditation Coding</title>
+  <meta name="description" content="1. Lời mở đầu Như chúng ta đã biết, Model là một phần tử bắt buộc phải có khi tạo một ứng dụng CRUD. Model cũng là một phần quan trọng trong kiến trúc MVC (Model-View-Controller). Models trong Magent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Models Trong Magento2">
+<meta property="og:url" content="https://huongvnq.github.io/2021/08/15/models-in-magento2/index.html">
+<meta property="og:site_name" content="Meditation Coding">
+<meta property="og:description" content="1. Lời mở đầu Như chúng ta đã biết, Model là một phần tử bắt buộc phải có khi tạo một ứng dụng CRUD. Model cũng là một phần quan trọng trong kiến trúc MVC (Model-View-Controller). Models trong Magent">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2021/08/15/models-in-magento2/models.jpg">
+<meta property="og:image" content="https://huongvnq.github.io/2021/08/15/models-in-magento2/started.gif">
+<meta property="article:published_time" content="2021-08-15T02:46:48.000Z">
+<meta property="article:modified_time" content="2021-08-15T09:28:43.263Z">
+<meta property="article:author" content="HuongVNQ">
+<meta property="article:tag" content="magento basic">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/08/15/models-in-magento2/models.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2021/08/15/models-in-magento2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facebook-Graph-API/" rel="tag">Facebook Graph API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/REST-API/" rel="tag">REST API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SDL/" rel="tag">SDL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fragment/" rel="tag">fragment</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphql/" rel="tag">graphql</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resolve/" rel="tag">resolve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/schema/" rel="tag">schema</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/API/" style="font-size: 13.75px;">API</a> <a href="/tags/Facebook-Graph-API/" style="font-size: 13px;">Facebook Graph API</a> <a href="/tags/REST-API/" style="font-size: 13px;">REST API</a> <a href="/tags/SDL/" style="font-size: 13.25px;">SDL</a> <a href="/tags/fragment/" style="font-size: 13px;">fragment</a> <a href="/tags/graphql/" style="font-size: 14px;">graphql</a> <a href="/tags/magento-basic/" style="font-size: 13.5px;">magento basic</a> <a href="/tags/resolve/" style="font-size: 13px;">resolve</a> <a href="/tags/schema/" style="font-size: 13.25px;">schema</a>
+    </div>
+  </div>
+
+    
+      
+<div class="widget">
+  <h3 class="widget-title">Archives</h3>
+  <div class="widget-body">
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+</div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/15/models-in-magento2/" class="title">Models Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-15T02:46:48.000Z" itemprop="datePublished">2021-08-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/20/routing-in-magento2/" class="title">Routing Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-20T05:05:37.000Z" itemprop="datePublished">2021-07-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/18/create-a-new-module-in-magento2/" class="title">Create A New Module In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/17/create-a-new-page-in-magento2/" class="title">Create A New Page In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-17T07:06:27.037Z" itemprop="datePublished">2021-07-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/GraphQL/">GraphQL</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/21/graphql-server-execution/" class="title">Thực thi truy vấn GraphQL trên Server</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-21T04:46:57.000Z" itemprop="datePublished">2021-04-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-models-in-magento2"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      Models Trong Magento2
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/08/15/models-in-magento2/" class="article-date">
+	  <time datetime="2021-08-15T02:46:48.000Z" itemprop="datePublished">2021-08-15</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Magento/">Magento</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/magento-basic/" rel="tag">magento basic</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2021/08/15/models-in-magento2/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <p><img src="/2021/08/15/models-in-magento2/models.jpg" alt="Models Magento2"></p>
+<h2 id="1-Loi-mo-dau"><a href="#1-Loi-mo-dau" class="headerlink" title="1. Lời mở đầu"></a>1. Lời mở đầu</h2><ul>
+<li>Như chúng ta đã biết, <strong>Model</strong> là một phần tử bắt buộc phải có khi tạo một ứng dụng CRUD. <strong>Model</strong> cũng là một phần quan trọng trong kiến trúc <strong>MVC</strong> (Model-View-Controller).</li>
+<li><strong>Models</strong> trong Magento2 giúp chúng ta quản lý data, thao tác với database một cách dễ dàng hơn.</li>
+<li>Trong bài viết này chúng ta sẽ đi vào tìm hiểu về <strong>Models</strong> theo các phương diện <strong>Model</strong>, <strong>Resource Model</strong>, và <strong>Resource Model Collection</strong>. Let’s get started!</li>
+</ul>
+<p><img src="/2021/08/15/models-in-magento2/started.gif" alt="Models Magento2"></p>
+<h2 id="2-Tao-Database-Table-cho-Model"><a href="#2-Tao-Database-Table-cho-Model" class="headerlink" title="2. Tạo Database Table cho Model"></a>2. Tạo Database Table cho Model</h2><ul>
+<li>Để bắt đầu tìm hiểu, chúng ta hãy tạo một bảng trong database cho trực quan và dễ hiểu nhé.</li>
+<li>Để làm điều đó trong Magento2, chúng ta sẽ tạo một file setup:<br><strong>app/code/Learning/HelloWorld/Setup/InstallSchema.php</strong><br><strong>Lưu ý:</strong><ul>
+<li>File InstallSChema chỉ được chạy một lần khi mà bạn Install Module (Xem thêm <a href="/2021/07/18/create-a-new-module-in-magento2/" title="Create A New Module In Magento2">Create A New Module In Magento2</a>)</li>
+<li>Nếu bạn đã Install Module trước đó thì phải phải nâng version của module lên và tạo bảng mới ở trong file <strong>UpgradeSchema.php</strong>.</li>
+<li>Chi tiết về các <strong>Database Script</strong> sẽ được mình trình bày cụ thể chi tiết trong bài viết sau nhé. hihi</li>
+</ul>
+</li>
+<li>File: <span style="color:green"><strong>app/code/Learning/HelloWorld/Setup/InstallSchema.php</strong></span></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Learning</span>\<span class="title">HelloWorld</span>\<span class="title">Setup</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InstallSchema</span> <span class="keyword">implements</span> \<span class="title">Magento</span>\<span class="title">Framework</span>\<span class="title">Setup</span>\<span class="title">InstallSchemaInterface</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">install</span>(<span class="params">\Magento\Framework\Setup\SchemaSetupInterface <span class="variable">$setup</span>, \Magento\Framework\Setup\ModuleContextInterface <span class="variable">$context</span></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$installer</span> = <span class="variable">$setup</span>;</span><br><span class="line">		<span class="variable">$installer</span>-&gt;startSetup();</span><br><span class="line">		<span class="keyword">if</span> (!<span class="variable">$installer</span>-&gt;tableExists(<span class="string">&#x27;learning_helloworld_post&#x27;</span>)) &#123;</span><br><span class="line">			<span class="variable">$table</span> = <span class="variable">$installer</span>-&gt;getConnection()-&gt;newTable(</span><br><span class="line">				<span class="variable">$installer</span>-&gt;getTable(<span class="string">&#x27;learning_helloworld_post&#x27;</span>)</span><br><span class="line">			)</span><br><span class="line">				-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;post_id&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,</span><br><span class="line">					<span class="literal">null</span>,</span><br><span class="line">					[</span><br><span class="line">						<span class="string">&#x27;identity&#x27;</span> =&gt; <span class="literal">true</span>,</span><br><span class="line">						<span class="string">&#x27;nullable&#x27;</span> =&gt; <span class="literal">false</span>,</span><br><span class="line">						<span class="string">&#x27;primary&#x27;</span>  =&gt; <span class="literal">true</span>,</span><br><span class="line">						<span class="string">&#x27;unsigned&#x27;</span> =&gt; <span class="literal">true</span>,</span><br><span class="line">					],</span><br><span class="line">					<span class="string">&#x27;Post ID&#x27;</span></span><br><span class="line">				)</span><br><span class="line">				-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;name&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,</span><br><span class="line">					<span class="number">255</span>,</span><br><span class="line">					[<span class="string">&#x27;nullable =&gt; false&#x27;</span>],</span><br><span class="line">					<span class="string">&#x27;Post Name&#x27;</span></span><br><span class="line">				)</span><br><span class="line">				-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;url_key&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,</span><br><span class="line">					<span class="number">255</span>,</span><br><span class="line">					[],</span><br><span class="line">					<span class="string">&#x27;Post URL Key&#x27;</span></span><br><span class="line">				)</span><br><span class="line">				-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;post_content&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,</span><br><span class="line">					<span class="string">&#x27;64k&#x27;</span>,</span><br><span class="line">					[],</span><br><span class="line">					<span class="string">&#x27;Post Post Content&#x27;</span></span><br><span class="line">				)</span><br><span class="line">				-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;tags&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,</span><br><span class="line">					<span class="number">255</span>,</span><br><span class="line">					[],</span><br><span class="line">					<span class="string">&#x27;Post Tags&#x27;</span></span><br><span class="line">				)</span><br><span class="line">				-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;status&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,</span><br><span class="line">					<span class="number">1</span>,</span><br><span class="line">					[],</span><br><span class="line">					<span class="string">&#x27;Post Status&#x27;</span></span><br><span class="line">				)</span><br><span class="line">				-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;featured_image&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,</span><br><span class="line">					<span class="number">255</span>,</span><br><span class="line">					[],</span><br><span class="line">					<span class="string">&#x27;Post Featured Image&#x27;</span></span><br><span class="line">				)</span><br><span class="line">				-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;created_at&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,</span><br><span class="line">					<span class="literal">null</span>,</span><br><span class="line">					[<span class="string">&#x27;nullable&#x27;</span> =&gt; <span class="literal">false</span>, <span class="string">&#x27;default&#x27;</span> =&gt; \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],</span><br><span class="line">					<span class="string">&#x27;Created At&#x27;</span></span><br><span class="line">				)-&gt;addColumn(</span><br><span class="line">					<span class="string">&#x27;updated_at&#x27;</span>,</span><br><span class="line">					\Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,</span><br><span class="line">					<span class="literal">null</span>,</span><br><span class="line">					[<span class="string">&#x27;nullable&#x27;</span> =&gt; <span class="literal">false</span>, <span class="string">&#x27;default&#x27;</span> =&gt; \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT_UPDATE],</span><br><span class="line">					<span class="string">&#x27;Updated At&#x27;</span>)</span><br><span class="line">				-&gt;setComment(<span class="string">&#x27;Post Table&#x27;</span>);</span><br><span class="line">			<span class="variable">$installer</span>-&gt;getConnection()-&gt;createTable(<span class="variable">$table</span>);</span><br><span class="line"></span><br><span class="line">			<span class="variable">$installer</span>-&gt;getConnection()-&gt;addIndex(</span><br><span class="line">				<span class="variable">$installer</span>-&gt;getTable(<span class="string">&#x27;learning_helloworld_post&#x27;</span>),</span><br><span class="line">				<span class="variable">$setup</span>-&gt;getIdxName(</span><br><span class="line">					<span class="variable">$installer</span>-&gt;getTable(<span class="string">&#x27;learning_helloworld_post&#x27;</span>),</span><br><span class="line">					[<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;url_key&#x27;</span>, <span class="string">&#x27;post_content&#x27;</span>, <span class="string">&#x27;tags&#x27;</span>, <span class="string">&#x27;featured_image&#x27;</span>],</span><br><span class="line">					\Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_FULLTEXT</span><br><span class="line">				),</span><br><span class="line">				[<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;url_key&#x27;</span>, <span class="string">&#x27;post_content&#x27;</span>, <span class="string">&#x27;tags&#x27;</span>, <span class="string">&#x27;featured_image&#x27;</span>],</span><br><span class="line">				\Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_FULLTEXT</span><br><span class="line">			);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="variable">$installer</span>-&gt;endSetup();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Chạy command line để thực thi:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php bin/magento setup:upgrade</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Tao-Model"><a href="#2-Tao-Model" class="headerlink" title="2. Tạo Model"></a>2. Tạo Model</h2><ul>
+<li><strong>Model</strong> là một phần quan trọng của kiến trúc <strong>MVC</strong></li>
+<li>Là một class đại diện cho một thực thể hay một bảng trong CSDL</li>
+<li>Trong <strong>Magento2</strong>, <strong>Models</strong> có rất nhiều chức năng, như quản lý thao tác database, install, upgrade module.</li>
+<li>Trong ví dụ này chúng ta sẽ nói về chức năng quản lý thao tác data của <strong>Models</strong> và cụ thể là bảng <code>learning_helloworld_post</code> mà chúng ta vừa tạo ở bên trên.</li>
+<li>Tạo file model: <span style="color:green"><strong>app/code/Mageplaza/HelloWorld/Model/Post.php</strong></span></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Learning</span>\<span class="title">HelloWorld</span>\<span class="title">Model</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span> <span class="keyword">extends</span> \<span class="title">Magento</span>\<span class="title">Framework</span>\<span class="title">Model</span>\<span class="title">AbstractModel</span> <span class="keyword">implements</span> \<span class="title">Magento</span>\<span class="title">Framework</span>\<span class="title">DataObject</span>\<span class="title">IdentityInterface</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> CACHE_TAG = <span class="string">&#x27;learning_helloworld_post&#x27;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> <span class="variable">$_cacheTag</span> = <span class="string">&#x27;learning_helloworld_post&#x27;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> <span class="variable">$_eventPrefix</span> = <span class="string">&#x27;learning_helloworld_post&#x27;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">_construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;_init(<span class="string">&#x27;Learning\HelloWorld\Model\ResourceModel\Post&#x27;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getIdentities</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> [<span class="built_in">self</span>::CACHE_TAG . <span class="string">&#x27;_&#x27;</span> . <span class="keyword">$this</span>-&gt;getId()];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getDefaultValues</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$values</span> = [];</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="variable">$values</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Tất cả <strong>Model</strong> sẽ được extends <span style="color:green"><strong>\Magento\Framework\Model\AbstractModel</strong></span> và implements <span style="color:green"><strong>\Magento\Framework\DataObject\IdentityInterface</strong></span></li>
+<li>Class Model phải định nghĩa phương thức <strong>getIdentities()</strong> trả về một id duy nhất định danh cho Model</li>
+<li>Phương thức <strong>_construct()</strong> sẽ được gọi mỗi khi Model được khởi tạo. Phương thức <strong>_construct()</strong> sẽ gọi đến phương thức <strong>_init()</strong> chỉ định <strong>Resource Model</strong> nào dùng để fetch data từ database. Ở đây là resource model <span style="color:green"><strong>Learning\HelloWorld\Model\ResourceModel\Post</strong></span>.</li>
+<li>Ngoài ra thì ở class Model còn định nghĩa một vài cái biến, nhưng thôi chúng ta tạm thời bỏ qua trong bài viết này :D</li>
+</ul>
+<h2 id="3-Tao-Resource-Model"><a href="#3-Tao-Resource-Model" class="headerlink" title="3. Tạo Resource Model"></a>3. Tạo Resource Model</h2><ul>
+<li><strong>Model</strong> chưa tất cả các logic thao tác với database. Tuy nhiên nó sẽ không trực tiếp thực thi các câu truy vấn <strong>SQL</strong>. Thay vào đó <strong>Resource Model</strong> sẽ làm việc này.</li>
+<li>Chúng ta sẽ tạo Resource</li>
+</ul>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2021/08/15/models-in-magento2/" title="Models Trong Magento2" target="_blank" rel="external">https://huongvnq.github.io/2021/08/15/models-in-magento2/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/07/20/routing-in-magento2/" title="Routing Trong Magento2"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/cash-card.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"> Momo</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"> Cash Card</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://huongvnq.github.io/2021/08/15/models-in-magento2/';
+        
+        this.page.identifier = 'models-in-magento2';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'meditationcoding' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
