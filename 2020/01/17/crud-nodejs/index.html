@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>CRUD với NodeJs, Express và MongoDB | Meditation Coding</title>
+  <meta name="description" content="1. Cài đặt môi trường B1: Tạo một thư mục dự án B2: Tạo file package.json - là file quản lý các dependency được cài đặt nội bộ. Để tạo file package.json, chúng ta cần khởi tạo npm1npm init B3: Cài đặ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CRUD với NodeJs, Express và MongoDB">
+<meta property="og:url" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/index.html">
+<meta property="og:site_name" content="Meditation Coding">
+<meta property="og:description" content="1. Cài đặt môi trường B1: Tạo một thư mục dự án B2: Tạo file package.json - là file quản lý các dependency được cài đặt nội bộ. Để tạo file package.json, chúng ta cần khởi tạo npm1npm init B3: Cài đặ">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/nodejs.png">
+<meta property="og:image" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/folder.webp">
+<meta property="og:image" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/connect-result.webp">
+<meta property="og:image" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/run-welcome.webp">
+<meta property="og:image" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/postman-test.png">
+<meta property="og:image" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/list-result.webp">
+<meta property="og:image" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/update-result.webp">
+<meta property="article:published_time" content="2020-01-17T09:13:32.000Z">
+<meta property="article:modified_time" content="2021-08-22T09:43:11.470Z">
+<meta property="article:author" content="HuongVNQ">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="express">
+<meta property="article:tag" content="mongodb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2020/01/17/crud-nodejs/nodejs.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2020/01/17/crud-nodejs/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facebook-Graph-API/" rel="tag">Facebook Graph API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/REST-API/" rel="tag">REST API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SDL/" rel="tag">SDL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/express/" rel="tag">express</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fragment/" rel="tag">fragment</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphql/" rel="tag">graphql</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resolve/" rel="tag">resolve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/schema/" rel="tag">schema</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/API/" style="font-size: 13.75px;">API</a> <a href="/tags/Facebook-Graph-API/" style="font-size: 13px;">Facebook Graph API</a> <a href="/tags/REST-API/" style="font-size: 13px;">REST API</a> <a href="/tags/SDL/" style="font-size: 13.25px;">SDL</a> <a href="/tags/express/" style="font-size: 13px;">express</a> <a href="/tags/fragment/" style="font-size: 13px;">fragment</a> <a href="/tags/graphql/" style="font-size: 14px;">graphql</a> <a href="/tags/magento-basic/" style="font-size: 13.5px;">magento basic</a> <a href="/tags/mongodb/" style="font-size: 13px;">mongodb</a> <a href="/tags/nodejs/" style="font-size: 13px;">nodejs</a> <a href="/tags/resolve/" style="font-size: 13px;">resolve</a> <a href="/tags/schema/" style="font-size: 13.25px;">schema</a>
+    </div>
+  </div>
+
+    
+      
+<div class="widget">
+  <h3 class="widget-title">Archives</h3>
+  <div class="widget-body">
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+</div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/15/models-in-magento2/" class="title">Models Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-15T02:46:48.000Z" itemprop="datePublished">2021-08-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/20/routing-in-magento2/" class="title">Routing Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-20T05:05:37.000Z" itemprop="datePublished">2021-07-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/18/create-a-new-module-in-magento2/" class="title">Create A New Module In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/17/create-a-new-page-in-magento2/" class="title">Create A New Page In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-17T07:06:27.037Z" itemprop="datePublished">2021-07-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/GraphQL/">GraphQL</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/04/21/graphql-server-execution/" class="title">Thực thi truy vấn GraphQL trên Server</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-04-21T04:46:57.000Z" itemprop="datePublished">2021-04-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-crud-nodejs"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      CRUD với NodeJs, Express và MongoDB
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/01/17/crud-nodejs/" class="article-date">
+	  <time datetime="2020-01-17T09:13:32.000Z" itemprop="datePublished">2020-01-17</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/NodeJS/">NodeJS</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/express/" rel="tag">express</a>, <a class="article-tag-link-link" href="/tags/mongodb/" rel="tag">mongodb</a>, <a class="article-tag-link-link" href="/tags/nodejs/" rel="tag">nodejs</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2020/01/17/crud-nodejs/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <p><img src="/2020/01/17/crud-nodejs/nodejs.png" alt="NodeJS"></p>
+<h1 id="1-Cai-dat-moi-truong"><a href="#1-Cai-dat-moi-truong" class="headerlink" title="1. Cài đặt môi trường"></a>1. Cài đặt môi trường</h1><ul>
+<li><strong>B1</strong>: Tạo một thư mục dự án</li>
+<li><strong>B2</strong>: Tạo file <strong>package.json</strong> - là file quản lý các dependency được cài đặt nội bộ. Để tạo file package.json, chúng ta cần khởi tạo npm<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure></li>
+<li><strong>B3</strong>: Cài đặt <strong>Express</strong><ul>
+<li>Express là một module thường được sử dụng kèm theo Node.js. Express chạy giữa server tạo bởi Node.js và các trang frontend của một ứng dụng web. Express cũng giải quyết định tuyến (routing) của ứng dụng, hướng người dùng đến đúng trang dựa trên sự tương tác của người dùng với ứng dụng.</li>
+<li>Mặc dù có nhiều lựa chọn khác ngoài express tuy nhiên Express là đơn giản nhất để tìm hiểu về sự tương tác giữa phần backend Node.js và frondend</li>
+<li>Cài đặt express<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express --save</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><strong>B4</strong> : Tạo file app.js ở trong thư mục dự án<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Call in installed dependencies</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"><span class="comment">// set up express app</span></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="comment">// set up port number</span></span><br><span class="line"><span class="keyword">const</span> port = <span class="number">5035</span>;</span><br><span class="line"><span class="comment">// set up home route</span></span><br><span class="line">app.get(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">request, respond</span>) =&gt;</span> &#123;</span><br><span class="line">  respond.status(<span class="number">200</span>).json(&#123;</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&quot;Welcome to Project Support&quot;</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">app.listen(port, <span class="function">(<span class="params">request, respond</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Our server is live on <span class="subst">$&#123;port&#125;</span>. Yay!`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+<li><strong>B5</strong>: Start server<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node app.js</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="2-Xay-dung-ung-dung"><a href="#2-Xay-dung-ung-dung" class="headerlink" title="2. Xây dựng ứng dụng"></a>2. Xây dựng ứng dụng</h1><p>Trong bài viết này, chúng ta sẽ xây dựng một ứng dụng CRUD Course (thêm sửa xóa các Course)</p>
+<h2 id="1-Cau-truc-thu-muc"><a href="#1-Cau-truc-thu-muc" class="headerlink" title="1. Cấu trúc thư mục"></a>1. Cấu trúc thư mục</h2><ul>
+<li><p>Chắc hẳn bạn đã biết về mô hình MVC, ở ví dụ này chúng ta cũng sẽ xây dựng ứng dụng theo mô hình MVC bằng các tách cấu trúc thành các phần riêng biệt tùy theo chức năng của nó.</p>
+</li>
+<li><p>Chúng ta sẽ tạo ra 3 thư mục, models sẽ chứa code tương tác với database, thư mục controllsers chứa logic của ứng dụng xử lý các request từ client và response trả về, thư mục route giải quyết việc điều hướng.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// create new directory</span><br><span class="line">mkdir server</span><br><span class="line">// change to server directory</span><br><span class="line">cd server</span><br><span class="line">// add three more directories</span><br><span class="line">mkdir controllers models routes</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/01/17/crud-nodejs/folder.webp" alt="Folder Structure"></p>
+</li>
+</ul>
+<h2 id="2-Cau-hinh-Application-Entry-Point-File-app-js"><a href="#2-Cau-hinh-Application-Entry-Point-File-app-js" class="headerlink" title="2. Cấu hình Application Entry Point (File app.js)"></a>2. Cấu hình Application Entry Point (File app.js)</h2><ul>
+<li><p>Cài đặt các dependency</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// npm install the needed dependencies</span><br><span class="line">npm install body-parser morgan mongoose --save</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>body-parser</strong>: Để giải quyết những <strong>HTTP POST request</strong> trong express.js từ version 4 trở lên, chúng ta cần mudule middleware body-parser. Body parser trích xuất toàn bộ phần body của request gửi đến và hiển thị chúng trên req.body</li>
+<li><strong>mongoose</strong>: là một thư viện ODM (Object Data Modeling) cho MongDB và Node.js, được sẻ dụng để chuyển các object (đối tượng) trong code thành những biểu diễn của những object này trong MongoDB.</li>
+<li><strong>morgan</strong>: là một công cụ logging tuyệt vời khi làm việc với HTTP server trong Node.js, là một middleware cho phép chúng ta dễ dàng log những request, error ra console.</li>
+</ul>
+</li>
+<li><p>Import và set up các dependency</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// import dependencies</span></span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> bodyParser <span class="keyword">from</span> <span class="string">&quot;body-parser&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> mongoose <span class="keyword">from</span> <span class="string">&quot;mongoose&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> logger <span class="keyword">from</span> <span class="string">&quot;morgan&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// set up dependencies</span></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line">app.use(bodyParser.json());</span><br><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;));</span><br><span class="line">app.use(logger(<span class="string">&quot;dev&quot;</span>));</span><br></pre></td></tr></table></figure></li>
+<li><p>Set up mongoose: Sử dụng JavaScript promise để set up mongoose và bắt lỗi.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// set up mongoose</span></span><br><span class="line">mongoose.connect(<span class="xml"><span class="tag">&lt;<span class="name">Your</span> <span class="attr">URI</span>&gt;</span>, &#123; useNewUrlParser: true, useUnifiedTopology: true &#125;);</span></span><br><span class="line"><span class="xml">  .then(()=&gt; &#123;</span></span><br><span class="line"><span class="xml">    console.log(&#x27;Database connected&#x27;);</span></span><br><span class="line"><span class="xml">  &#125;)</span></span><br><span class="line"><span class="xml">  .catch((error)=&gt; &#123;</span></span><br><span class="line"><span class="xml">    console.log(&#x27;Error connecting to database&#x27;);</span></span><br><span class="line"><span class="xml">  &#125;);</span></span><br></pre></td></tr></table></figure>
+<p>Lưu ý:</p>
+<ul>
+<li>Best practice là đặt URI ở .env và truy cập vào các biến môi trường trong file env với <strong>process.env.VAR_NAME</strong></li>
+<li>Các bạn có thể cài đặt MongoDB về máy hoặc có thể sử dụng cloud <a target="_blank" rel="noopener" href="https://www.mongodb.com/cloud/atlas">MongoDB Atlas</a>. Để thiết lập MongoDB Atlas và lấy URI cho Database của bạn, bạn có thể tham khảo <a target="_blank" rel="noopener" href="https://www.freecodecamp.org/learn/apis-and-microservices/mongodb-and-mongoose/">hướng dẫn</a></li>
+</ul>
+</li>
+<li><p>Set up cổng, định nghĩa route home và lắng nghe cổng</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// set up port</span></span><br><span class="line"><span class="keyword">const</span> port = <span class="number">5035</span>;</span><br><span class="line"><span class="comment">// set up route</span></span><br><span class="line">app.get(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.status(<span class="number">200</span>).json(&#123;</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&quot;Welcome to Project with Nodejs Express and MongoDB&quot;</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">app.listen(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Our server is running on port <span class="subst">$&#123;port&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+<li><p>Start server: Mở terminal, ở thư mục project, chạy:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node app.js</span><br></pre></td></tr></table></figure>
+
+<p>Kết quả khi kết nối database thành công và chạy ứng dụng ở cổng 5035:</p>
+<p><img src="/2020/01/17/crud-nodejs/connect-result.webp" alt="Connect Database Result"></p>
+<p><img src="/2020/01/17/crud-nodejs/run-welcome.webp" alt="Run Result"></p>
+</li>
+</ul>
+<h2 id="3-Tao-Model"><a href="#3-Tao-Model" class="headerlink" title="3. Tạo Model"></a>3. Tạo Model</h2><ul>
+<li><p>Trước tiên chúng ta sẽ đi vào ví dụ tạo Caurse. Ứng dụng cho phép nhập tiêu đề và mô tả cho course và course được tạo sẽ được lưu trong MongoDB cho phép client có thể truy xuất khi cần. Model đầu tiên chúng ta tạo sẽ là course.js trong thư mục models.</p>
+</li>
+<li><p>File course.js: Đầu tiên chúng ta import mongoose và định nghĩa một <a target="_blank" rel="noopener" href="https://mongoosejs.com/docs/guide.html">schema</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mongoose <span class="keyword">from</span> <span class="string">&quot;mongoose&quot;</span>;</span><br><span class="line"></span><br><span class="line">mongoose.Promise = <span class="built_in">global</span>.Promise;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> courseSchema = <span class="keyword">new</span> mongoose.Schema(&#123;</span><br><span class="line">  <span class="attr">_id</span>: mongoose.Schema.Types.ObjectId,</span><br><span class="line">  <span class="attr">title</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="built_in">String</span>,</span><br><span class="line">    <span class="attr">required</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">description</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="built_in">String</span>,</span><br><span class="line">    <span class="attr">required</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> mongoose.model(<span class="string">&quot;Course&quot;</span>, courseSchema);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="4-Tao-Controller"><a href="#4-Tao-Controller" class="headerlink" title="4. Tạo Controller"></a>4. Tạo Controller</h2><ul>
+<li><p>Tạo một file course.js trong thư mục controllers</p>
+</li>
+<li><p>Import mongoose và model course mà chúng ta export khi tạo model course.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mongoose <span class="keyword">from</span> <span class="string">&quot;mongoose&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> Course <span class="keyword">from</span> <span class="string">&quot;../models/course&quot;</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>Tạo course: Đàu tiên chúng ta khởi tạo một Course với giá trị tương ứng với các key trong courseSchema. Sử dụng phương thức <strong>save()</strong> của mongoDB để lưu dữ liệu vào DB. Return một promise trả lại response cho client nếu save thành công và xử lý lỗi nếu có lỗi xảy ra.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// create new cause</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createCourse</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> course = <span class="keyword">new</span> Course(&#123;</span><br><span class="line">    <span class="attr">_id</span>: mongoose.Types.ObjectId(),</span><br><span class="line">    <span class="attr">title</span>: req.body.title,</span><br><span class="line">    <span class="attr">description</span>: req.body.description</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> course</span><br><span class="line">    .save()</span><br><span class="line">    .then(<span class="function"><span class="params">newCourse</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> res.status(<span class="number">201</span>).json(&#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;New cause created successfully&quot;</span>,</span><br><span class="line">        <span class="attr">Course</span>: newCourse</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(error);</span><br><span class="line">      res.status(<span class="number">500</span>).json(&#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;Server error. Please try again.&quot;</span>,</span><br><span class="line">        <span class="attr">error</span>: error.message</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="5-Tao-route"><a href="#5-Tao-route" class="headerlink" title="5. Tạo route"></a>5. Tạo route</h2><ul>
+<li><p>Tạo file main.js ở trong thư mục routes.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createCourse &#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/course&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = express.Router();</span><br><span class="line">router.post(<span class="string">&quot;/courses&quot;</span>, createCourse);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Lưu ý</strong> : Import express và createCourse từ controller</p>
+</li>
+<li><p>Ở file app.js</p>
+</li>
+</ul>
+<p>Chúng ta import route từ file main.js trong thư mục route. Thiết lập route với prefix là api</p>
+<pre><code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// call in the installed dependencies</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">import</span> logger <span class="keyword">from</span> <span class="string">&#x27;morgan&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> mainRoutes <span class="keyword">from</span> <span class="string">&#x27;./server/routes/main&#x27;</span>;</span><br><span class="line">...</span><br><span class="line"><span class="comment">// set up route</span></span><br><span class="line">app.use(<span class="string">&#x27;/api/&#x27;</span>, mainRoutes);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</code></pre>
+<h2 id="6-Testing-voi-Postman"><a href="#6-Testing-voi-Postman" class="headerlink" title="6. Testing với Postman"></a>6. Testing với Postman</h2><p><img src="/2020/01/17/crud-nodejs/postman-test.png" alt="Postman Test"><br>Như vậy là ta đã tạo thành công một course mới và đã lưu đc vào MongoDB.</p>
+<h2 id="7-Get-list-course"><a href="#7-Get-list-course" class="headerlink" title="7. Get list course"></a>7. Get list course</h2><p><strong>1. Controller</strong></p>
+<ul>
+<li>File course.js trong thư mục controllers<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get all course</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getAllCourse</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  Course.find()</span><br><span class="line">    .select(<span class="string">&quot;_id title description&quot;</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">allCourse</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> res.status(<span class="number">200</span>).json(&#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;A list of all course&quot;</span>,</span><br><span class="line">        <span class="attr">Course</span>: allCourse</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      res.status(<span class="number">500</span>).json(&#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;Server error. Please try again.&quot;</span>,</span><br><span class="line">        <span class="attr">error</span>: err.message</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>2. Route</strong></p>
+<ul>
+<li><p>File main.js trong thư mục route</p>
+<pre><code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createCourse, getAllCourse &#125; <span class="keyword">from</span> <span class="string">&#x27;../controllers/course&#x27;</span>;</span><br><span class="line">...</span><br><span class="line">router.get(<span class="string">&#x27;/courses&#x27;</span>, getAllCourse);</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+<p><strong>3. Kết quả</strong></p>
+<p><img src="/2020/01/17/crud-nodejs/list-result.webp" alt="List Source Result"></p>
+<h2 id="8-Get-single-course"><a href="#8-Get-single-course" class="headerlink" title="8. Get single course"></a>8. Get single course</h2><p><strong>1. Controller</strong></p>
+<ul>
+<li>File course.js trong thư mục controllers<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// get single course</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getSingleCourse</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> id = req.params.courseId;</span><br><span class="line">  Course.findById(id)</span><br><span class="line">    .then(<span class="function"><span class="params">singleCourse</span> =&gt;</span> &#123;</span><br><span class="line">      res.status(<span class="number">200</span>).json(&#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">`More on <span class="subst">$&#123;singleCourse.title&#125;</span>`</span>,</span><br><span class="line">        <span class="attr">Course</span>: singleCourse</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      res.status(<span class="number">500</span>).json(&#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;This course does not exist&quot;</span>,</span><br><span class="line">        <span class="attr">error</span>: err.message</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>2. Route</strong></p>
+<ul>
+<li>File main.js trong thư mục route<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createCourse, getAllCourse, getSingleCourse &#125; <span class="keyword">from</span> <span class="string">&#x27;../controllers/course&#x27;</span>;</span><br><span class="line">...</span><br><span class="line">router.get(<span class="string">&#x27;/courses/:courseId&#x27;</span>, getSingleCourse);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>3. Kết quả</strong></p>
+<p><img src="/2020/01/17/crud-nodejs/update-result.webp" alt="Update Result"></p>
+<h2 id="10-Delete-course"><a href="#10-Delete-course" class="headerlink" title="10. Delete course"></a>10. Delete course</h2><p><strong>1. Controller</strong></p>
+<ul>
+<li>File course.js trong thư mục controllers<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// delete a course</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">deleteCourse</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> id = req.params.courseId;</span><br><span class="line">  Course.findByIdAndRemove(id)</span><br><span class="line">    .exec()</span><br><span class="line">    .then(<span class="function">() =&gt;</span></span><br><span class="line">      res.status(<span class="number">204</span>).json(&#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">true</span></span><br><span class="line">      &#125;)</span><br><span class="line">    )</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span> =&gt;</span></span><br><span class="line">      res.status(<span class="number">500</span>).json(&#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">false</span></span><br><span class="line">      &#125;)</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>Lưu ý: Đối với update của mongoDB ta dùng toán tử <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/operator/update/set/">$set</a></li>
+</ul>
+<p><strong>2. Route</strong></p>
+<ul>
+<li><p>File main.js trong thư mục route</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createCourse, getAllCourse, getSingleCourse, updateCourse, deleteCourse &#125; <span class="keyword">from</span> <span class="string">&#x27;../controllers/course&#x27;</span>;</span><br><span class="line">...</span><br><span class="line">router.delete(<span class="string">&#x27;/courses/:courseId&#x27;</span>, deleteCourse);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Ket-luan"><a href="#Ket-luan" class="headerlink" title="Kết luận"></a>Kết luận</h1><ul>
+<li>Qua bài viết này chúng ta đã xây dựng thành công một ứng dụng web CRUD với nodejs, express, mongoDB, qua đó đồng thời hiểu về flow giữa 2 bên server và client. Mong bài viết hữu ích với mọi người và hẹn gặp mọi người ở bài viết tiếp theo về <span style="color:green"><strong>NodeJs</strong></span>. See ya!</li>
+<li>Nguồn tham khảo:<br><a target="_blank" rel="noopener" href="https://medium.com/fbdevclagos/developing-basic-crud-operations-with-node-express-and-mongodb-e754acb9cc15">https://medium.com/fbdevclagos/developing-basic-crud-operations-with-node-express-and-mongodb-e754acb9cc15</a></li>
+</ul>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2020/01/17/crud-nodejs/" title="CRUD với NodeJs, Express và MongoDB" target="_blank" rel="external">https://huongvnq.github.io/2020/01/17/crud-nodejs/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/10/18/introduction-graphql/" title="Giới thiệu chung về GraphQL"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/cash-card.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"> Momo</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"> Cash Card</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://huongvnq.github.io/2020/01/17/crud-nodejs/';
+        
+        this.page.identifier = 'crud-nodejs';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'meditationcoding' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
