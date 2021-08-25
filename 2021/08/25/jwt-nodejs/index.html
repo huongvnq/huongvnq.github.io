@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>JWT Authentication &amp; Authorization in NodeJs REST API | Meditation Coding</title>
+  <meta name="description" content="1. Lời mở đầu Trong bài viết này, mình sẽ tạo một REST API cho phép chúng ta tạo user, đăng kí, đăng nhập, lấy thông tin user đăng nhập, logout một người dùng ở một thiết bị và log out từ nhiều thiết">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JWT Authentication &amp; Authorization in NodeJs REST API">
+<meta property="og:url" content="https://huongvnq.github.io/2021/08/25/jwt-nodejs/index.html">
+<meta property="og:site_name" content="Meditation Coding">
+<meta property="og:description" content="1. Lời mở đầu Trong bài viết này, mình sẽ tạo một REST API cho phép chúng ta tạo user, đăng kí, đăng nhập, lấy thông tin user đăng nhập, logout một người dùng ở một thiết bị và log out từ nhiều thiết">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2021/08/25/jwt-nodejs/folder.webp">
+<meta property="og:image" content="https://huongvnq.github.io/2021/08/25/jwt-nodejs/postman-test.webp">
+<meta property="og:image" content="https://huongvnq.github.io/2021/08/25/jwt-nodejs/postman-login.webp">
+<meta property="og:image" content="https://huongvnq.github.io/2021/08/25/jwt-nodejs/postman-middleware.webp">
+<meta property="og:image" content="https://huongvnq.github.io/2021/08/25/jwt-nodejs/error.webp">
+<meta property="article:published_time" content="2021-08-25T09:44:45.000Z">
+<meta property="article:modified_time" content="2021-08-25T09:57:10.789Z">
+<meta property="article:author" content="HuongVNQ">
+<meta property="article:tag" content="jwt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/08/25/jwt-nodejs/folder.webp">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2021/08/25/jwt-nodejs/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facebook-Graph-API/" rel="tag">Facebook Graph API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/REST-API/" rel="tag">REST API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SDL/" rel="tag">SDL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/express/" rel="tag">express</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fragment/" rel="tag">fragment</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphql/" rel="tag">graphql</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/" rel="tag">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resolve/" rel="tag">resolve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/schema/" rel="tag">schema</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/API/" style="font-size: 13.75px;">API</a> <a href="/tags/Facebook-Graph-API/" style="font-size: 13px;">Facebook Graph API</a> <a href="/tags/REST-API/" style="font-size: 13px;">REST API</a> <a href="/tags/SDL/" style="font-size: 13.25px;">SDL</a> <a href="/tags/express/" style="font-size: 13px;">express</a> <a href="/tags/fragment/" style="font-size: 13px;">fragment</a> <a href="/tags/graphql/" style="font-size: 14px;">graphql</a> <a href="/tags/jwt/" style="font-size: 13px;">jwt</a> <a href="/tags/magento-basic/" style="font-size: 13.5px;">magento basic</a> <a href="/tags/mongodb/" style="font-size: 13px;">mongodb</a> <a href="/tags/resolve/" style="font-size: 13px;">resolve</a> <a href="/tags/schema/" style="font-size: 13.25px;">schema</a>
+    </div>
+  </div>
+
+    
+      
+<div class="widget">
+  <h3 class="widget-title">Archives</h3>
+  <div class="widget-body">
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+</div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/NodeJS/">NodeJS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/25/jwt-nodejs/" class="title">JWT Authentication &amp; Authorization in NodeJs REST API</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-25T09:44:45.000Z" itemprop="datePublished">2021-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/NodeJS/">NodeJS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/22/crud-nodejs/" class="title">CRUD với NodeJs, Express và MongoDB</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-22T09:13:32.000Z" itemprop="datePublished">2021-08-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/15/models-in-magento2/" class="title">Models Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-15T02:46:48.000Z" itemprop="datePublished">2021-08-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/20/routing-in-magento2/" class="title">Routing Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-20T05:05:37.000Z" itemprop="datePublished">2021-07-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/18/create-a-new-module-in-magento2/" class="title">Create A New Module In Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-18T03:55:23.000Z" itemprop="datePublished">2021-07-18</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-jwt-nodejs"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      JWT Authentication &amp; Authorization in NodeJs REST API
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/08/25/jwt-nodejs/" class="article-date">
+	  <time datetime="2021-08-25T09:44:45.000Z" itemprop="datePublished">2021-08-25</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/NodeJS/">NodeJS</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/jwt/" rel="tag">jwt</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2021/08/25/jwt-nodejs/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <h1 id="1-Loi-mo-dau"><a href="#1-Loi-mo-dau" class="headerlink" title="1. Lời mở đầu"></a>1. Lời mở đầu</h1><ul>
+<li>Trong bài viết này, mình sẽ tạo một REST API cho phép chúng ta tạo user, đăng kí, đăng nhập, lấy thông tin user đăng nhập, logout một người dùng ở một thiết bị và log out từ nhiều thiết bị.</li>
+<li>Công nghệ mà chúng ta sử dụng là Node.js với Express, MongoDB. Với MongoDB các bạn có thể cài đặt cơ sở dữ liệu MongDB local, tuy nhiên bạn cũng có thể sử dụng MongoDB Atlas (một clould database serive) như bài viết này.</li>
+</ul>
+<h1 id="2-Cac-buoc-thuc-hien"><a href="#2-Cac-buoc-thuc-hien" class="headerlink" title="2. Các bước thực hiện"></a>2. Các bước thực hiện</h1><h2 id="2-1-Tao-mot-MongoDB-database-voi-MongoDB-Atlas"><a href="#2-1-Tao-mot-MongoDB-database-voi-MongoDB-Atlas" class="headerlink" title="2.1 Tạo một MongoDB database với MongoDB Atlas"></a>2.1 Tạo một MongoDB database với MongoDB Atlas</h2><p>Bước này các bạn có thể tham khảo hướng dẫn tại đây<br><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/learn/apis-and-microservices/mongodb-and-mongoose/">https://www.freecodecamp.org/learn/apis-and-microservices/mongodb-and-mongoose/</a></p>
+<h2 id="2-2-Thiet-lap-cau-truc-thu-muc-cho-project"><a href="#2-2-Thiet-lap-cau-truc-thu-muc-cho-project" class="headerlink" title="2.2 Thiết lập cấu trúc thư mục cho project"></a>2.2 Thiết lập cấu trúc thư mục cho project</h2><ul>
+<li>Tạo một thư mục, ở đây mình đặt tên là <code>user-registration-api</code>.</li>
+<li>Hãy cùng xem cấu trúc thư mục của project nhé<br><img src="/2021/08/25/jwt-nodejs/folder.webp" alt="folder"></li>
+</ul>
+<ul>
+<li>Chúng ta có một thư mục gốc là <code>src</code>. Bên trong thư mục này có:<ul>
+<li>File <code>app.js</code>: nơi thiết lập server express.</li>
+<li>Thư mục <code>models</code> chứa tất cả models mà chúng ta sử dụng với Mongoose, trong phạm vi project này chúng ta có model <code>User</code>.</li>
+<li>Thư mục <code>db</code> chứa tất cả các cấu hình kết nối với database.</li>
+<li>Thư mục middleware sẽ chứa các middleware. Đối với project này chúng ta sẽ tạo một middleware <code>auth</code> giúp chúng ta có những endpoint được bảo vệ.</li>
+</ul>
+</li>
+<li>Để thực hiện project này chúng ta cần cài đặt Node.js, hãy cài đặt phiên bản mới nhất của node.</li>
+<li>Npm được dùng để cài đặt và quản lý các package của node. Có nhiều Package quản lí khác mà bạn có thể sử dụng và ở đây chúng ta sẽ sử dụng <code>yarn</code>. Cài đặt <code>yarn</code> bằng <code>npm</code> với câu lệnh: <code>npm install yarn -g</code></li>
+<li>Init project Node: <code>yarn init</code><br>Câu lệnh này sẽ tạo ra một file <code>package.json</code> sẽ liệt kê tất cả các package của project</li>
+</ul>
+<h2 id="2-3-Cai-dat-cac-package-can-thiet"><a href="#2-3-Cai-dat-cac-package-can-thiet" class="headerlink" title="2.3 Cài đặt các package cần thiết"></a>2.3 Cài đặt các package cần thiết</h2><ul>
+<li>Trong project này chúng ta cần các package sau:<ul>
+<li><strong>Express.js</strong>: Một framework node.js giúp bạn dễ dàng build một ứng dụng web.</li>
+<li><strong>mongodb</strong>: Một driver MongoDB dành cho Node.js</li>
+<li><strong>mongoose</strong>: Một công cụ mô hình hóa đối tượng (object modeling) được thiết kế để làm việc với môi trường không đồng bộ. Chúng ta sẽ sử dụng mongoose để định nghĩa cấu trúc database và tương tác với database.</li>
+<li><strong>bcrypt.js</strong>: Dùng để mã hóa (hash) mật khẩu của user trước khi lưu chúng trong database.</li>
+<li><strong>validator</strong>: Chúng ta sử dụng package này để validate input của user. Ví dụ như đảm bảo rằng người dùng đưa ra một input là một email đúng định dạng</li>
+<li><strong>Jsonwebtoken</strong> - JSON Web Token (JWT) sẽ sử dụng để authentication và authorization (để hiểu rõ hơn 2 cái này là gì và khác biệt như thế nào các bạn hãy đọc thêm <a target="_blank" rel="noopener" href="http://www.differencebetween.net/technology/difference-between-authentication-and-authorization/">http://www.differencebetween.net/technology/difference-between-authentication-and-authorization/</a>). Chẳng hạn Package này sẽ giúp chúng ta thiết lập những route được bảo vệ mà chỉ những user đã đăng nhập mới được truy cập.</li>
+<li><strong>env-cmd</strong>: Package này sẽ cho chúng ta tạo và quản lý những biến môi trường trong project</li>
+<li><strong>nodemon</strong>: Nodemon sẽ chạy lại express server mỗi khi chúng ta thay đổi code.</li>
+</ul>
+</li>
+<li>Để cài đặt những package trên:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add express mongodb mongoose bcryptjs validator jsonwebtoken</span><br></pre></td></tr></table></figure>
+
+<p>Đối với nodemon và env-cmd chúng ta cài đặt như là các development dependency:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add env-cmd nodemon --dev</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Tạo file <code>.env</code> ở trong thư mục gốc cùng bậc với thư mục src, để đinh nghĩa tất cả các biến môi trường.</li>
+<li>Mở file <code>package.json</code> và thêm vào đoạn script sau ngay sau dòng <code>main:index.js</code>.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;:&#123;&quot;start&quot; : &quot;env-cmd -f ./.env nodemon src/app.js&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Như vậy mỗi khi ta chạy câu lệnh <code>yarn start</code>, chúng ta sẽ sử dụng nodemon để chạy lại server mỗi khi có thay đổi trong file <code>src\app.js</code><br>Và chúng ta sẽ sử dụng được các biến môi trường định nghĩa trong file <code>.env</code></p>
+<h2 id="2-4-Dinh-nghia-cac-bien-moi-truong"><a href="#2-4-Dinh-nghia-cac-bien-moi-truong" class="headerlink" title="2.4 Định nghĩa các biến môi trường."></a>2.4 Định nghĩa các biến môi trường.</h2><ul>
+<li>Mở file <code>.env</code> và thêm những biến môi trường sau:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MONGODB_URL=mongodb+srv://huongvnq&lt;password&gt;@cluster0-e1zyx.mongodb.net/jwt-nodejs?retryWrites=true&amp;w=majority</span><br><span class="line">JWT_KEY=HuongVNQ</span><br><span class="line">PORT=3000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Biến <code>MONGODB_URL</code> sẽ chứa chuỗi kết nối với cơ sở dữ liệu MongoDB mà chúng ta có được khi cấu hình MongoDB trên MongoDB Atlas đã làm ở bước 1. Chuỗi này có chứa một database username ở đây của mình là <code>huongvnq</code>, password khi bạn tạo database user, và tên database, ở đây của mình là jwt-nodejs. Các bạn hãy thay đổi theo cấu hình của các bạn.</li>
+<li>Biến <code>JWT_KEY</code> sẽ chứa JWT token mà chúng ta sẽ sử dụng để tạo <strong>authentication token</strong> của user</li>
+<li>Biến <code>PORT</code> chứa số cổng mà ứng dụng chạy</li>
+</ul>
+<h2 id="2-5-Tao-mot-express-server"><a href="#2-5-Tao-mot-express-server" class="headerlink" title="2.5 Tạo một express server"></a>2.5 Tạo một express server</h2><ul>
+<li>Trong file app.js:</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> userRouter = <span class="built_in">require</span>(<span class="string">&quot;./routers/user&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> port = process.env.PORT;</span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;./db/db&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"></span><br><span class="line">app.use(express.json());</span><br><span class="line">app.use(userRouter);</span><br><span class="line"></span><br><span class="line">app.listen(port, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Server running on port <span class="subst">$&#123;port&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Trong đoạn code trên, chúng ta khai báo sử dụng <strong>express</strong>, user router (mà chúng ta sẽ tạo sau này), số cổng lấy ra từ file <code>.env</code>, require file <code>db.js</code> mà chứa kết nối đến database (chúng ta sẽ tạo phía sau)</li>
+<li>Tạo một <code>express()</code> instance và gán nó cho biến <code>app</code>.<br>Express instance sẽ cho chúng ta các methods như <code>get, post, delete, patch</code> để chúng ta gửi các <code>HTTP</code> request tới server.<br>Và vì chúng ta xây dựng các API nên các request của chúng ta sẽ gửi đi dữ liệu và nhận dữ liệu từ server dưới dạng <a target="_blank" rel="noopener" href="https://www.w3schools.com/whatis/whatis_json.asp">json</a></li>
+<li>Vào terminal gõ lệnh <code>yarn start</code>, nếu bạn thấy dòng chữ <code>Server running on port 3000</code> tức là bạn đã setup thành công một server express.</li>
+</ul>
+<h2 id="2-6-Ket-noi-voi-database"><a href="#2-6-Ket-noi-voi-database" class="headerlink" title="2.6 Kết nối với database"></a>2.6 Kết nối với database</h2><ul>
+<li>Mở file <code>db/db.js</code>, và gõ những dòng code sau:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const mongoose = require(&#x27;mongoose&#x27;)</span><br><span class="line"></span><br><span class="line">mongoose.connect(process.env.MONGODB_URL, &#123;</span><br><span class="line">    useNewUrlParser: true,</span><br><span class="line">    useCreateIndex: true,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Trong đoạn code trên chúng ta require <code>mongoose</code> và sử dụng method connect của mongoose, nhận vào tham số thứ nhất là chuỗi URL kết nối database, và một object option là tham số thứ 2.</li>
+</ul>
+<h2 id="2-7-Tao-model-User"><a href="#2-7-Tao-model-User" class="headerlink" title="2.7 Tạo model User"></a>2.7 Tạo model User</h2><ul>
+<li>File <code>/models/User.js</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">&quot;mongoose&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> validator = <span class="built_in">require</span>(<span class="string">&quot;validator&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> bcrypt = <span class="built_in">require</span>(<span class="string">&quot;bcryptjs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">&quot;jsonwebtoken&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> userSchema = mongoose.Schema(&#123;</span><br><span class="line">  <span class="attr">name</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="built_in">String</span>,</span><br><span class="line">    <span class="attr">required</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">trim</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">email</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="built_in">String</span>,</span><br><span class="line">    <span class="attr">required</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">unique</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">lowercase</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">validate</span>: <span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!validator.isEmail(value)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(&#123; <span class="attr">error</span>: <span class="string">&quot;Invalid Email address&quot;</span> &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">password</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="built_in">String</span>,</span><br><span class="line">    <span class="attr">required</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">minLength</span>: <span class="number">7</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">tokens</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">token</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="built_in">String</span>,</span><br><span class="line">        <span class="attr">required</span>: <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">userSchema.pre(<span class="string">&quot;save&quot;</span>, <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params">next</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Hash the password before saving the user model</span></span><br><span class="line">  <span class="keyword">const</span> user = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">if</span> (user.isModified(<span class="string">&quot;password&quot;</span>)) &#123;</span><br><span class="line">    user.password = <span class="keyword">await</span> bcrypt.hash(user.password, <span class="number">8</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  next();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">userSchema.methods.generateAuthToken = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Generate an auth token for the user</span></span><br><span class="line">  <span class="keyword">const</span> user = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">const</span> token = jwt.sign(&#123; <span class="attr">_id</span>: user._id &#125;, process.env.JWT_KEY);</span><br><span class="line">  user.tokens = user.tokens.concat(&#123; token &#125;);</span><br><span class="line">  <span class="keyword">await</span> user.save();</span><br><span class="line">  <span class="keyword">return</span> token;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">userSchema.statics.findByCredentials = <span class="keyword">async</span> (email, password) =&gt; &#123;</span><br><span class="line">  <span class="comment">// Search for a user by email and password.</span></span><br><span class="line">  <span class="keyword">const</span> user = <span class="keyword">await</span> User.findOne(&#123; email &#125;);</span><br><span class="line">  <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(&#123; <span class="attr">error</span>: <span class="string">&quot;Invalid login credentials&quot;</span> &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> isPasswordMatch = <span class="keyword">await</span> bcrypt.compare(password, user.password);</span><br><span class="line">  <span class="keyword">if</span> (!isPasswordMatch) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(&#123; <span class="attr">error</span>: <span class="string">&quot;Invalid login credentials&quot;</span> &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> user;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> User = mongoose.model(<span class="string">&quot;User&quot;</span>, userSchema);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = User;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Dòng thứ 6, chúng ta tạo một userSchema bằng <strong>mongoose.schema()</strong>. Đây là một object định nghĩa các thuộc tính (property) khác nhau của user schema. Mongoose sẽ chuyển đổi user schema này sang <strong>document</strong> trong database MongoDb và các thuộc tính sẽ được chuyển thành các trường trong document.</li>
+<li>Ở đây khi định nghĩa các thuộc tính, chúng ta sẽ định nghĩa các đặc điểm của chúng (loại, có require hay không, có unique hay không, chữ thường hay chữ hoa…) Mongoose đã hỗ trợ chúng ta làm điều đó. Ngoài ra ta sử dụng package <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/validator"><code>validators</code></a> cung cấp nhiều function giúp dễ dàng định nghĩa các validate, chẳng hạn như <code>isEmail</code>.</li>
+<li>Chúng ta cũng lưu một danh sách các token vào database. Mỗi lần user đăng kí hay log in, chúng ta sẽ tạo một token và gắn nó vào trong danh sách token. Việc lưu một danh sách các token sẽ giúp người dùng có thể log in từ nhiều thiết bị khác nhau và một khi họ log out từ một thiết bị, chúng ta vẫn đảm bảo được họ vẫn được log in ở các thiết bị khác.</li>
+<li>Từ dòng 36 đến 43 chúng ta cũng sử dụng hàm <code>pre-save</code> mà mongoose cung cấp sẵn cho chúng ta. Nó cho phép chúng ta làm gì đó trước khi lưu object. Ở đây, chúng ta sẽ hash mật khẩu trước khi lưu object. Vì như bạn biết chúng ta sẽ không lưu mật khẩu của người dùng dưới dạng thô để đảm bảo tính bảo mật. Ngoài ra ở đây, chúng ta chỉ thực hiện hash password nếu chúng được thay đổi, đấy là lý do tại sao chúng ta sẽ kiểm tra password có được chỉnh sửa hay không trước.</li>
+<li>Một điều đáng lưu ý nữa, là Mongoose cho phép chúng ta định nghĩa <strong>instance method</strong> và <strong>model method</strong><ul>
+<li><strong>Model method</strong> là các phương thức được định nghĩa trên model, được tạo ra bởi <code>schema static</code>.</li>
+<li><strong>instance method</strong> định nghĩa trên instance hay cũng là document.</li>
+</ul>
+</li>
+<li>Ở đây, chúng ta định nghĩa 1 instance method là <code>generateAuthToken</code>, sử dụng phương thức <strong>sign</strong> của <strong>jwt</strong> để tạo một token dựa trên <code>JWT_KEY</code> mà chúng ta lưu trong <code>.env</code>. Một khi token được tạo, chúng ta sẽ thêm nó vào danh sách token của user, lưu và trả về token.</li>
+<li>Chúng ta định nghĩa một model method là <code>findByCredentials</code>, nhận vào 2 tham số là user email và password. Chúng ta sẽ tìm user nào có email đó sử dụng phương thức <strong>find</strong> của mongoose. Nếu không tìm thấy user, chúng ta sẽ ném một error cho user biết rằng định danh user cung cấp không hợp lệ. Nếu email tồn tại, chúng ta tiếp tục so sánh password người dùng nhập vào với password đã được hashed trong database dựa trên cơ chế <strong>compare</strong> của <strong>bcrypt</strong>, nếu giống nhau chúng ta sẽ trả về user đó. Chúng ta sẽ sử dụng function này để cho user đăng nhập vào ứng dụng.</li>
+<li>Cuối cùng chúng ta tạo một model User sử dụng <code>mongoose.model(&#39;User&#39;, userSchema)</code>, sau đó export ra module để có thể tái sử dụng ở các file khác.</li>
+</ul>
+<h2 id="2-8-Tao-cac-route-can-thiet"><a href="#2-8-Tao-cac-route-can-thiet" class="headerlink" title="2.8 Tạo các route cần thiết"></a>2.8 Tạo các route cần thiết</h2><ul>
+<li>Chúng ta sẽ tạo các endpoint sau<ul>
+<li><code>HTTP POST /users</code>: Đăng kí user</li>
+<li><code>HTTP POST /users/login</code>: User đăng nhập</li>
+<li><code>HTTP GET / users/me</code>: Lấy profile của user.</li>
+<li><code>HTTP POST /users/logout</code>: User đăng xuất</li>
+<li><code>HTTP post /users/logoutall</code>: Đăng xuất từ tất cả các thiết bị</li>
+</ul>
+</li>
+<li>Bắt đầu với route tạo user. File <code>/routers/user.js</code>:</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> User = <span class="built_in">require</span>(<span class="string">&quot;../models/User&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = express.Router();</span><br><span class="line"></span><br><span class="line">router.post(<span class="string">&quot;/users&quot;</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="comment">// Create a new user</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">new</span> User(req.body);</span><br><span class="line">    <span class="keyword">await</span> user.save();</span><br><span class="line">    <span class="keyword">const</span> token = <span class="keyword">await</span> user.generateAuthToken();</span><br><span class="line">    res.status(<span class="number">201</span>).send(&#123; user, token &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    res.status(<span class="number">400</span>).send(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Route đăng kí user sẽ tạo một user theo thông tin người dùng lấy ra từ <strong>req.body</strong>. Sau khi lưu user, chúng ta sẽ tạo một <strong>authentication token</strong> và trả về trong response cùng với user data.</p>
+</li>
+<li><p>Test bằng postman: Sử dụng type of data là <code>JSON(application/json)</code>, nhấn vào button <code>raw</code>, cung cấp các trường dữ liệu require như name, email, password.</p>
+<p><img src="/2021/08/25/jwt-nodejs/postman-test.webp" alt="Postman Test"></p>
+</li>
+</ul>
+<ul>
+<li>Route login một user đã đăng kí: <code>POST /users/login</code></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">router.post(<span class="string">&#x27;/users/login&#x27;</span>, <span class="keyword">async</span>(req, res) =&gt; &#123;</span><br><span class="line">    <span class="comment">//Login a registered user</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; email, password &#125; = req.body</span><br><span class="line">        <span class="keyword">const</span> user = <span class="keyword">await</span> User.findByCredentials(email, password)</span><br><span class="line">        <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">            <span class="keyword">return</span> res.status(<span class="number">401</span>).send(&#123;<span class="attr">error</span>: <span class="string">&#x27;Login failed! Check authentication credentials&#x27;</span>&#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> token = <span class="keyword">await</span> user.generateAuthToken()</span><br><span class="line">        res.send(&#123; user, token &#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        res.status(<span class="number">400</span>).send(error)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Cung cấp một object gồm email và password cho phần body của request. Test bằng postman:</p>
+<p><img src="/2021/08/25/jwt-nodejs/postman-login.webp" alt="Postman Test"></p>
+</li>
+</ul>
+<h2 id="2-9-Tao-mot-auth-middleware"><a href="#2-9-Tao-mot-auth-middleware" class="headerlink" title="2.9 Tạo một auth middleware"></a>2.9 Tạo một auth middleware</h2><ul>
+<li>Middleware là một phần code như cầu nối giữa database và ứng dụng. Khi một request được gửi tới server, middleware sẽ chạy trước khi request tới server và trả về một response. Chúng ta đảm bảo rằng một người cố gắng truy cập vào nguồn resource nhất định có được ủy quền truy cập hay không.</li>
+<li>File <code>/middleware/auth.js</code>:</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">&quot;jsonwebtoken&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> User = <span class="built_in">require</span>(<span class="string">&quot;../models/User&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> auth = <span class="keyword">async</span> (req, res, next) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> token = req.header(<span class="string">&quot;Authorization&quot;</span>).replace(<span class="string">&quot;Bearer &quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> data = jwt.verify(token, process.env.JWT_KEY);</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> User.findOne(&#123; <span class="attr">_id</span>: data._id, <span class="string">&quot;tokens.token&quot;</span>: token &#125;);</span><br><span class="line">    <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    req.user = user;</span><br><span class="line">    req.token = token;</span><br><span class="line">    next();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    res.status(<span class="number">401</span>).send(&#123; <span class="attr">error</span>: <span class="string">&quot;Not authorized to access this resource&quot;</span> &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">module</span>.exports = auth;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Một express middleware là một hàm nhận vào 3 tham số: <code>request, response, next</code>. Ở dòng thứ 5, chúng ta lấy token từ request header và vì token có format <code>Bearer[space]token</code>, chúng ta sẽ phải replace <code>Bearer[space]</code> với ‘’.</li>
+<li>Một khi chúng ta có token chúng ta sử dụng <code>JWT verify method</code> để kiểm tra token nhận được là hợp lệ chưa và có được tạo từ JWT_KEY hay không. Method verify của JWT trả về một <code>payload</code> mà được dùng để tạo token (ở đây token đc tạo với id của user).</li>
+<li>Bây giờ chúng ta có payload từ token, chúng ta sẽ tìm một user mà có id từ payload. Nếu tìm thấy user chúng ta sẽ gắn user vào request (<code>req.user = user</code>), gắn token vào request.</li>
+<li>Sau cùng, ta gọi phương thức <code>next()</code> để đi tới middleware tiếp theo. Nếu next() không được gọi, ứng dụng sẽ bị đông cứng ở điểm đó và sẽ không xử lý đc đoạn code còn lại tiếp theo đó.</li>
+<li>Bây giờ là lúc sử dụng middleware auth. Mở file <code>/routers/user.js</code>, import middleware auth bằng việc require nó đầu file sau khi require user model</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> auth = <span class="built_in">require</span>(../middleware/auth)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Route lấy profile:</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">router.get(<span class="string">&quot;/users/me&quot;</span>, auth, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="comment">// View logged in user profile</span></span><br><span class="line">  res.send(req.user);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Chỉ với 2 dòng của code chúng ta đã lấy được user profile. Dòng 1, chúng ta viết một get request tới <code>/users/me</code> endpoint, truyền vào auth middleware trước method để đảm bảo middleware sẽ chạy trước phần còn lại của hàm. Dòng thứ 3 chúng ta đơn giản chỉ việc lấy user profile từ request, khi middleware đã được thông qua rồi. Và gửi response trả về <code>res.send(req.user)</code></li>
+<li>Test bằng postman. Nhập đúng đường URL, Chọn tab <code>Authorization</code>, chọn <code>Bearer Token</code> từ dropdown, và cung cấp authentication token phía bên phải, token này bạn nhận được sau khi login.</li>
+</ul>
+<p><img src="/2021/08/25/jwt-nodejs/postman-middleware.webp" alt="Postman Test"></p>
+<h2 id="2-10-Logout-va-Logout-tu-tat-ca-cac-thiet-bi"><a href="#2-10-Logout-va-Logout-tu-tat-ca-cac-thiet-bi" class="headerlink" title="2.10 Logout và Logout từ tất cả các thiết bị"></a>2.10 Logout và Logout từ tất cả các thiết bị</h2><ul>
+<li>Route logout, File <code>/routers/user.js</code>:</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">router.post(<span class="string">&quot;/users/me/logout&quot;</span>, auth, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="comment">// Log user out of the application</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    req.user.tokens = req.user.tokens.filter(<span class="function"><span class="params">token</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> token.token != req.token;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">await</span> req.user.save();</span><br><span class="line">    res.send();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    res.status(<span class="number">500</span>).send(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Chúng ta filter mảng token của user lấy ra những token khác với giá trị token từ request mà ta lấy được khi user login, sau đó lưu lại user. Giờ đây, khi ta get user profile, chúng ta sẽ bị từ chối truy cập bởi vì chúng ta không còn login nữa.</li>
+<li>Test bằng postman: Đầu tiên chúng ta login để lấy token từ response, sau đs qua url <code>/users/me/logout</code> và sử dụng token vừa lấy như là một Bearer Token. Nhấn send, một response code 200 sẽ được trả về. Khi truy cập <code>/users/me</code> với token mà chúng ta sử dụng để log out, chúng ta sẽ được response lỗi như dưới đây:</li>
+</ul>
+<p><img src="/2021/08/25/jwt-nodejs/error.webp" alt="Postman Test"></p>
+<ul>
+<li>Route logout tất cả các thiết bị:</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">router.post(<span class="string">&#x27;/users/me/logoutall&#x27;</span>, auth, <span class="keyword">async</span>(req, res) =&gt; &#123;</span><br><span class="line">    <span class="comment">// Log user out of all devices</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        req.user.tokens.splice(<span class="number">0</span>, req.user.tokens.length)</span><br><span class="line">        <span class="keyword">await</span> req.user.save()</span><br><span class="line">        res.send()</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        res.status(<span class="number">500</span>).send(error)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Chúng ta sử dụng phương thức splice để remove tất cả tokens từ mảng token của user. Sau đó save document.</li>
+<li>Test bằng postman: Sử dụng <code>/users/login</code> login 3 lần. Bạn sẽ có 3 token trong mảng token của user. Vào <code>/users/me</code> để xem profile. Sử dụng <code>/users/me/logoutall</code>, nó sẽ xóa hết mảng token. Vào lại <code>/users/me</code>, bạn sẽ không thể xem được user profile được nữa.</li>
+</ul>
+<h1 id="3-Ket-luan"><a href="#3-Ket-luan" class="headerlink" title="3 Kết luận"></a>3 Kết luận</h1><ul>
+<li>Qua bài viết trên chúng ta đã hiểu được sơ bộ token là gì và các sử dụng token để authentication và authorization, dùng token để logout từ một thiết bị và tất cả các thiết bị. Mong các bạn sẽ học được nhiều thứ từ bài viết này.</li>
+<li>Tham khảo <a target="_blank" rel="noopener" href="https://medium.com/swlh/jwt-authentication-authorization-in-nodejs-express-mongodb-rest-apis-2019-ad14ec818122">https://medium.com/swlh/jwt-authentication-authorization-in-nodejs-express-mongodb-rest-apis-2019-ad14ec818122</a></li>
+</ul>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2021/08/25/jwt-nodejs/" title="JWT Authentication &amp; Authorization in NodeJs REST API" target="_blank" rel="external">https://huongvnq.github.io/2021/08/25/jwt-nodejs/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/08/22/crud-nodejs/" title="CRUD với NodeJs, Express và MongoDB"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/cash-card.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"> Momo</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"> Cash Card</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://huongvnq.github.io/2021/08/25/jwt-nodejs/';
+        
+        this.page.identifier = 'jwt-nodejs';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'meditationcoding' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://huongvnq.github.io/2021/08/25/jwt-nodejs/</loc>
+    <lastmod>2021-08-25</lastmod>
+  </url>
+  <url>
     <loc>https://huongvnq.github.io/2021/08/22/crud-nodejs/</loc>
-    <lastmod>2021-08-22</lastmod>
+    <lastmod>2021-08-25</lastmod>
   </url>
   <url>
     <loc>https://huongvnq.github.io/2020/10/18/introduction-graphql/</loc>
