@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://huongvnq.github.io/2021/09/02/setup-upgrade-script-magento2/</loc>
+    
+    <lastmod>2021-09-02</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://huongvnq.github.io/2021/07/20/routing-in-magento2/</loc>
+    
+    <lastmod>2021-09-02</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://huongvnq.github.io/2020/08/31/var-let-const-javascript/</loc>
     
     <lastmod>2021-08-31</lastmod>
@@ -52,13 +66,6 @@
   
   <url>
     <loc>https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/</loc>
-    
-    <lastmod>2021-07-25</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://huongvnq.github.io/2021/07/20/routing-in-magento2/</loc>
     
     <lastmod>2021-07-25</lastmod>
     
@@ -123,7 +130,7 @@
 
   <url>
     <loc>https://huongvnq.github.io/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -131,91 +138,91 @@
   
   <url>
     <loc>https://huongvnq.github.io/tags/magento-basic/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/graphql/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/REST-API/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/API/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/Facebook-Graph-API/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/schema/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/fragment/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/SDL/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/resolve/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/express/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/mongodb/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/jwt/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/tags/es6/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -224,28 +231,28 @@
   
   <url>
     <loc>https://huongvnq.github.io/categories/Magento/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/categories/GraphQL/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/categories/NodeJS/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://huongvnq.github.io/categories/Javascript/</loc>
-    <lastmod>2021-08-31</lastmod>
+    <lastmod>2021-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
