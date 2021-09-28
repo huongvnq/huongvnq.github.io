@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Declarative Schema Trong Magento2 (Phần 2) | Meditation Coding</title>
+  <meta name="description" content="Table of Contents Lời mở đầu Cách thao tác với CSDL hay gặp Tổng Kết  1.Lời mở đầu   Trước phiên bản Magento 2.3, viết các install&#x2F;upgrade script là cách duy nhất để chúng ta làm việc với database (Th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Declarative Schema Trong Magento2 (Phần 2)">
+<meta property="og:url" content="https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/index.html">
+<meta property="og:site_name" content="Meditation Coding">
+<meta property="og:description" content="Table of Contents Lời mở đầu Cách thao tác với CSDL hay gặp Tổng Kết  1.Lời mở đầu   Trước phiên bản Magento 2.3, viết các install&#x2F;upgrade script là cách duy nhất để chúng ta làm việc với database (Th">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/declarative-schema.jpg">
+<meta property="og:image" content="https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/dua.gif">
+<meta property="article:published_time" content="2021-09-28T12:44:47.000Z">
+<meta property="article:modified_time" content="2021-09-28T13:21:23.607Z">
+<meta property="article:author" content="HuongVNQ">
+<meta property="article:tag" content="magento basic">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/declarative-schema.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facebook-Graph-API/" rel="tag">Facebook Graph API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/REST-API/" rel="tag">REST API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SDL/" rel="tag">SDL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/express/" rel="tag">express</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fragment/" rel="tag">fragment</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphql/" rel="tag">graphql</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/" rel="tag">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resolve/" rel="tag">resolve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/schema/" rel="tag">schema</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/API/" style="font-size: 13.67px;">API</a> <a href="/tags/Facebook-Graph-API/" style="font-size: 13px;">Facebook Graph API</a> <a href="/tags/REST-API/" style="font-size: 13px;">REST API</a> <a href="/tags/SDL/" style="font-size: 13.33px;">SDL</a> <a href="/tags/es6/" style="font-size: 13px;">es6</a> <a href="/tags/express/" style="font-size: 13px;">express</a> <a href="/tags/fragment/" style="font-size: 13px;">fragment</a> <a href="/tags/graphql/" style="font-size: 14px;">graphql</a> <a href="/tags/jwt/" style="font-size: 13px;">jwt</a> <a href="/tags/magento-basic/" style="font-size: 14px;">magento basic</a> <a href="/tags/mongodb/" style="font-size: 13px;">mongodb</a> <a href="/tags/resolve/" style="font-size: 13px;">resolve</a> <a href="/tags/schema/" style="font-size: 13.33px;">schema</a>
+    </div>
+  </div>
+
+    
+      
+<div class="widget">
+  <h3 class="widget-title">Archives</h3>
+  <div class="widget-body">
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+</div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/09/28/declarative-schema-magento2-chap2/" class="title">Declarative Schema Trong Magento2 (Phần 2)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-09-28T12:44:47.000Z" itemprop="datePublished">2021-09-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/09/25/declarative-schema-magento2/" class="title">Declarative Schema Trong Magento2 (Phần 1)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-09-25T09:21:10.000Z" itemprop="datePublished">2021-09-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/09/02/setup-upgrade-script-magento2/" class="title">Tạo Và Chỉnh Sửa Bảng với Setup/Upgrade Script Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-09-02T03:35:20.000Z" itemprop="datePublished">2021-09-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/NodeJS/">NodeJS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/25/jwt-nodejs/" class="title">JWT Authentication &amp; Authorization in NodeJs REST API</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-25T09:44:45.000Z" itemprop="datePublished">2021-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/NodeJS/">NodeJS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/22/crud-nodejs/" class="title">CRUD với NodeJs, Express và MongoDB</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-22T09:13:32.000Z" itemprop="datePublished">2021-08-22</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-declarative-schema-magento2-chap2"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      Declarative Schema Trong Magento2 (Phần 2)
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/09/28/declarative-schema-magento2-chap2/" class="article-date">
+	  <time datetime="2021-09-28T12:44:47.000Z" itemprop="datePublished">2021-09-28</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Magento/">Magento</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/magento-basic/" rel="tag">magento basic</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2021/09/28/declarative-schema-magento2-chap2/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <h1 id="Table-of-Contents"><a href="#Table-of-Contents" class="headerlink" title="Table of Contents"></a>Table of Contents</h1><ol>
+<li><a href="#introduction">Lời mở đầu</a></li>
+<li><a href="#common-database-operation">Cách thao tác với CSDL hay gặp</a></li>
+<li><a href="#summary">Tổng Kết</a></li>
+</ol>
+<h2 id="1-Loi-mo-dau"><a href="#1-Loi-mo-dau" class="headerlink" title="1.Lời mở đầu "></a>1.Lời mở đầu <a name="introduction"></a></h2><p><img src="/2021/09/28/declarative-schema-magento2-chap2/declarative-schema.jpg" alt="Declarative Schema"></p>
+<ul>
+<li><p>Trước phiên bản <span style="color:green"><strong>Magento 2.3</strong></span>, viết các install/upgrade script là cách duy nhất để chúng ta làm việc với database (Tham khảo <a href="/2021/09/02/setup-upgrade-script-magento2/" title="Tạo Và Chỉnh Sửa Bảng với Setup&#x2F;Upgrade Script Trong Magento2">Tạo Và Chỉnh Sửa Bảng với Setup&#x2F;Upgrade Script Trong Magento2</a>). Tuy nhiên, với phiên bản 2.3 được phát hành năm 2018, một trong những thay đổi lớn được giới thiệu đó là <strong>Declarative Schema</strong>, một cách mới mà chúng ta có thể làm việc với database mà không cần phải viết nhiều script nữa.</p>
+</li>
+<li><p>Nối tiếp Phần 1 <a href="/2021/09/25/declarative-schema-magento2/" title="Declarative Schema Trong Magento2 (Phần 1)">Declarative Schema Trong Magento2 (Phần 1)</a> viết về <strong>Declarative Schema</strong>, bài viết này sẽ đi vào cụ thể các use-case hay gặp. Bắt đầu thôi nào.</p>
+</li>
+</ul>
+<h2 id="2-Cach-thao-tac-voi-CSDL-hay-gap"><a href="#2-Cach-thao-tac-voi-CSDL-hay-gap" class="headerlink" title="2. Cách thao tác với CSDL hay gặp "></a>2. Cách thao tác với CSDL hay gặp <a name="common-database-operation"></a></h2><ul>
+<li>Mục này mình trình bày các thao tác chúng ta hay gặp với CSDL, mình sử dụng <code>git diff</code> để minh hoa.</li>
+</ul>
+<h3 id="2-1-Tao-mot-bang"><a href="#2-1-Tao-mot-bang" class="headerlink" title="2.1 Tạo một bảng"></a>2.1 Tạo một bảng</h3><ul>
+<li>Ví dụ sau đây tạo một bảng <code>declarative_table</code> với 4 cột, trong đó <code>id_column</code> là khóa chính.</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">+    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">+        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">+        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Severity code&quot;</span>/&gt;</span></span><br><span class="line">+        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;varchar&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">length</span>=<span class="string">&quot;255&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">+        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;time_occurred&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">+        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">+            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">+        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">+    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Lưu ý</strong> Khi tạo bảng mới cần phải chạy command <a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.4/extension-dev-guide/declarative-schema/migration-commands.html#create-whitelist">generate</a> file <code>db_schema_whitelist.json</code></li>
+</ul>
+<h3 id="2-2-Xoa-mot-bang"><a href="#2-2-Xoa-mot-bang" class="headerlink" title="2.2 Xóa một bảng"></a>2.2 Xóa một bảng</h3><ul>
+<li>Thực hiện như sau, bảng <code>declarative_table</code> sẽ được xóa hoàn toàn.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;schema xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">                 xsi:noNamespaceSchemaLocation=&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;&gt;</span><br><span class="line">-    &lt;table name=&quot;declarative_table&quot;&gt;</span><br><span class="line">-        &lt;column xsi:type=&quot;int&quot; name=&quot;id_column&quot; padding=&quot;10&quot; unsigned=&quot;true&quot; nullable=&quot;false&quot; comment=&quot;Entity Id&quot;/&gt;</span><br><span class="line">-        &lt;column xsi:type=&quot;int&quot; name=&quot;severity&quot; padding=&quot;10&quot; unsigned=&quot;true&quot; nullable=&quot;false&quot; comment=&quot;Severity code&quot;/&gt;</span><br><span class="line">-        &lt;column xsi:type=&quot;varchar&quot; name=&quot;title&quot; nullable=&quot;false&quot; length=&quot;255&quot; comment=&quot;Title&quot;/&gt;</span><br><span class="line">-        &lt;column xsi:type=&quot;timestamp&quot; name=&quot;time_occurred&quot; padding=&quot;10&quot; comment=&quot;Time of event&quot;/&gt;</span><br><span class="line">-        &lt;constraint xsi:type=&quot;primary&quot; referenceId=&quot;PRIMARY&quot;&gt;</span><br><span class="line">-            &lt;column name=&quot;id_column&quot;/&gt;</span><br><span class="line">-        &lt;/constraint&gt;</span><br><span class="line">-    &lt;/table&gt;</span><br><span class="line">&lt;/schema&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Lưu ý:</strong> Khi xóa một bảng, không được xóa bảng đó trong file <code>db_schema_whitelist.json</code>, nếu không thì bảng sẽ không được xóa.</li>
+</ul>
+<h3 id="2-3-Doi-ten-bang"><a href="#2-3-Doi-ten-bang" class="headerlink" title="2.3 Đổi tên bảng."></a>2.3 Đổi tên bảng.</h3><ul>
+<li><strong>Declarative Schema</strong> sẽ tạo một bảng mới với tên mới và xóa bảng bảng tên cũ (chữ không thực hiện đổi tên bảng).</li>
+<li>Do đó chúng ta phải thực hiện migrate dữ liệu từ bảng cũ sang bảng mới, dùng trigger <code>onCreate=&quot;migrateDataFromAnotherTable(declarative_table)&quot;</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">+    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;new_declarative_table&quot;</span> <span class="attr">onCreate</span>=<span class="string">&quot;migrateDataFromAnotherTable(declarative_table)&quot;</span>&gt;</span></span><br><span class="line">-    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Severity code&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;varchar&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">length</span>=<span class="string">&quot;255&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;time_occurred&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Lưu ý</strong> Khi đổi tên bảng cần phải chạy lại command <a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.4/extension-dev-guide/declarative-schema/migration-commands.html#create-whitelist">generate</a> file <code>db_schema_whitelist.json</code></li>
+</ul>
+<h3 id="2-4-Them-cot"><a href="#2-4-Them-cot" class="headerlink" title="2.4 Thêm cột."></a>2.4 Thêm cột.</h3><ul>
+<li>Ví dụ sau thêm cột <code>date_closed</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Severity code&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;varchar&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">length</span>=<span class="string">&quot;255&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;time_occurred&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">+       <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;date_closed&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Lưu ý</strong> Khi thêm cột mới cần phải chạy lại command <a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.4/extension-dev-guide/declarative-schema/migration-commands.html#create-whitelist">generate</a> file <code>db_schema_whitelist.json</code></li>
+</ul>
+<h3 id="2-5-Xoa-cot"><a href="#2-5-Xoa-cot" class="headerlink" title="2.5 Xóa cột."></a>2.5 Xóa cột.</h3><ul>
+<li>Để xóa một cột chỉ cần xóa thẻ <code>&lt;column&gt;</code> của cột đó. Nếu muốn xóa một cột mà được định nghĩa ở module khác, thì chúng ta phải khai báo lại nó với thuộc tính <code>disabled</code> bằng true</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Severity code&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;varchar&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">length</span>=<span class="string">&quot;255&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;time_occurred&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">-       <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;date_closed&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Lưu ý</strong> Chỉ có thể xóa một cột khi cột đó được định nghĩa trong file <code>db_schema_whitelist.json</code></li>
+</ul>
+<h3 id="2-6-Thay-doi-kieu-du-lieu-cua-cot"><a href="#2-6-Thay-doi-kieu-du-lieu-cua-cot" class="headerlink" title="2.6 Thay đổi kiểu dữ liệu của cột."></a>2.6 Thay đổi kiểu dữ liệu của cột.</h3><ul>
+<li>Ví dụ sau thay đổi kiểu dữ liệu của cột <code>title</code> từ <code>varchar</code> sang <code>text</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Severity code&quot;</span>/&gt;</span></span><br><span class="line">-       <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;varchar&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">length</span>=<span class="string">&quot;255&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">+       <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;time_occurred&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-7-Doi-ten-cot"><a href="#2-7-Doi-ten-cot" class="headerlink" title="2.7 Đổi tên cột."></a>2.7 Đổi tên cột.</h3><ul>
+<li><p>Cũng giống như khi đổi tên bảng, muốn đổi tên cột chúng ta cũng phải xóa cột cũ đi và định nghĩa lại cột mới, đồng thời sử dụng attribute <code>onCreate</code> để migrate dữ liệu từ cột cũ sang cột mới.</p>
+<p><code>onCreate=&quot;migrateDataFrom(entity_id)&quot;</code></p>
+</li>
+<li><p><strong>Lưu ý</strong> Khi đổi tên cột, cần phải chạy lại command <a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.4/extension-dev-guide/declarative-schema/migration-commands.html#create-whitelist">generate</a> file <code>db_schema_whitelist.json</code></p>
+</li>
+</ul>
+<h3 id="2-8-Them-mot-chi-muc-cho-bang"><a href="#2-8-Them-mot-chi-muc-cho-bang" class="headerlink" title="2.8 Thêm một chỉ mục cho bảng."></a>2.8 Thêm một chỉ mục cho bảng.</h3><ul>
+<li>Ví dụ dưới đây thêm một chỉ mục có tên <code>INDEX_SEVERITY</code> cho bảng <code>declarative_table</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Severity code&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">length</span>=<span class="string">&quot;255&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;time_occurred&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">+       <span class="tag">&lt;<span class="name">index</span> <span class="attr">referenceId</span>=<span class="string">&quot;INDEX_SEVERITY&quot;</span> <span class="attr">indexType</span>=<span class="string">&quot;btree&quot;</span>&gt;</span></span><br><span class="line">+           <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span>/&gt;</span></span><br><span class="line">+       <span class="tag">&lt;/<span class="name">index</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-9-Tao-mot-khoa-ngoai-cho-bang"><a href="#2-9-Tao-mot-khoa-ngoai-cho-bang" class="headerlink" title="2.9 Tạo một khóa ngoại cho bảng."></a>2.9 Tạo một khóa ngoại cho bảng.</h3><ul>
+<li>Ví dụ sau tạo một khóa ngoại có tên là <code>FL_ALLOWED_SEVERITIES</code> định nghĩa rằng cột <code>severity</code> là khóa ngoại của bảng <code>declarative_table</code> tham chiếu đến cột <code>severity_identifier</code> của bảng <code>severity_identifier</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Severity code&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;varchar&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">length</span>=<span class="string">&quot;255&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;time_occurred&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">+       <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;foreign&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;FL_ALLOWED_SEVERITIES&quot;</span> <span class="attr">table</span>=<span class="string">&quot;declarative_table&quot;</span></span></span><br><span class="line"><span class="tag">+               <span class="attr">column</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">referenceTable</span>=<span class="string">&quot;severities&quot;</span> <span class="attr">referenceColumn</span>=<span class="string">&quot;severity_identifier&quot;</span></span></span><br><span class="line"><span class="tag">+               <span class="attr">onDelete</span>=<span class="string">&quot;CASCADE&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-10-Xoa-mot-khoa-ngoai-cua-bang"><a href="#2-10-Xoa-mot-khoa-ngoai-cua-bang" class="headerlink" title="2.10 Xoá một khóa ngoại của bảng."></a>2.10 Xoá một khóa ngoại của bảng.</h3><ul>
+<li>Ví dụ dưới đây sẽ xóa khóa ngoại <code>FL_ALLOWED_SEVERITIES</code> bằng việc xóa đi thẻ <code>constraint</code>. Để có thể xóa một khóa ngoại được định nghĩa ở module khác, ta định nghĩa lại khóa ngoại này với attribute <code>disabled=&quot;true&quot;</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Severity code&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;varchar&quot;</span> <span class="attr">name</span>=<span class="string">&quot;title&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">length</span>=<span class="string">&quot;255&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Title&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;timestamp&quot;</span> <span class="attr">name</span>=<span class="string">&quot;time_occurred&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Time of event&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">-       <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;foreign&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;FL_ALLOWED_SEVERITIES&quot;</span> <span class="attr">table</span>=<span class="string">&quot;declarative_table&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">-</span>               <span class="attr">column</span>=<span class="string">&quot;severity&quot;</span> <span class="attr">referenceTable</span>=<span class="string">&quot;severities&quot;</span> <span class="attr">referenceColumn</span>=<span class="string">&quot;severity_identifier&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">-</span>               <span class="attr">onDelete</span>=<span class="string">&quot;CASCADE&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Lưu ý</strong> Chỉ có thể xóa một khóa ngoại nếu nó tồn tại trong file <code>db_schema_whitelist.json</code></li>
+</ul>
+<h3 id="2-11-Tao-khoa-chinh-khac-cho-bang"><a href="#2-11-Tao-khoa-chinh-khac-cho-bang" class="headerlink" title="2.11 Tạo khóa chính khác cho bảng."></a>2.11 Tạo khóa chính khác cho bảng.</h3><ul>
+<li><p>Xem xét trường hợp sau: Giả sử module A định nghĩa một bảng với khóa chính là <code>id_column</code>. Module B khái báo file <code>db_schema.xml</code> của riêng nó, định nghĩa một cột mới là <code>new_id_column</code> và muốn đổi khóa chính của bảng từ <code>id_column</code> sang <code>new_id_column</code></p>
+</li>
+<li><p>Với trường hợp trên, module B sẽ phải disable khóa chính ban đầu và tạo một khóa chính mới với một <code>referenceId</code> mặc dù không phải là <code>PRIMARY</code>, tuy nhiên giá trị <code>referenceId</code> chỉ là tên của ràng buộc ở trong file <code>db_schema.xml</code>, còn tên thực sự của khóa chính này ở trong Database vẫn là <code>PRIMARY</code></p>
+</li>
+<li><p>File <code>db_schema.xml</code> của module A</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>File <code>db_schema.xml</code> của module B</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;declarative_table&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;new_id_column&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">comment</span>=<span class="string">&quot;New Entity Id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span> <span class="attr">disabled</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;NEW_PRIMARY&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;new_id_column&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Tong-Ket"><a href="#3-Tong-Ket" class="headerlink" title="3. Tổng Kết "></a>3. Tổng Kết <a name="summary"></a></h2><ul>
+<li><p>Bài viết này mình đã trình bày các trường hợp hay gặp với <strong>Declarative Schema</strong>, mong sẽ bao phủ đa số các trường hợp các bạn cần.</p>
+</li>
+<li><p>Tham khảo thêm Phần 1 về <strong>Declarative SChema</strong> <a href="/2021/09/25/declarative-schema-magento2/" title="Declarative Schema Trong Magento2 (Phần 1)">Declarative Schema Trong Magento2 (Phần 1)</a><br>Hẹn gặp lại các bạn trong các bài viết tiếp theo. Ciao!</p>
+<p><img src="/2021/09/28/declarative-schema-magento2-chap2/dua.gif" alt="Thankyou"></p>
+</li>
+</ul>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/" title="Declarative Schema Trong Magento2 (Phần 2)" target="_blank" rel="external">https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2021/09/25/declarative-schema-magento2/" title="Declarative Schema Trong Magento2 (Phần 1)"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/cash-card.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"> Momo</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"> Cash Card</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/';
+        
+        this.page.identifier = 'declarative-schema-magento2-chap2';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'meditationcoding' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://huongvnq.github.io/2021/09/28/declarative-schema-magento2-chap2/</loc>
+    <lastmod>2021-09-28</lastmod>
+  </url>
+  <url>
+    <loc>https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/</loc>
+    <lastmod>2021-09-28</lastmod>
+  </url>
+  <url>
+    <loc>https://huongvnq.github.io/2020/10/18/graphql-vs-rest/</loc>
+    <lastmod>2021-09-25</lastmod>
+  </url>
+  <url>
     <loc>https://huongvnq.github.io/2021/09/02/setup-upgrade-script-magento2/</loc>
     <lastmod>2021-09-02</lastmod>
   </url>
@@ -31,10 +43,6 @@
   <url>
     <loc>https://huongvnq.github.io/2021/07/17/create-a-new-page-in-magento2/</loc>
     <lastmod>2021-08-15</lastmod>
-  </url>
-  <url>
-    <loc>https://huongvnq.github.io/2020/10/18/graphql-vs-rest/</loc>
-    <lastmod>2021-07-25</lastmod>
   </url>
   <url>
     <loc>https://huongvnq.github.io/2021/07/18/create-a-new-module-in-magento2/</loc>

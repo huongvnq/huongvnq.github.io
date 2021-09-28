@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Declarative Schema Trong Magento2 (Phần 1) | Meditation Coding</title>
+  <meta name="description" content="Table of Contents Lời mở đầu Tại sao lại sử dụng Declarative Schema Cấu trúc db_schema Whitelist Chế độ DRY RUN Tổng Kết Phần 1  1.Lời mở đầu   Trong bài viết trước Tạo Và Chỉnh Sửa Bảng với Setup&amp;#x2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Declarative Schema Trong Magento2 (Phần 1)">
+<meta property="og:url" content="https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/index.html">
+<meta property="og:site_name" content="Meditation Coding">
+<meta property="og:description" content="Table of Contents Lời mở đầu Tại sao lại sử dụng Declarative Schema Cấu trúc db_schema Whitelist Chế độ DRY RUN Tổng Kết Phần 1  1.Lời mở đầu   Trong bài viết trước Tạo Và Chỉnh Sửa Bảng với Setup&amp;#x2">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/declarative-schema.jpg">
+<meta property="og:image" content="https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/thankyou.gif">
+<meta property="article:published_time" content="2021-09-25T09:21:10.000Z">
+<meta property="article:modified_time" content="2021-09-28T13:07:16.459Z">
+<meta property="article:author" content="HuongVNQ">
+<meta property="article:tag" content="magento basic">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/declarative-schema.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Meditation Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/coco.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/huongvnq" target="_blank">
+          <img class="img-circle img-rotate" src="/images/coco.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Meditation Coding</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hanoi, Vietnam</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Quote</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Let us be loving, be kind, be simple, be silly, be happy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/GraphQL/">GraphQL</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Magento/">Magento</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/API/" rel="tag">API</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Facebook-Graph-API/" rel="tag">Facebook Graph API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/REST-API/" rel="tag">REST API</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SDL/" rel="tag">SDL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/express/" rel="tag">express</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fragment/" rel="tag">fragment</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/graphql/" rel="tag">graphql</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/" rel="tag">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/magento-basic/" rel="tag">magento basic</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/resolve/" rel="tag">resolve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/schema/" rel="tag">schema</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/API/" style="font-size: 13.67px;">API</a> <a href="/tags/Facebook-Graph-API/" style="font-size: 13px;">Facebook Graph API</a> <a href="/tags/REST-API/" style="font-size: 13px;">REST API</a> <a href="/tags/SDL/" style="font-size: 13.33px;">SDL</a> <a href="/tags/es6/" style="font-size: 13px;">es6</a> <a href="/tags/express/" style="font-size: 13px;">express</a> <a href="/tags/fragment/" style="font-size: 13px;">fragment</a> <a href="/tags/graphql/" style="font-size: 14px;">graphql</a> <a href="/tags/jwt/" style="font-size: 13px;">jwt</a> <a href="/tags/magento-basic/" style="font-size: 14px;">magento basic</a> <a href="/tags/mongodb/" style="font-size: 13px;">mongodb</a> <a href="/tags/resolve/" style="font-size: 13px;">resolve</a> <a href="/tags/schema/" style="font-size: 13.33px;">schema</a>
+    </div>
+  </div>
+
+    
+      
+<div class="widget">
+  <h3 class="widget-title">Archives</h3>
+  <div class="widget-body">
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+</div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/09/28/declarative-schema-magento2-chap2/" class="title">Declarative Schema Trong Magento2 (Phần 2)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-09-28T12:44:47.000Z" itemprop="datePublished">2021-09-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/09/25/declarative-schema-magento2/" class="title">Declarative Schema Trong Magento2 (Phần 1)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-09-25T09:21:10.000Z" itemprop="datePublished">2021-09-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Magento/">Magento</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/09/02/setup-upgrade-script-magento2/" class="title">Tạo Và Chỉnh Sửa Bảng với Setup/Upgrade Script Trong Magento2</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-09-02T03:35:20.000Z" itemprop="datePublished">2021-09-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/NodeJS/">NodeJS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/25/jwt-nodejs/" class="title">JWT Authentication &amp; Authorization in NodeJs REST API</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-25T09:44:45.000Z" itemprop="datePublished">2021-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/NodeJS/">NodeJS</a>
+              </p>
+              <p class="item-title">
+                <a href="/2021/08/22/crud-nodejs/" class="title">CRUD với NodeJs, Express và MongoDB</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-08-22T09:13:32.000Z" itemprop="datePublished">2021-08-22</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article
+    id="post-declarative-schema-magento2"
+    class="article article-type-post"
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    
+    <div class="article-header">
+       
+  
+    <h1 class="article-title" itemprop="name">
+      Declarative Schema Trong Magento2 (Phần 1)
+    </h1>
+  
+ 
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/09/25/declarative-schema-magento2/" class="article-date">
+	  <time datetime="2021-09-25T09:21:10.000Z" itemprop="datePublished">2021-09-25</time>
+	</a>
+</span> 
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Magento/">Magento</a>
+  </span>
+ 
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/magento-basic/" rel="tag">magento basic</a>
+  </span>
+
+ 
+
+        <span class="post-comment"
+          ><i class="icon icon-comment"></i>
+          <a
+            href="/2021/09/25/declarative-schema-magento2/#comments"
+            class="article-comment-link"
+            >Comments</a
+          ></span
+        >
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+       <h1 id="Table-of-Contents"><a href="#Table-of-Contents" class="headerlink" title="Table of Contents"></a>Table of Contents</h1><ol>
+<li><a href="#introduction">Lời mở đầu</a></li>
+<li><a href="#why-use">Tại sao lại sử dụng Declarative Schema</a></li>
+<li><a href="#db-schema-structure">Cấu trúc db_schema</a></li>
+<li><a href="#whitelist">Whitelist</a></li>
+<li><a href="#dry-run">Chế độ DRY RUN</a></li>
+<li><a href="#summary">Tổng Kết Phần 1</a></li>
+</ol>
+<h2 id="1-Loi-mo-dau"><a href="#1-Loi-mo-dau" class="headerlink" title="1.Lời mở đầu "></a>1.Lời mở đầu <a name="introduction"></a></h2><p><img src="/2021/09/25/declarative-schema-magento2/declarative-schema.jpg" alt="Declarative Schema"></p>
+<ul>
+<li>Trong bài viết trước <a href="/2021/09/02/setup-upgrade-script-magento2/" title="Tạo Và Chỉnh Sửa Bảng với Setup&#x2F;Upgrade Script Trong Magento2">Tạo Và Chỉnh Sửa Bảng với Setup&#x2F;Upgrade Script Trong Magento2</a>, chúng ta đã tìm hiểu cách để tạo bảng, cập nhật bảng với các PHP script, như:<ul>
+<li><strong>InstallData</strong> và <strong>InstallSchema</strong>: được chạy vào lần đầu tiên mà module được cài đặt.</li>
+<li><strong>UpgradeData</strong> và <strong>UpgradeSchema</strong>: được chạy vào mỗi lần upgrade module, dựa vào version của module, để cập nhật bảng và dữ liệu cho bảng.</li>
+</ul>
+</li>
+<li>Trước phiên bản <span style="color:green"><strong>Magento 2.3</strong></span>, đây là cách duy nhất để chúng ta làm việc với database. Tuy nhiên, với phiên bản 2.3 được phát hành năm 2018, một trong những thay đổi lớn được giới thiệu đó là <strong>Declarative Schema</strong>, một cách mới mà chúng ta có thể làm việc với database mà không cần phải viết nhiều script nữa.</li>
+</ul>
+<h2 id="2-Tai-sao-lai-su-dung-Declarative-Schema"><a href="#2-Tai-sao-lai-su-dung-Declarative-Schema" class="headerlink" title="2.Tại sao lại sử dụng Declarative Schema "></a>2.Tại sao lại sử dụng Declarative Schema <a name="why-use"></a></h2><ul>
+<li>Lợi ích của việc sử dụng <strong>Declarative Schema</strong> là gì? Trước tiên việc chúng ta phải viết những PHP database script như trước đây không phải là một giải pháp hoàn hảo.</li>
+<li>Bởi vì, những script sẽ apply những thay đổi dựa vào version của module, khi bạn upgrade một module lên vài version so với hiện tại, vì tất cả các script giữa 2 version này sẽ đều được thực thi. Ví dụ bạn có một module với version <code>1.0.0</code> và phiên bản mới nhất của module là <code>1.0.4</code>. Khi bạn upgrade module, những script cho version <code>1.0.1</code>, <code>1.0.2</code>, <code>1.0.3</code> cũng sẽ được apply!</li>
+<li>Nhược điểm của cách này là Magento sẽ thực apply những thay đổi một cách mù quáng, chẳng hạn như trong một version, bạn tạo mới một cột trong bảng CSDL, đến version tiếp theo bạn lại xóa nó đi. <strong>Declarative Schema</strong> sẽ giúp loại bỏ những bước thừa, không cần thiết này.</li>
+<li><strong>Declarative Schema</strong> sẽ khai báo cấu trúc của database, Magento so sánh phiên bản database cuối cùng này với phiên bản hiện tại và chỉ apply những thay đổi giữa phiên bản cuối cùng và phiên bản hiện tại.</li>
+<li>Đây là một ví dụ lấy từ <code>Catalog/etc/db_schema.xml</code>, định nghiã bảng <code>catalog_product_entity_datetime</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;catalog_product_entity_datetime&quot;</span> <span class="attr">resource</span>=<span class="string">&quot;default&quot;</span> <span class="attr">engine</span>=<span class="string">&quot;innodb&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">comment</span>=<span class="string">&quot;Catalog Product Datetime Attribute Backend Table&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;value_id&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;11&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;false&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">identity</span>=<span class="string">&quot;true&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Value ID&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;smallint&quot;</span> <span class="attr">name</span>=<span class="string">&quot;attribute_id&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;5&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">identity</span>=<span class="string">&quot;false&quot;</span> <span class="attr">default</span>=<span class="string">&quot;0&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Attribute ID&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;smallint&quot;</span> <span class="attr">name</span>=<span class="string">&quot;store_id&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;5&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">identity</span>=<span class="string">&quot;false&quot;</span> <span class="attr">default</span>=<span class="string">&quot;0&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Store ID&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;entity_id&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">identity</span>=<span class="string">&quot;false&quot;</span> <span class="attr">default</span>=<span class="string">&quot;0&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Entity ID&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;datetime&quot;</span> <span class="attr">name</span>=<span class="string">&quot;value&quot;</span> <span class="attr">on_update</span>=<span class="string">&quot;false&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;true&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Value&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;value_id&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;foreign&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;CAT_PRD_ENTT_DTIME_ATTR_ID_EAV_ATTR_ATTR_ID&quot;</span> <span class="attr">table</span>=<span class="string">&quot;catalog_product_entity_datetime&quot;</span> <span class="attr">column</span>=<span class="string">&quot;attribute_id&quot;</span> <span class="attr">referenceTable</span>=<span class="string">&quot;eav_attribute&quot;</span> <span class="attr">referenceColumn</span>=<span class="string">&quot;attribute_id&quot;</span> <span class="attr">onDelete</span>=<span class="string">&quot;CASCADE&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;foreign&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;CAT_PRD_ENTT_DTIME_ENTT_ID_CAT_PRD_ENTT_ENTT_ID&quot;</span> <span class="attr">table</span>=<span class="string">&quot;catalog_product_entity_datetime&quot;</span> <span class="attr">column</span>=<span class="string">&quot;entity_id&quot;</span> <span class="attr">referenceTable</span>=<span class="string">&quot;catalog_product_entity&quot;</span> <span class="attr">referenceColumn</span>=<span class="string">&quot;entity_id&quot;</span> <span class="attr">onDelete</span>=<span class="string">&quot;CASCADE&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;foreign&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;CATALOG_PRODUCT_ENTITY_DATETIME_STORE_ID_STORE_STORE_ID&quot;</span> <span class="attr">table</span>=<span class="string">&quot;catalog_product_entity_datetime&quot;</span> <span class="attr">column</span>=<span class="string">&quot;store_id&quot;</span> <span class="attr">referenceTable</span>=<span class="string">&quot;store&quot;</span> <span class="attr">referenceColumn</span>=<span class="string">&quot;store_id&quot;</span> <span class="attr">onDelete</span>=<span class="string">&quot;CASCADE&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;unique&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;CATALOG_PRODUCT_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID_STORE_ID&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;entity_id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;attribute_id&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;store_id&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">index</span> <span class="attr">referenceId</span>=<span class="string">&quot;CATALOG_PRODUCT_ENTITY_DATETIME_ATTRIBUTE_ID&quot;</span> <span class="attr">indexType</span>=<span class="string">&quot;btree&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;attribute_id&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">index</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">index</span> <span class="attr">referenceId</span>=<span class="string">&quot;CATALOG_PRODUCT_ENTITY_DATETIME_STORE_ID&quot;</span> <span class="attr">indexType</span>=<span class="string">&quot;btree&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;store_id&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">index</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Cau-truc-db-schema"><a href="#3-Cau-truc-db-schema" class="headerlink" title="3. Cấu trúc db_schema "></a>3. Cấu trúc db_schema <a name="db-schema-structure"></a></h2><ul>
+<li>File <strong>db_schema.xml</strong> khai báo cấu trúc database của một module được định nghĩa ở<br><span style="color:green"><strong>[Module_Vendor]/[Module_Name]/etc/db_schema.xml</strong></span></li>
+</ul>
+<h3 id="3-1-The-lt-chema-gt"><a href="#3-1-The-lt-chema-gt" class="headerlink" title="3.1 Thẻ &lt;chema&gt;"></a>3.1 Thẻ <code>&lt;chema&gt;</code></h3><ul>
+<li>File <strong>db_chema.xml</strong> mở đầu với thẻ <code>&lt;schema&gt;</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> <span class="attr">xsi:noNamespaceSchemaLocation</span>=<span class="string">&quot;urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-The-lt-table-gt"><a href="#3-2-The-lt-table-gt" class="headerlink" title="3.2 Thẻ &lt;table&gt;"></a>3.2 Thẻ <code>&lt;table&gt;</code></h3><ul>
+<li>Mỗi một file <strong>db_schema.xml</strong> sẽ chứa một hoặc nhiều node <strong>table</strong>. Mỗi một node <strong>table</strong> đại diện cho một bảng trong database.</li>
+<li>Một node <strong>table</strong> có thể chứa những attribute sau:<table>
+<thead>
+<tr>
+<th>ATTRIBUTE</th>
+<th>DESCRIPTION</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>Tên của table</td>
+</tr>
+<tr>
+<td><code>engine</code></td>
+<td>SQL engine. Sẽ là <code>innodb</code> hoặc <code>memory</code></td>
+</tr>
+<tr>
+<td><code>resource</code></td>
+<td>Phân đoạn CSDL nào mà chúng ta cài đặt bảng. Sẽ là <code>default</code>, <code>checkout</code>, hoặc <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>comment</code></td>
+<td>Comment chúng ta viết cho bảng.</td>
+</tr>
+</tbody></table>
+</li>
+<li>Một node <strong>table</strong> có thể bao gồm 3 loại node con sau:<ul>
+<li><code>column</code></li>
+<li><code>constraint</code></li>
+<li><code>index</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-The-lt-column-gt"><a href="#3-3-The-lt-column-gt" class="headerlink" title="3.3 Thẻ &lt;column&gt;"></a>3.3 Thẻ <code>&lt;column&gt;</code></h3><ul>
+<li><p>Node <code>column</code> định nghĩa column của một bảng.</p>
+</li>
+<li><p>Một <code>column</code> sẽ có các thuộc tính sau:</p>
+<table>
+<thead>
+<tr>
+<th>ATTRIBUTE</th>
+<th>DESCRIPTION</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>xsi:type</code></td>
+<td>Chỉ định kiểu dữ liệu của cột. Sẽ là những kiểu sau:</td>
+</tr>
+<tr>
+<td></td>
+<td>- blob, boolean, date, datetime, decimal, float, int (bao gồm cả smallint, bigint, tinyint), json, real (bao gồm cả decimal, float, double, real), smallint, text (bao gồm cả text, mediumtext, longtext), timestamp, varbinary, varchar</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>Giá trị mặc định của cột khi được khởi tạo. Giá trị này phải cùng kiểu dữ liệu khai báo với <code>xsi:type</code></td>
+</tr>
+<tr>
+<td><code>disabled</code></td>
+<td>Vô hiệu hóa hoặc xóa cột.</td>
+</tr>
+<tr>
+<td><code>identity</code></td>
+<td>Chỉ định cột là tự động tăng.</td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>Chỉ định độ dài của dữ liệu cột. Dùng với các kiểu dữ liệu <code>char</code>, <code>varchar</code>, và <code>varbinary</code>.</td>
+</tr>
+<tr>
+<td><code>nullable</code></td>
+<td>Cột có thể null hay không.</td>
+</tr>
+<tr>
+<td><code>onCreate</code></td>
+<td>Đây là một DDL Trigger cho phép bạn chuyển dữ liệu từ một cột đang tồn tại sang một cột mới. Trigger này chỉ hoạt động khi một cột được tạo.</td>
+</tr>
+<tr>
+<td><code>padding</code></td>
+<td>Size của một cột kiểu integer.</td>
+</tr>
+<tr>
+<td><code>precision</code></td>
+<td>Độ chính xác của một dữ liệu kiểu real.</td>
+</tr>
+<tr>
+<td><code>scale</code></td>
+<td>Số chữ số đằng sau dấu phẩy của một dữ liệu kiểu real.</td>
+</tr>
+<tr>
+<td><code>unsigned</code></td>
+<td>Đối với một cột có dữ liệu kiểu numberic, chỉ định liệu dữ liệu đó có thể là số dương hoặc số âm không hay chỉ có thể là số dương.</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Ví dụ sau tạo một cột <code>entity_id</code> tự động tăng</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">column</span> <span class="attr">xsi:type</span>=<span class="string">&quot;int&quot;</span> <span class="attr">name</span>=<span class="string">&quot;entity_id&quot;</span> <span class="attr">padding</span>=<span class="string">&quot;10&quot;</span> <span class="attr">unsigned</span>=<span class="string">&quot;true&quot;</span> <span class="attr">nullable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">identity</span>=<span class="string">&quot;true&quot;</span> <span class="attr">comment</span>=<span class="string">&quot;Credit ID&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-The-lt-constrain-gt"><a href="#3-4-The-lt-constrain-gt" class="headerlink" title="3.4 Thẻ &lt;constrain&gt;"></a>3.4 Thẻ <code>&lt;constrain&gt;</code></h3><ul>
+<li><p>Một node <code>&lt;constrain&gt;</code> luôn chứa các thuộc tính sau</p>
+<table>
+<thead>
+<tr>
+<th>ATTRIBUTE</th>
+<th>DESCRIPTION</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>type</code></td>
+<td><code>primary</code>, <code>unique</code>, hoặc <code>foreign</code></td>
+</tr>
+<tr>
+<td><code>referenceId</code></td>
+<td>Tên của ràng buộc. Bạn có thể tự đặt tên cho nó nhưng cách đơn giản nhất là bạn lấy luôn tên được generate trong file <code>db_schema_whitelist.json</code> khi chạy command <a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.4/extension-dev-guide/declarative-schema/migration-commands.html#create-whitelist">generate-whitelist</a>. <strong>Lưu ý</strong> tên ràng buộc này chỉ được sử dụng trong phạm vi các file <code>db_schema.xml</code>, còn trong database tên ràng buộc có thể khác và do hệ thống tự tạo</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Ràng buộc <code>primary</code> và <code>unique</code> là ràng buộc nội bộ, chỉ liên quan đến 1 bảng, có thể định nghĩa nhiều cột cùng một lúc (nhiều column <code>unique</code> trong bảng hay 2 cột đồng thời là khóa chính)</p>
+<p>Ví dụ tạo một khóa chính</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;PRIMARY&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;entity_id&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">constraint</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Khóa ngoại <code>foreign</code> kết nối 2 bảng với nhau. Một khóa ngoại có thể bao gồm các attribute sau:</p>
+<table>
+<thead>
+<tr>
+<th>ATTRIBUTE</th>
+<th>DESCRIPTION</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>table</code></td>
+<td>Tên của table hiện tại.</td>
+</tr>
+<tr>
+<td><code>column</code></td>
+<td>Tên cột trong bảng hiện tại mà tham chiếu đến một cột trong bảng khác.</td>
+</tr>
+<tr>
+<td><code>referenceTable</code></td>
+<td>Bảng được tham chiếu.</td>
+</tr>
+<tr>
+<td><code>referenceColumn</code></td>
+<td>Cột được tham chiếu trong bảng <code>referenceTable</code></td>
+</tr>
+<tr>
+<td><code>onDelete</code></td>
+<td>Trigger khi delete bản ghi với khóa ngoại, có thể là <code>CASCADE</code>, <code>SET NULL</code>, hoặc <code>NO ACTION</code></td>
+</tr>
+</tbody></table>
+<p>Ví dụ sau khai báo một khóa ngoại, cột <code>entity_id</code> là khóa chính của bảng <code>company</code> nhưng là khóa ngoại của bảng <code>company_credit</code></p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">constraint</span> <span class="attr">xsi:type</span>=<span class="string">&quot;foreign&quot;</span> <span class="attr">referenceId</span>=<span class="string">&quot;COMPANY_CREDIT_COMPANY_ID_COMPANY_ENTITY_ID&quot;</span> <span class="attr">table</span>=<span class="string">&quot;company_credit&quot;</span> <span class="attr">column</span>=<span class="string">&quot;company_id&quot;</span> <span class="attr">referenceTable</span>=<span class="string">&quot;company&quot;</span> <span class="attr">referenceColumn</span>=<span class="string">&quot;entity_id&quot;</span> <span class="attr">onDelete</span>=<span class="string">&quot;CASCADE&quot;</span>/&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-The-lt-index-gt"><a href="#3-5-The-lt-index-gt" class="headerlink" title="3.5 Thẻ &lt;index&gt;"></a>3.5 Thẻ <code>&lt;index&gt;</code></h3><ul>
+<li><p>Định nghĩa chỉ mục cho bảng với thẻ <code>&lt;index&gt;</code>, giúp tăng tốc khi thực hiện các hành động <strong>DQL (Doctrine Query Language)</strong></p>
+</li>
+<li><p>Một thẻ <code>&lt;index&gt;</code> có các attribute sau:</p>
+<table>
+<thead>
+<tr>
+<th>ATTRIBUTE</th>
+<th>DESCRIPTION</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>indexType</code></td>
+<td>Có thể là <code>btree</code>, <code>fulltext</code>, hoặc <code>hash</code></td>
+</tr>
+<tr>
+<td><code>referenceId</code></td>
+<td>Tên của chỉ mục. Bạn có thể tự đặt tên cho nó nhưng cách đơn giản nhất là bạn lấy luôn tên được generate trong file <code>db_schema_whitelist.json</code> khi chạy command <a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.4/extension-dev-guide/declarative-schema/migration-commands.html#create-whitelist">generate-whitelist</a></td>
+</tr>
+</tbody></table>
+<p>Ví dụ:</p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">index</span> <span class="attr">referenceId</span>=<span class="string">&quot;NEWSLETTER_SUBSCRIBER_CUSTOMER_ID&quot;</span> <span class="attr">indexType</span>=<span class="string">&quot;btree&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;customer_id&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">index</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-Whitelist"><a href="#4-Whitelist" class="headerlink" title="4. Whitelist "></a>4. Whitelist <a name="whitelist"></a></h2><ul>
+<li><strong>Declarative Schema</strong> sẽ không thể xóa các bảng, các cột và các khóa ràng buộc nếu nó chưa được định nghĩa trong db_schema.xml</li>
+<li>Vì lý do trên chúng ta phải cần đến file <code>db_schema_whitelist.json</code>, file này sẽ cho thấy lịch sử của các bảng, các cột và ràng buộc nào đã được thêm vào db_schema.xml. Nói một cách dễ hình dung, giả sử như bạn muốn mang thiết bị vào một tòa nhà, bạn phải đăng kí thông tin ở quầy lễ tân(file <code>db_schema_whitelist.json</code>), như vậy bạn mới được phép khi vận chuyện thiết bị ra khỏi tòa nhà.</li>
+<li>Như vậy bạn chỉ có thể xóa bảng, xóa cột, xóa ràng buộc khi nó đã được định nghĩa trong file <code>db_schema_whitelist.json</code></li>
+<li>Để generate file <code>db_schema_whitelist.json</code>, chạy command sau</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bin/magento setup:db-declaration:generate-whitelist [options]</span><br></pre></td></tr></table></figure>
+
+<p><code>[options]</code> có thể là <code>--module-name[=MODULE-NAME]</code> để chỉ định tên module bạn muốn generate file whitelist. Nếu không có module nào được chỉ định, mặc định sẽ là generate cho tất cả các module</p>
+<h2 id="5-Che-do-DRY-RUN"><a href="#5-Che-do-DRY-RUN" class="headerlink" title="5. Chế độ DRY RUN "></a>5. Chế độ DRY RUN <a name="dry-run"></a></h2><ul>
+<li>Một điều rất cool mà <strong>Declarative Schema</strong> mang lại cho chúng ta đó là chế độ <strong>Dry Run</strong>. Chúng ta có thể kiểm tra trước tất cả các câu lệnh DDL SQL (Data Definition Language) mà được generate trong quá trình chạy declarative schema.</li>
+<li>Ở trong chế độ <strong>Dry Run</strong>, database sẽ KHÔNG bị thay đổi.</li>
+<li>Để chạy trong chế độ <strong>DRY RUN</strong>, chạy 1 trong các command sau:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bin/magento setup:install --dry-run=1</span><br></pre></td></tr></table></figure>
+
+<p>hoặc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bin/magento setup:upgrade --dry-run=1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Với flag <code>--dry-run=1</code>, Magento sẽ tạo ra một file log ở <code>&lt;Magento_Root&gt;/var/log/dry-run-installation.log</code>.</li>
+<li>File này sẽ chứa tất cả các câu lệnh DDL SQL được generate trong quá trình cài đặt. Bạn có thể sử dụng chúng để debug và xử lý tối ưu performance</li>
+</ul>
+<h2 id="6-Tong-Ket-Phan-1"><a href="#6-Tong-Ket-Phan-1" class="headerlink" title="6. Tổng Kết Phần 1 "></a>6. Tổng Kết Phần 1 <a name="summary"></a></h2><ul>
+<li><p>Bài viết này mình trình bày cách sử dụng Declarative Schema, cấu trúc của một file db_schema.xml. Mong rằng qua bài viết này các bạn biết thêm một cách hữu ích có thể thay thế các tập lệnh Install/Upgrade Script để tạo và update cấu trúc của bảng trong CSDL.</p>
+</li>
+<li><p>Bài viết này còn tiếp. Trong phần 2 mính sẽ trình bày cụ thể các trường hợp mà bạn hay gặp như: Tạo bảng như nào, đổi tên bảng như nào, đổi tên cột, xóa cột…<br>See ya!<br><img src="/2021/09/25/declarative-schema-magento2/thankyou.gif" alt="Thankyou"></p>
+</li>
+</ul>
+ 
+    </div>
+    <div class="article-footer">
+      <!-- <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/" title="Declarative Schema Trong Magento2 (Phần 1)" target="_blank" rel="external">https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote> -->
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/huongvnq" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/coco.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/huongvnq" target="_blank"><span class="text-dark">Meditation Coding</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>Life is Simple</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+   
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+ 
+</div>
+ <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/09/28/declarative-schema-magento2-chap2/" title="Declarative Schema Trong Magento2 (Phần 2)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/09/02/setup-upgrade-script-magento2/" title="Tạo Và Chỉnh Sửa Bảng với Setup/Upgrade Script Trong Magento2"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    <!-- 
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+     -->
+  </div>
+  </div>
+</nav> 
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/momo.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open momo app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/cash-card.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"> Momo</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"> Cash Card</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/huongvnq" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://www.facebook.com/profile.php?id=100010291426950" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://huongvnq.github.io/2021/09/25/declarative-schema-magento2/';
+        
+        this.page.identifier = 'declarative-schema-magento2';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'meditationcoding' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
